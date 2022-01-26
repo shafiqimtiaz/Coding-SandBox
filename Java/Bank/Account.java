@@ -15,6 +15,7 @@ public class Account {
         this.name = name;
         this.email = email;
         this.phone = phone;
+
         // DONT call setter getter during initializing constructors
         System.out.println("Account is Created for \"" + this.name + "\"");
     }
