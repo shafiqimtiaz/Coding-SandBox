@@ -1,12 +1,8 @@
 <?php
-
 // CRUD - Create Read Update Delete
-
 include "db.php";
 include "functions.php";
-
 updateRows();
-
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +18,7 @@ updateRows();
 <body>
     <div class="container">
 
-        <h1>Update</h1>
+        <h1 class="text-center">Update</h1>
 
         <form action="login_update.php" method="post">
 

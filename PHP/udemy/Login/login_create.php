@@ -1,12 +1,8 @@
 <?php
-
 // CRUD - Create Read Update Delete
-
 include "db.php";
 include "functions.php";
-
 createRows();
-
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +32,7 @@ createRows();
                 <input type="password" name="password" class="form-control">
             </div>
 
-            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" name="submit" class="btn btn-primary">Create</button>
 
         </form>
 

@@ -2,6 +2,38 @@
 
 include "db.php";
 
+function showAllData()
+{
+    global $connection;
+    $query = "SELECT * FROM users";
+
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        die("FAILED QUERY" . mysqli_error($connection));
+    }
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $id = $row['id'];
+        echo "<option value='$id'>$id</option>";
+    }
+}
+
+function readRows()
+{
+    global $connection;
+    $query = "SELECT * FROM users";
+
+    $result = mysqli_query($connection, $query);
+
+    if (!$result) {
+        die("FAILED QUERY" . mysqli_error($connection));
+    }
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo print_r($row);
+    };
+}
+
 function createRows()
 {
     if (isset($_POST['submit'])) {
@@ -22,41 +54,6 @@ function createRows()
     }
 }
 
-function showAllData()
-{
-    global $connection;
-    $query = "SELECT * FROM users";
-
-    $result = mysqli_query($connection, $query);
-    if (!$result) {
-        die("FAILED QUERY" . mysqli_error($connection));
-    }
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $id = $row['id'];
-        echo "<option value='$id'>$id</option>";
-    }
-}
-
-
-
-function readRows()
-{
-    global $connection;
-    $query = "SELECT * FROM users";
-
-    $result = mysqli_query($connection, $query);
-
-    if (!$result) {
-        die("FAILED QUERY" . mysqli_error($connection));
-    }
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo print_r($row);
-    };
-}
-
-
 
 function updateRows()
 {
@@ -75,6 +72,8 @@ function updateRows()
         $result = mysqli_query($connection, $query);
         if (!$result) {
             die("FAILED QUERY" . mysqli_error($connection));
+        } else {
+            echo "Record updated";
         }
     }
 }
@@ -92,6 +91,8 @@ function deleteRows()
         $result = mysqli_query($connection, $query);
         if (!$result) {
             die("FAILED QUERY" . mysqli_error($connection));
+        } else {
+            echo "Record deleted";
         }
     }
 }

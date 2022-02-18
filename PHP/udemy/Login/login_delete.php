@@ -1,12 +1,8 @@
 <?php
-
 // CRUD - Create Read Update Delete
-
 include "db.php";
 include "functions.php";
-
 deleteRows();
-
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +18,7 @@ deleteRows();
 <body>
     <div class="container">
 
-        <h1>Delete</h1>
+        <h1 class="text-center">Delete</h1>
 
         <form action="login_delete.php" method="post">
 
