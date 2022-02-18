@@ -30,7 +30,7 @@ function readRows()
     }
 
     while ($row = mysqli_fetch_assoc($result)) {
-        echo print_r($row);
+        print_r($row);
     };
 }
 
