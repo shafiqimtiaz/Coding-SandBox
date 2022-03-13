@@ -3,7 +3,7 @@
 $conn = mysqli_connect("localhost:3306", "root", "root.SQL", "");
 
 if (!$conn) {
-	echo mysql_connect_error();
+	echo mysqli_connect_error();
 	die();
 }
 
