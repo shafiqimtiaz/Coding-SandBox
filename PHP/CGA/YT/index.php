@@ -20,7 +20,7 @@ if (isset($_GET['logout'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Document</title>
+    <title>Home</title>
 </head>
 
 <body>
@@ -28,6 +28,7 @@ if (isset($_GET['logout'])) {
         <h2>Home Page</h2>
     </div>
     <div class="content">
+
         <!-- notification message -->
         <?php if (isset($_SESSION['success'])) : ?>
             <div class="error success">
@@ -43,8 +44,10 @@ if (isset($_GET['logout'])) {
         <!-- logged in user information -->
         <?php if (isset($_SESSION['username'])) : ?>
             <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
+            <br>
             <p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
         <?php endif ?>
+
     </div>
 </body>
 
