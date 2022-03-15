@@ -43,8 +43,8 @@ if (isset($_POST['reg_user'])) {
     if ($password_1 != $password_2) {
         array_push($errors, "The two passwords do not match");
     }
-    if (empty($password_1)) {
-        array_push($errors, "Password is required");
+    if (empty($role)) {
+        array_push($errors, "Role is required");
     }
 
     // first check the database to make sure 
@@ -100,5 +100,18 @@ if (isset($_POST['login_user'])) {
         } else {
             array_push($errors, "Wrong username/password combination");
         }
+    }
+}
+
+function display_error()
+{
+    global $errors;
+
+    if (count($errors) > 0) {
+        echo '<div class="error">';
+        foreach ($errors as $error) {
+            echo $error . '<br>';
+        }
+        echo '</div>';
     }
 }
