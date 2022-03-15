@@ -31,6 +31,9 @@ if (isset($_POST['reg_user'])) {
     if (empty($last_name)) {
         array_push($errors, "First Name is required");
     }
+    if (empty($dob)) {
+        array_push($errors, "Date of Birth is required");
+    }
     if (empty($email)) {
         array_push($errors, "Email is required");
     }
