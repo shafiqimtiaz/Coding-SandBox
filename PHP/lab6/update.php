@@ -26,6 +26,3 @@ else
 {
     header("location:view.php");
 }
-
-
-?>
