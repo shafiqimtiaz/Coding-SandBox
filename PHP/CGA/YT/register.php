@@ -20,12 +20,12 @@
 
         <div class="input-group">
             <label>First Name</label>
-            <input type="text" name="firstname" value="<?php echo $firstname; ?>">
+            <input type="text" name="firstname" value="<?php echo $first_name; ?>">
         </div>
 
         <div class="input-group">
             <label>Last Name</label>
-            <input type="text" name="lastname" value="<?php echo $lastname; ?>">
+            <input type="text" name="lastname" value="<?php echo $last_name; ?>">
         </div>
 
         <div class="input-group">
@@ -53,11 +53,11 @@
             <input type="password" name="password_2">
         </div>
 
-        <div>
+        <div class="input-group">
             <label for="roles">Choose a Role:</label>
-            <select id="roles" name="roles">
+            <select id="roles" name="role">
                 <option value="1">Admin</option>
-                <option value="2">Student</option>
+                <option value="2" selected>Student</option>
                 <option value="3">Teaching Assistant</option>
                 <option value="4">Professor</option>
             </select>
