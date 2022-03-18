@@ -9,7 +9,6 @@ $errors = array();
 // connect to the database
 include('db.php');
 
-// call the register() function if reg_user is clicked
 if (isset($_POST['reg_user'])) {
 
     // REGISTER USER
@@ -82,7 +81,6 @@ if (isset($_POST['reg_user'])) {
     }
 }
 
-// call the login() function if login_user is clicked
 if (isset($_POST['login_user'])) {
 
     // LOGIN USER

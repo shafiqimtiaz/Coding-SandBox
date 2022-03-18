@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/style.css">
     <title>Registration</title>
 </head>
 
@@ -19,7 +19,6 @@
 
         <div class="form-container">
             <form class="form-body" method="post" action="register.php">
-                <?php echo display_error(); ?>
 
                 <div class="form-input">
                     <label>First Name</label>
@@ -59,7 +58,7 @@
                 <!-- TODO: fetch roles from roles tables -->
 
                 <div class="form-input">
-                    <label for="roles">Choose a Role:</label>
+                    <label for="roles">Choose a Role</label>
                     <span>
                         <select id="roles" name="role">
                             <option value="1">Admin</option>
@@ -71,7 +70,7 @@
 
                 </div>
 
-                <div class="form-input">
+                <div class="form-submit">
                     <button type="submit" class="btn" name="reg_user">Register</button>
                     <br><br>
                     <p>Already a member? <a href="login.php">Sign in</a></p>

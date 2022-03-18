@@ -9,6 +9,11 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
+button {
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
+
 header h1 {
     background: #33cccc;
     padding: 1rem 0.5rem;
@@ -47,14 +52,17 @@ nav li a {
     color: black;
 }
 
+section {
+    text-align: center;
+}
+
 .main-body {
     display: grid;
-    grid-template-columns: 1fr 5fr;
 }
 
 .col-left {
     background-color: #33cccc;
-    height: 100vh;
+    height: 90vh;
     padding: 1em;
 }
 
@@ -98,7 +106,8 @@ hr {
 }
 
 .col-right p {
-    padding: 1em;
+    padding: 1em 0;
+    text-align: left;
 }
 
 .content-body {
@@ -118,11 +127,10 @@ td {
     display: block;
     margin: 0 auto;
     align-items: center;
-    border: 2px solid black;
 }
 
 .form-body {
-    text-align: left;
+    text-align: center;
     padding: 2em;
 }
 
@@ -145,26 +153,104 @@ select {
     padding: 0 1em;
 }
 
+.role-body {
+    padding: 2em;
+}
+
+.role-list {
+    padding: 1em;
+}
+
+.role-list a {
+    padding: 0.5em;
+    display: block;
+    text-decoration: none;
+}
+
+.role-list a:hover {
+    font-weight: bolder;
+}
+
+.error {
+    color: #a94442;
+    background: #f2dede;
+    border: 1px solid #a94442;
+    border-radius: 5px;
+    margin-bottom: 1em;
+}
+
+.success {
+    color: #3c763d;
+    background: #dff0d8;
+    border: 1px solid #3c763d;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive Media Queries */
+
+/* 0px to 479px */
+@media only screen and (max-width: 479px) {
+    .col-left {
+        height: auto;
+    }
+}
+
+/* 480px and up */
 @media only screen and (min-width: 480px) {
     .form-container {
         max-width: 60%;
     }
+
+    .main-body {
+        grid-template-columns: 2fr 4fr;
+    }
 }
 
+/* 768px and up */
 @media only screen and (min-width: 768px) {
     .form-container {
         max-width: 50%;
     }
+
+    .main-body {
+        grid-template-columns: 1fr 4fr;
+    }
 }
 
+/* 1024px and up */
 @media only screen and (min-width: 1024px) {
     .form-container {
         max-width: 40%;
     }
+
+    .main-body {
+        grid-template-columns: 1fr 5fr;
+    }
 }
 
+/* 1200px and up */
 @media only screen and (min-width: 1200px) {
     .form-container {
         max-width: 30%;
+    }
+
+    .main-body {
+        grid-template-columns: 1fr 6fr;
     }
 }
