@@ -5,6 +5,10 @@ require_once("connection.php");
 $query = "select User_ID,User_Name,User_Email,User_Age from userdetails.user";
 $result = mysqli_query($con, $query);
 
+if ($result) {
+    header("location:register.php");
+}
+
 
 ?>
 
@@ -23,6 +27,8 @@ $result = mysqli_query($con, $query);
             <h1> View Inserted Records </h3>
         </div>
         <div class="table-body">
+            <button>Add user</button>
+            <br>
             <table>
                 <thead>
                     <tr>

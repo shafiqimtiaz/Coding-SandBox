@@ -1,0 +1,170 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #faf0e6;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+header h1 {
+    background: #33cccc;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    font-weight: bolder;
+    font-size: large;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffc0cb;
+}
+
+nav p {
+    padding: 0 1em;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav li {
+    list-style-type: none;
+    padding: 1em;
+}
+
+nav li:hover {
+    background-color: #ff92a4;
+    cursor: pointer;
+}
+
+nav li a {
+    text-decoration: none;
+    color: black;
+}
+
+.main-body {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
+.col-left {
+    background-color: #33cccc;
+    height: 100vh;
+    padding: 1em;
+}
+
+.user-info {
+    padding-bottom: 1em;
+}
+
+.user-info p {
+    padding: 0.3em 0;
+}
+
+hr {
+    border: 1px solid black;
+}
+
+.main-menu {
+    padding-top: 1em;
+}
+
+.main-menu ul {
+    list-style-type: none;
+}
+
+.menu-list {
+    padding: 1em 0;
+}
+
+.menu-list li {
+    padding: 0.3em 0;
+}
+
+.menu-list li:hover {
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #37e6e6;
+}
+
+.menu-list a {
+    text-decoration: none;
+    color: black;
+}
+
+.col-right p {
+    padding: 1em;
+}
+
+.content-body {
+    padding: 0 1em;
+}
+
+table,
+th,
+td {
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: left;
+    padding: 0.5em;
+}
+
+.form-container {
+    display: block;
+    margin: 0 auto;
+    align-items: center;
+    border: 2px solid black;
+}
+
+.form-body {
+    text-align: left;
+    padding: 2em;
+}
+
+form div {
+    padding: 0.5em;
+}
+
+.form-input label {
+    float: left;
+}
+
+.form-input input,
+select {
+    width: 100%;
+}
+
+.form-input span {
+    display: block;
+    overflow: hidden;
+    padding: 0 1em;
+}
+
+@media only screen and (min-width: 480px) {
+    .form-container {
+        max-width: 60%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .form-container {
+        max-width: 50%;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .form-container {
+        max-width: 40%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .form-container {
+        max-width: 30%;
+    }
+}

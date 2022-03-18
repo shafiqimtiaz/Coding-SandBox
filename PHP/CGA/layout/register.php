@@ -1,4 +1,5 @@
 <?php include('server.php') ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -6,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Registration</title>
 </head>
 
@@ -15,7 +16,8 @@
         <h2>Registration</h2>
     </div>
 
-    <form method="post" action="register.php">
+    <form class="container-form method=" post" action="register.php">
+
         <?php echo display_error(); ?>
 
         <div class="input-group">
@@ -52,6 +54,8 @@
             <label>Confirm password</label>
             <input type="password" name="password_2">
         </div>
+
+        <!-- TODO: fetch roles from roles tables -->
 
         <div class="input-group">
             <label for="roles">Choose a Role:</label>
