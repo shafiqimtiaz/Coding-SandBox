@@ -4,7 +4,7 @@ session_start();
 
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
+    header("location: ../auth/login.php");
     exit;
 }
 ?>
@@ -23,15 +23,18 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <body>
 
     <header>
-        <h1>Admin</h1>
-        <nav>
-            <p>Welcome <b><?= $_SESSION['username'] ?></b></p>
-            <ul>
-                <li><a href="#">Change Email</a></li>
-                <li><a href="#">Change Password</a></li>
-                <li><a href="../logout.php">Logout</a></li>
-            </ul>
-        </nav>
+        <div class="title-bar">
+            <h1>Admin</h1>
+            <nav>
+                <p>Welcome <b><?= $_SESSION['username'] ?></b></p>
+                <ul>
+                    <li><a href="#">Change Email</a></li>
+                    <li><a href="#">Change Password</a></li>
+                    <li><a href="../auth/logout.php">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+
     </header>
 
     <main>
@@ -63,33 +66,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             </section>
 
             <section class="col-right">
-                <div class="content-body">
-                    <p>Users</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Countries</th>
-                                <th>Capitals</th>
-                                <th>Population</th>
-                                <th>Language</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>USA</td>
-                                <td>Washington, D.C.</td>
-                                <td>309 million</td>
-                                <td>English</td>
-                            </tr>
-                            <tr>
-                                <td>Sweden</td>
-                                <td>Stockholm</td>
-                                <td>9 million</td>
-                                <td>Swedish</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+                <?php include("../includes/register.php") ?>
+                <hr>
 
             </section>
         </div>

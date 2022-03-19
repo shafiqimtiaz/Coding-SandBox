@@ -1,27 +1,9 @@
 <?php
 
 $errors = array();
+$success = array();
 
-// return user array from their id
-function get_user_array($username)
-{
-    global $db;
-    $query = "SELECT * FROM users WHERE username=" . $username;
-    $results = mysqli_query($db, $query);
-    $users = mysqli_fetch_assoc($results);
-    return $users;
-}
-
-// return user array from their id
-function get_role_array($role_id)
-{
-    global $db;
-    $query = "SELECT * FROM roles WHERE role_id=" . $role_id;
-    $results = mysqli_query($db, $query);
-    $roles = mysqli_fetch_assoc($results);
-    return $roles;
-}
-
+// show errors
 function display_error()
 {
     global $errors;
@@ -32,4 +14,44 @@ function display_error()
         }
         echo '</div>';
     }
+}
+
+// show success
+function display_success()
+{
+    global $success;
+    if (count($success) > 0) {
+        echo '<div class="success">';
+        foreach ($success as $success) {
+            echo $success . '<br>';
+        }
+        echo '</div>';
+    }
+}
+
+// return user array from their username
+function get_user_array()
+{
+    global $conn;
+    $query = "SELECT * FROM users";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
+
+// return role array
+function get_role_array()
+{
+    global $conn;
+    $query = "SELECT * FROM roles";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
+
+// return record from table using key-value
+function get_record($table, $key, $value)
+{
+    global $conn;
+    $query = "SELECT * FROM $table WHERE $key='$value'";
+    $result = mysqli_query($conn, $query);
+    return $result;
 }

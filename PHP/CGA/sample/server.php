@@ -13,14 +13,14 @@ include('db.php');
 if (isset($_POST['reg_user'])) {
     // receive all input values from the form
 
-    $first_name = mysqli_real_escape_string($db, $_POST['firstname']);
-    $last_name = mysqli_real_escape_string($db, $_POST['lastname']);
-    $dob = mysqli_real_escape_string($db, $_POST['dob']);
-    $email = mysqli_real_escape_string($db, $_POST['email']);
-    $username = mysqli_real_escape_string($db, $_POST['username']);
-    $password_1 = mysqli_real_escape_string($db, $_POST['password_1']);
-    $password_2 = mysqli_real_escape_string($db, $_POST['password_2']);
-    $role = mysqli_real_escape_string($db, $_POST['role']);
+    $first_name = mysqli_real_escape_string($conn, $_POST['firstname']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['lastname']);
+    $dob = mysqli_real_escape_string($conn, $_POST['dob']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password_1 = mysqli_real_escape_string($conn, $_POST['password_1']);
+    $password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
 
     // form validation: ensure that the form is correctly filled ...
     // by adding (array_push()) corresponding error unto $errors array
@@ -53,7 +53,7 @@ if (isset($_POST['reg_user'])) {
     // first check the database to make sure 
     // a user does not already exist with the same username and/or email
     $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
-    $result = mysqli_query($db, $user_check_query);
+    $result = mysqli_query($conn, $user_check_query);
     $user = mysqli_fetch_assoc($result);
 
     if ($user) { // if user exists
@@ -73,7 +73,7 @@ if (isset($_POST['reg_user'])) {
 
         $query = "INSERT INTO users (first_name, last_name, dob, email, username, password, created_on, is_first_login, role_id) 
         VALUES('$first_name', '$last_name', '$dob', '$email', '$username', '$password', CURRENT_TIMESTAMP, 1, '$role');";
-        mysqli_query($db, $query);
+        mysqli_query($conn, $query);
         $_SESSION['username'] = $username;
         $_SESSION['success'] = "You are now logged in";
         header('location: index.php');
@@ -82,8 +82,8 @@ if (isset($_POST['reg_user'])) {
 
 // LOGIN USER
 if (isset($_POST['login_user'])) {
-    $username = mysqli_real_escape_string($db, $_POST['username']);
-    $password = mysqli_real_escape_string($db, $_POST['password']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     if (empty($username)) {
         array_push($errors, "Username is required");
@@ -95,7 +95,7 @@ if (isset($_POST['login_user'])) {
     if (count($errors) == 0) {
         //$password = md5($password);
         $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-        $results = mysqli_query($db, $query);
+        $results = mysqli_query($conn, $query);
         if (mysqli_num_rows($results) == 1) {
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are now logged in";

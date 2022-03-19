@@ -8,9 +8,14 @@ define('DB_PASSWORD', 'root.SQL');
 define('DB_NAME', 'cga');
 
 /* Attempt to connect to MySQL database */
-$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
 // Check connection
-if (!$db) {
-    die("ERROR: Could not connect. " . mysqli_connect_error());
+if (!$conn) {
+    die("ERROR: Could not connect DB " . mysqli_connect_error());
+}
+
+$select_db = mysqli_select_db($conn, DB_NAME);
+if (!$select_db) {
+    die("ERROR: Could not select DB " . mysqli_error($conn));
 }

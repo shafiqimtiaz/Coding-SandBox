@@ -7,20 +7,27 @@
 body {
     background-color: #faf0e6;
     font-family: 'Times New Roman', Times, serif;
+    font-size: large;
 }
 
-button {
-    padding: 0.5em 1em;
-    border-radius: 5px;
-}
+/**********************************************/
+
+/* .title-bar {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+} */
 
 header h1 {
     background: #33cccc;
     padding: 1rem 0.5rem;
     text-align: center;
     font-weight: bolder;
-    font-size: large;
+    /* white-space: nowrap; */
 }
+
+/**********************************************/
 
 nav {
     display: flex;
@@ -50,7 +57,10 @@ nav li:hover {
 nav li a {
     text-decoration: none;
     color: black;
+    /* white-space: nowrap; */
 }
+
+/**********************************************/
 
 section {
     text-align: center;
@@ -60,9 +70,11 @@ section {
     display: grid;
 }
 
+/**********************************************/
+
 .col-left {
     background-color: #33cccc;
-    height: 90vh;
+    height: 100vh;
     padding: 1em;
 }
 
@@ -74,9 +86,13 @@ section {
     padding: 0.3em 0;
 }
 
+/**********************************************/
+
 hr {
     border: 1px solid black;
 }
+
+/**********************************************/
 
 .main-menu {
     padding-top: 1em;
@@ -105,6 +121,8 @@ hr {
     color: black;
 }
 
+/**********************************************/
+
 .col-right p {
     padding: 1em 0;
     text-align: left;
@@ -122,6 +140,8 @@ td {
     text-align: left;
     padding: 0.5em;
 }
+
+/**********************************************/
 
 .form-container {
     display: block;
@@ -153,6 +173,13 @@ select {
     padding: 0 1em;
 }
 
+.form-submit input {
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
+
+/**********************************************/
+
 .role-body {
     padding: 2em;
 }
@@ -176,7 +203,7 @@ select {
     background: #f2dede;
     border: 1px solid #a94442;
     border-radius: 5px;
-    margin-bottom: 1em;
+    margin: 1em 0;
 }
 
 .success {
@@ -184,6 +211,7 @@ select {
     background: #dff0d8;
     border: 1px solid #3c763d;
     border-radius: 5px;
+    margin: 1em 0;
 }
 
 
@@ -200,7 +228,7 @@ select {
 
 
 
-
+/**********************************************/
 
 /* Responsive Media Queries */
 
@@ -214,7 +242,7 @@ select {
 /* 480px and up */
 @media only screen and (min-width: 480px) {
     .form-container {
-        max-width: 60%;
+        max-width: 70%;
     }
 
     .main-body {
@@ -225,7 +253,7 @@ select {
 /* 768px and up */
 @media only screen and (min-width: 768px) {
     .form-container {
-        max-width: 50%;
+        max-width: 60%;
     }
 
     .main-body {
@@ -236,7 +264,7 @@ select {
 /* 1024px and up */
 @media only screen and (min-width: 1024px) {
     .form-container {
-        max-width: 40%;
+        max-width: 50%;
     }
 
     .main-body {
@@ -247,7 +275,7 @@ select {
 /* 1200px and up */
 @media only screen and (min-width: 1200px) {
     .form-container {
-        max-width: 30%;
+        max-width: 40%;
     }
 
     .main-body {

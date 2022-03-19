@@ -4,7 +4,7 @@ session_start();
 
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
+    header("location: ./auth/login.php");
     exit;
 }
 ?>
@@ -29,7 +29,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <ul>
                 <li><a href="#">Change Email</a></li>
                 <li><a href="#">Change Password</a></li>
-                <li><a href="logout.php">Logout</a></li>
+                <li><a href="./auth/logout.php">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -41,9 +41,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 <p>Select available role</p>
 
                 <div class="role-list">
+                    <a href="./users/admin.php">Admin</a>
                     <a href="#">Professor</a>
                     <a href="#">Teaching Assistant</a>
-                    <a href="student.php">Student</a>
+                    <a href="./users/student.php">Student</a>
                 </div>
 
             </div>
