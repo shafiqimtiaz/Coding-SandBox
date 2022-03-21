@@ -3,6 +3,12 @@
 $query_body = "SELECT * FROM users as u JOIN roles as r ON u.role_id = r.role_id ORDER BY user_id ASC";
 $results_body = mysqli_query($conn, $query_body);
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $query = "DELETE FROM users WHERE user_id='$id'";
+    mysqli_query($conn, $query);
+}
+
 ?>
 
 <div class="content-body">
@@ -42,8 +48,8 @@ $results_body = mysqli_query($conn, $query_body);
                     <td><?php echo $username ?></td>
                     <td><?php echo $created_on ?></td>
                     <td><?php echo $role_name ?></td>
-                    <td><a href="?page=update&update=<?= $user_id ?>">Update</a></td>
-                    <td><a href="?page=delete&delete=<?= $user_id ?>">Delete</a></td>
+                    <td><a href="?page=users_update&id=<?= $user_id ?>">Update</a></td>
+                    <td><a href="?page=users&id=<?= $user_id ?>">Delete</a></td>
                 </tr>
             <?php
             }
@@ -51,7 +57,7 @@ $results_body = mysqli_query($conn, $query_body);
         </tbody>
     </table>
 
-    <a href="?page=register">
+    <a href="?page=users_add">
         <button>Add User</button>
     </a>
 

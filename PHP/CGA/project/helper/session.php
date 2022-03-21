@@ -1,9 +1,12 @@
 <?php
 // Initialize the session
+session_start();
 
-if (!isset($_SESSION)) {
-    session_start();
+function isLoggedIn()
+{
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+        return true;
+    } else {
+        return false;
+    }
 }
-
-require_once('../configs/db.php');
-include('../functions/functions.php');

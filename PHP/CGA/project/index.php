@@ -28,7 +28,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <p>Logged in as <b>User</b></p>
             <ul>
                 <li><a href="#">Change Email</a></li>
-                <li><a href="#">Change Password</a></li>
+                <li><a href="./auth/reset-password.php">Change Password</a></li>
                 <li><a href="./auth/logout.php">Logout</a></li>
             </ul>
         </nav>
@@ -41,10 +41,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 <p>Select available role</p>
 
                 <div class="role-list">
-                    <a href="./users/admin.php">Admin</a>
-                    <a href="./users/Professor.php">Professor</a>
-                    <a href="./users/ta.php">Teaching Assistant</a>
-                    <a href="./users/student.php">Student</a>
+                    <a href="./pages/admin.php">Admin</a>
+                    <a href="./pages/professor.php">Professor</a>
+                    <a href="./pages/ta.php">Teaching Assistant</a>
+                    <a href="./pages/student.php">Student</a>
                 </div>
 
             </div>

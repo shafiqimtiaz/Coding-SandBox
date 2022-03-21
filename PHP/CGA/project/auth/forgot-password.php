@@ -2,8 +2,8 @@
 // Initialize the session
 session_start();
 
-require_once('../configs/db.php');
-include('../functions/functions.php');
+require_once('../configs/config.php');
+require_once('../helper/functions.php');
 
 $email = $password = "";
 
