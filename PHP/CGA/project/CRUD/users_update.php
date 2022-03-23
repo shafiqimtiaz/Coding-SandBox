@@ -1,6 +1,6 @@
 <?php
 
-$id = $_GET['id'];
+$id = $_GET['update_id'];
 $query = "SELECT * FROM users WHERE user_id='$id'";
 $results = mysqli_query($conn, $query);
 
@@ -10,19 +10,18 @@ while ($row = mysqli_fetch_assoc($results)) {
     $dob = $row['dob'];
     $email = $row['email'];
     $username = $row['username'];
-    $role_id = $row['role_id'];
+    $user_role_id = $row['role_id'];
 }
 
 if (isset($_POST['update_user'])) {
-    // REGISTER USER
-
+    // UPDATE USER
     // receive all input values from the form
     $first_name = mysqli_real_escape_string($conn, $_POST['firstname']);
     $last_name = mysqli_real_escape_string($conn, $_POST['lastname']);
     $dob = mysqli_real_escape_string($conn, $_POST['dob']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
+    $role_id = mysqli_real_escape_string($conn, $_POST['role_id']);
 
     // form validation: ensure that the form is correctly filled ...
     // by adding (array_push()) corresponding error unto $errors array
@@ -46,35 +45,16 @@ if (isset($_POST['update_user'])) {
         array_push($errors, "Role is required");
     }
 
-    // first check the database to make sure 
-    // a user does not already exist with the same username and/or email
-    $query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
-    $results = mysqli_query($conn, $query);
-    $user = mysqli_fetch_assoc($results);
-
-    if ($user) { // if user exists
-        if ($user['username'] === $username) {
-            array_push($errors, "Username already exists");
-        }
-
-        if ($user['email'] === $email) {
-            array_push($errors, "Email already exists");
-        }
-    }
-
-    $roles = get_role_array();
-    foreach ($roles as $role) {
-        if ($role['role_name'] == $role_name) {
-            $role_id = $role['role_id'];
-        }
-    }
-
-
-    $query = "UPDATE users set first_name = '$first_name', last_name = '$last_name', dob = '$dob', email = '$email', username = '$username', role = '$role_id'
+    $update = "UPDATE users set first_name = '$first_name', last_name = '$last_name', dob = '$dob', email = '$email', username = '$username', role_id = '$role_id'
                 WHERE user_id ='$id'";
-    $result = mysqli_query($conn, $query);
 
-    array_push($success, "Update Suuccessful");
+    //$result = mysqli_query($conn, $query);
+
+    if (mysqli_query($conn, $update)) {
+        array_push($success, "Update Successful");
+    } else {
+        array_push($errors, "Error updating record: ", mysqli_error($conn));
+    }
 }
 
 ?>
@@ -90,40 +70,49 @@ if (isset($_POST['update_user'])) {
 
         <div class="form-input">
             <p><b>Update</b></p>
+            <label>User ID</label>
+            <span><b><?= $id ?></b></span>
+        </div>
+
+        <div class="form-input">
             <label>First Name</label>
-            <span><input type="text" name="firstname" value=<?= $first_name ?>></span>
+            <span><input type="text" name="firstname" value='<?= $first_name ?>'></span>
         </div>
 
         <div class="form-input">
             <label>Last Name</label>
-            <span> <input type="text" name="lastname" value=<?= $last_name ?>> </span>
+            <span> <input type="text" name="lastname" value='<?= $last_name ?>'> </span>
         </div>
 
         <div class="form-input">
             <label>Date of Birth</label>
-            <span><input type="date" name="dob" value=<?= $dob ?>> </span>
+            <span><input type="date" name="dob" value='<?= $dob ?>'> </span>
         </div>
 
         <div class="form-input">
             <label>Email</label>
-            <span><input type="email" name="email" value=<?= $email ?>> </span>
+            <span><input type="email" name="email" value='<?= $email ?>'> </span>
         </div>
 
         <div class="form-input">
             <label>Username</label>
-            <span><input type="text" name="username" value=<?= $username ?>></span>
+            <span><input type="text" name="username" value='<?= $username ?>'></span>
         </div>
 
         <div class="form-input">
             <label for="roles">Choose a Role</label>
             <span>
-                <select id="roles" name="role">
+                <select id="roles" name="role_id">
                     <?php
-                    $roles = get_role_array();
+                    $roles = get_table_array('roles');
                     foreach ($roles as $role) {
                         $role_id = $role['role_id'];
                         $role_name = $role['role_name'];
-                        echo "<option name=role_name value='$role_id'>$role_name</option>";
+                        if ($user_role_id == $role_id) {
+                            echo "<option name=role_name value='$role_id' selected>$role_name</option>";
+                        } else {
+                            echo "<option name=role_name value='$role_id'>$role_name</option>";
+                        }
                     }
                     ?>
                 </select>

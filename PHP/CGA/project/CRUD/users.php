@@ -1,11 +1,11 @@
 <?php
 
-$query_body = "SELECT * FROM users as u JOIN roles as r ON u.role_id = r.role_id ORDER BY user_id ASC";
-$results_body = mysqli_query($conn, $query_body);
+$query = "SELECT * FROM users as u JOIN roles as r ON u.role_id = r.role_id ORDER BY user_id ASC";
+$results = mysqli_query($conn, $query);
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $query = "DELETE FROM users WHERE user_id='$id'";
+if (isset($_GET['delete_id'])) {
+    $id = $_GET['delete_id'];
+    $delete = "DELETE FROM users WHERE user_id='$id'";
     mysqli_query($conn, $query);
 }
 
@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
         </thead>
         <tbody>
             <?php
-            while ($users = mysqli_fetch_assoc($results_body)) {
+            while ($users = mysqli_fetch_assoc($results)) {
                 $user_id = $users['user_id'];
                 $first_name = $users['first_name'];
                 $last_name = $users['last_name'];
@@ -48,8 +48,8 @@ if (isset($_GET['id'])) {
                     <td><?php echo $username ?></td>
                     <td><?php echo $created_on ?></td>
                     <td><?php echo $role_name ?></td>
-                    <td><a href="?page=users_update&id=<?= $user_id ?>">Update</a></td>
-                    <td><a href="?page=users&id=<?= $user_id ?>">Delete</a></td>
+                    <td><a href="?page=users_update&update_id=<?= $user_id ?>">Update</a></td>
+                    <td><a href="?page=users&delete_id=<?= $user_id ?>">Delete</a></td>
                 </tr>
             <?php
             }

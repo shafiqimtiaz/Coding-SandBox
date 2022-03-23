@@ -34,9 +34,9 @@ $role_name = $_SESSION['role_name'];
             <nav>
                 <p>Welcome <b><?= $username ?></b></p>
                 <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="#">Change Email</a></li>
-                    <li><a href="../auth/reset-password.php">Change Password</a></li>
+                    <li><a href="../includes/home.php">Home</a></li>
+                    <li><a href="../auth/reset-email.php">Reset Email</a></li>
+                    <li><a href="../auth/reset-password.php">Reset Password</a></li>
                     <li><a href="../auth/logout.php">Logout</a></li>
                 </ul>
             </nav>

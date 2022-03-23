@@ -22,7 +22,7 @@
                         <li><a href="?page=comments">Comments</a></li>
                         <li><a href="?page=files">Files</a></li>
                     </ul>
-                    <hr>
+
                     <h3>Assign</h3>
                     <ul class="menu-list">
                         <li><a href="?page=professors">Professors</a></li>
@@ -50,10 +50,6 @@
                 } else {
                     include("../includes/home.php");
                 }
-                // echo "<pre>";
-                // print_r($_GET);
-                // print_r($_POST);
-                // echo "</pre>";
                 ?>
 
             </div>
