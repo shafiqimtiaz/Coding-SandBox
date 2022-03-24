@@ -6,7 +6,7 @@ JOIN course as c
 ON uc.course_id = c.course_id
 JOIN course_section as cs
 ON c.course_id = cs.course_id
--- WHERE u.user_id = 10002
+-- WHERE u.user_id = 10003
 ORDER BY u.user_id ASC;
 
 -- STUDENT
@@ -21,6 +21,8 @@ JOIN section_groups as sg
 ON sg.group_id = g.group_id
 JOIN course_section as cs
 ON cs.section_id = sg.section_id
+JOIN course as c
+ON c.course_id = cs.course_id
 -- WHERE u.user_id = 10003
 ORDER BY u.user_id ASC;
 
@@ -51,14 +53,13 @@ ON c.course_id = cs.course_id
 ORDER BY u.user_id ASC;
 
 -- ANNOUNCEMENTS
-SELECT a.title, u.username, a.posted_on, a.content, c.course_name, cs.section_name
+SELECT *
 FROM announcement as a
 JOIN users as u
 ON a.posted_by_uid = u.user_id
-JOIN course_section as cs
-ON cs.section_id = a.section_id
 JOIN course as c
-ON c.course_id = cs.course_id;
+ON c.course_id = a.course_id
+ORDER BY a.announcement_id DESC;
 
 -- SELECT * from roles;
 -- SELECT * from users;
@@ -70,6 +71,7 @@ ON c.course_id = cs.course_id;
 -- SELECT * from student_groups;
 -- SELECT * from member_of_group;
 -- SELECT * from course_section;
+-- SELECT * from section_groups;
 -- SELECT * from announcement;
 
 -- SELECT * from user_course as uc

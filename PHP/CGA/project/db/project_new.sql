@@ -96,9 +96,9 @@ CREATE TABLE Announcement
   posted_by_uid INT NOT NULL,
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   content VARCHAR(1024) NOT NULL,
-  section_id INT NOT NULL,
+  course_id INT NOT NULL,
   PRIMARY KEY (announcement_id),
-  FOREIGN KEY (section_id) REFERENCES Course_Section(section_id) ON DELETE CASCADE
+  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Student_groups

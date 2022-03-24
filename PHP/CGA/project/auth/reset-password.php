@@ -52,10 +52,7 @@ if (isset($_POST['reset_password'])) {
         } else {
             array_push($errors, "Password reset failed" . mysqli_error($conn));
         }
-    } else {
-        array_push($errors, "RESET ERROR" . mysqli_error($conn));
     }
-    mysqli_close($conn);
 }
 
 ?>

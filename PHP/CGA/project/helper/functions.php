@@ -97,6 +97,14 @@ function isAdmin()
     return false;
 }
 
+function isStudent()
+{
+    if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 4) {
+        return true;
+    }
+    return false;
+}
+
 function pre_print($var)
 {
     echo '<pre>';

@@ -58,6 +58,7 @@ INSERT INTO section_groups (section_id, group_id) VALUES(60000, 70000);
 INSERT INTO section_groups (section_id, group_id) VALUES(60000, 70001);
 
 -- Course Anncoucement Table
-INSERT INTO announcement (announcement_id, title, posted_by_uid, posted_on, content, section_id) VALUES(2200000, "Project Due 1!!", 10001, "2022-03-11", "Must submit project on time!", 60000);
-INSERT INTO announcement (title, posted_by_uid, posted_on, content, section_id) VALUES("Project Due 2!!", 10001, "2022-03-11", "Must submit project on time!", 60001);
-INSERT INTO announcement (title, posted_by_uid, posted_on, content, section_id) VALUES("Project Due 3!!", 10001, "2022-03-11", "Must submit project on time!", 60003);
+INSERT INTO announcement (announcement_id, title, posted_by_uid, posted_on, content, course_id) VALUES(2200000, "Project Due 1 !!", 10001, "2022-03-11", "Must submit project on time!", 50000);
+INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id) VALUES("Project Due 2 !!", 10001, "2022-03-11", "Must submit project on time!", 50001);
+INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id) VALUES("Project Due 3 !!", 10001, "2022-03-11", "Must submit project on time!", 50002);
+INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id) VALUES("Project Due 4 !!", 10001, "2022-03-11", "Must submit project on time!", 50003);

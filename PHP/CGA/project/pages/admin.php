@@ -37,7 +37,6 @@
             <div class="col-right">
 
                 <?php
-
                 if (isset($_GET['page'])) {
                     $page = $_GET['page'];
                     if (file_exists("../includes/" . $page . ".php")) {

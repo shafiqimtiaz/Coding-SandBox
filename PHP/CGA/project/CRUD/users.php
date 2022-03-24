@@ -5,6 +5,7 @@ $id = $first_name = $last_name = $dob = $email = $username = $password_1 = $pass
 
 // ADD
 if (isset($_POST['add_user'])) {
+
     // receive all input values from the form
     $first_name = mysqli_real_escape_string($conn, $_POST['firstname']);
     $last_name = mysqli_real_escape_string($conn, $_POST['lastname']);
@@ -22,7 +23,7 @@ if (isset($_POST['add_user'])) {
         array_push($errors, "First Name is required");
     }
     if (empty($last_name)) {
-        array_push($errors, "First Name is required");
+        array_push($errors, "Last Name is required");
     }
     if (empty($dob)) {
         array_push($errors, "Date of Birth is required");
@@ -64,10 +65,10 @@ if (isset($_POST['add_user'])) {
         $password = $password_new;
         //$password = md5($password_1); //encrypt the password before saving in the database
 
-        $user_add = "INSERT INTO users (first_name, last_name, dob, email, username, password, created_on, first_login, role_id) 
+        $add = "INSERT INTO users (first_name, last_name, dob, email, username, password, created_on, first_login, role_id) 
                     VALUES('$first_name', '$last_name', '$dob', '$email', '$username', '$password', CURRENT_TIMESTAMP, 1, '$role_id');";
 
-        if (mysqli_query($conn, $user_add)) {
+        if (mysqli_query($conn, $add)) {
             array_push($success, "Registration Successful");
             // clear variables
             $id = $first_name = $last_name = $dob = $email = $username = $password_1 = $password_2 = $role_id = "";
@@ -93,7 +94,7 @@ if (isset($_POST['update_user'])) {
         array_push($errors, "First Name is required");
     }
     if (empty($last_name)) {
-        array_push($errors, "First Name is required");
+        array_push($errors, "Last Name is required");
     }
     if (empty($dob)) {
         array_push($errors, "Date of Birth is required");
@@ -126,16 +127,24 @@ if (isset($_POST['update_user'])) {
 if (isset($_GET['delete_id'])) {
     $id = mysqli_real_escape_string($conn, $_GET['delete_id']);
     $delete = "DELETE FROM users WHERE user_id='$id'";
-    mysqli_query($conn, $query);
-    exit();
+    if (mysqli_query($conn, $delete)) {
+        array_push($success, "Delete successful");
+    } else {
+        array_push($errors, "Delete error: " . mysqli_error($conn));
+    }
 }
-
-$query = "SELECT * FROM users as u JOIN roles as r ON u.role_id = r.role_id ORDER BY user_id ASC";
-$results = mysqli_query($conn, $query);
 
 ?>
 
 <div class="content-body">
+
+    <?php if (isset($_GET['delete_view'])) {
+        display_success();
+        display_error();
+    }
+    $query = "SELECT * FROM users as u JOIN roles as r ON u.role_id = r.role_id ORDER BY user_id ASC";
+    $results = mysqli_query($conn, $query);
+    ?>
     <p><b>Users</b></p>
     <table>
         <thead>
@@ -187,138 +196,140 @@ $results = mysqli_query($conn, $query);
     </table>
 
     <?php if (isAdmin()) { ?>
+
         <a href="?page=users&add_view=true">
             <button>Add User</button>
         </a>
-    <?php } ?>
 
-    <?php if (isset($_GET['add_view'])) { ?>
-        <hr>
-        <div class="form-container">
-            <form class="form-body" action="" method="post">
-                <?php echo display_success(); ?>
-                <?php echo display_error(); ?>
-                <div class="form-input">
-                    <p><b>Registration</b></p>
-                    <label>First Name</label>
-                    <span><input type="text" name="firstname" value=<?= $first_name ?>></span>
-                </div>
-                <div class="form-input">
-                    <label>Last Name</label>
-                    <span> <input type="text" name="lastname" value=<?= $last_name ?>> </span>
-                </div>
-                <div class="form-input">
-                    <label>Date of Birth</label>
-                    <span><input type="date" name="dob" value=<?= $dob ?>> </span>
-                </div>
-                <div class="form-input">
-                    <label>Email</label>
-                    <span><input type="email" name="email" value=<?= $email ?>> </span>
-                </div>
-                <div class="form-input">
-                    <label>Username</label>
-                    <span><input type="text" name="username" value=<?= $username ?>></span>
-                </div>
-                <div class="form-input">
-                    <label>Password</label>
-                    <span><input type="password" name="password_new"> </span>
-                </div>
-                <div class="form-input">
-                    <label>Confirm password</label>
-                    <span><input type="password" name="password_confirm"></span>
-                </div>
-                <div class="form-input">
-                    <label for="roles">Choose a Role</label>
-                    <span>
-                        <select id="roles" name="role_id">
-                            <?php
-                            $roles = get_table_array('roles');
-                            foreach ($roles as $role) {
-                                $role_id = $role['role_id'];
-                                $role_name = $role['role_name'];
-                                echo "<option value='$role_id'>$role_name</option>";
-                            }
-                            ?>
-                        </select>
-                    </span>
-                </div>
-                <div class="form-submit">
-                    <input type="submit" name="add_user" value="Add">
-                </div>
-            </form>
-        </div>
-    <?php } ?>
-
-    <?php if (isset($_GET['update_view'])) { ?>
-
-        <?php
-        $id = mysqli_real_escape_string($conn, $_GET['update_id']);
-        $query = "SELECT * FROM users WHERE user_id='$id'";
-        $results = mysqli_query($conn, $query);
-
-        while ($row = mysqli_fetch_assoc($results)) {
-            $first_name = $row['first_name'];
-            $last_name = $row['last_name'];
-            $dob = $row['dob'];
-            $email = $row['email'];
-            $username = $row['username'];
-            $user_role_id = $row['role_id'];
-        }
-        ?>
-        <hr>
-        <div class="form-container">
-            <form class="form-body" action="" method="post">
-                <?php echo display_success(); ?>
-                <?php echo display_error(); ?>
-                <div class="form-input">
-                    <p><b>Update</b></p>
-                    <label>User ID</label>
-                    <span><b><?= $id ?></b></span>
-                </div>
-                <div class="form-input">
-                    <label>First Name</label>
-                    <span><input type="text" name="firstname" value='<?= $first_name ?>'></span>
-                </div>
-                <div class="form-input">
-                    <label>Last Name</label>
-                    <span> <input type="text" name="lastname" value='<?= $last_name ?>'> </span>
-                </div>
-                <div class="form-input">
-                    <label>Date of Birth</label>
-                    <span><input type="date" name="dob" value='<?= $dob ?>'> </span>
-                </div>
-                <div class="form-input">
-                    <label>Email</label>
-                    <span><input type="email" name="email" value='<?= $email ?>'> </span>
-                </div>
-                <div class="form-input">
-                    <label>Username</label>
-                    <span><input type="text" name="username" value='<?= $username ?>'></span>
-                </div>
-                <div class="form-input">
-                    <label for="roles">Choose a Role</label>
-                    <span>
-                        <select id="roles" name="role_id">
-                            <?php
-                            $roles = get_table_array('roles');
-                            foreach ($roles as $role) {
-                                $role_id = $role['role_id'];
-                                $role_name = $role['role_name'];
-                                if ($user_role_id == $role_id) {
-                                    echo "<option name=role_name value='$role_id' selected>$role_name</option>";
-                                } else {
-                                    echo "<option name=role_name value='$role_id'>$role_name</option>";
+        <?php if (isset($_GET['add_view'])) { ?>
+            <hr>
+            <div class="form-container">
+                <form class="form-body" action="" method="post">
+                    <?php echo display_success(); ?>
+                    <?php echo display_error(); ?>
+                    <div class="form-input">
+                        <p><b>Registration</b></p>
+                        <label>First Name</label>
+                        <span><input type="text" name="firstname"></span>
+                    </div>
+                    <div class="form-input">
+                        <label>Last Name</label>
+                        <span> <input type="text" name="lastname"> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Date of Birth</label>
+                        <span><input type="date" name="dob"> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Email</label>
+                        <span><input type="email" name="email"> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Username</label>
+                        <span><input type="text" name="username"></span>
+                    </div>
+                    <div class="form-input">
+                        <label>Password</label>
+                        <span><input type="password" name="password_new"> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Confirm password</label>
+                        <span><input type="password" name="password_confirm"></span>
+                    </div>
+                    <div class="form-input">
+                        <label for="roles">Choose a Role</label>
+                        <span>
+                            <select id="roles" name="role_id">
+                                <?php
+                                $roles = get_table_array('roles');
+                                foreach ($roles as $role) {
+                                    $role_id = $role['role_id'];
+                                    $role_name = $role['role_name'];
+                                    echo "<option value='$role_id'>$role_name</option>";
                                 }
-                            }
-                            ?>
-                        </select>
-                    </span>
-                </div>
-                <div class="form-submit">
-                    <input type="submit" name="update_user" value="Update">
-                </div>
-            </form>
-        </div>
+                                ?>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-submit">
+                        <input type="submit" name="add_user" value="Add">
+                    </div>
+                </form>
+            </div>
+        <?php } ?>
+
+        <?php if (isset($_GET['update_view'])) { ?>
+
+            <?php
+            $id = mysqli_real_escape_string($conn, $_GET['update_id']);
+            $query = "SELECT * FROM users WHERE user_id='$id'";
+            $results = mysqli_query($conn, $query);
+
+            while ($row = mysqli_fetch_assoc($results)) {
+                $first_name = $row['first_name'];
+                $last_name = $row['last_name'];
+                $dob = $row['dob'];
+                $email = $row['email'];
+                $username = $row['username'];
+                $update_role_id = $row['role_id'];
+            }
+            ?>
+            <hr>
+            <div class="form-container">
+                <form class="form-body" action="" method="post">
+                    <?php echo display_success(); ?>
+                    <?php echo display_error(); ?>
+                    <div class="form-input">
+                        <p><b>Update</b></p>
+                        <label>User ID</label>
+                        <span><b><?= $id ?></b></span>
+                    </div>
+                    <div class="form-input">
+                        <label>First Name</label>
+                        <span><input type="text" name="firstname" value='<?= $first_name ?>'></span>
+                    </div>
+                    <div class="form-input">
+                        <label>Last Name</label>
+                        <span> <input type="text" name="lastname" value='<?= $last_name ?>'> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Date of Birth</label>
+                        <span><input type="date" name="dob" value='<?= $dob ?>'> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Email</label>
+                        <span><input type="email" name="email" value='<?= $email ?>'> </span>
+                    </div>
+                    <div class="form-input">
+                        <label>Username</label>
+                        <span><input type="text" name="username" value='<?= $username ?>'></span>
+                    </div>
+                    <div class="form-input">
+                        <label for="roles">Choose a Role</label>
+                        <span>
+                            <select id="roles" name="role_id">
+                                <?php
+                                $roles = get_table_array('roles');
+                                foreach ($roles as $role) {
+                                    $role_id = $role['role_id'];
+                                    $role_name = $role['role_name'];
+                                    if ($update_role_id == $role_id) {
+                                        echo "<option name=role_name value='$role_id' selected>$role_name</option>";
+                                    } else {
+                                        echo "<option name=role_name value='$role_id'>$role_name</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-submit">
+                        <input type="submit" name="update_user" value="Update">
+                    </div>
+                </form>
+            </div>
+        <?php } ?>
+
     <?php } ?>
 
 </div>

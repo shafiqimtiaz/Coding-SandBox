@@ -34,8 +34,6 @@ if (isset($_POST['reset_email'])) {
         } else {
             array_push($errors, "Email reset failed" . mysqli_error($conn));
         }
-    } else {
-        array_push($errors, "RESET ERROR" . mysqli_error($conn));
     }
 }
 

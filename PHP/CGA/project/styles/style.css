@@ -10,6 +10,10 @@ body {
     font-size: large;
 }
 
+li {
+    list-style-type: none;
+}
+
 /**********************************************/
 
 /* .title-bar {
@@ -51,7 +55,6 @@ nav li {
 
 nav li:hover {
     background-color: #ff92a4;
-    cursor: pointer;
 }
 
 nav li a {
@@ -108,7 +111,6 @@ hr {
 
 .menu-list li:hover {
     font-weight: bold;
-    cursor: pointer;
     background-color: #37e6e6;
 }
 
@@ -236,6 +238,12 @@ section .form-body {
     border-radius: 5px;
     margin-top: 1em;
     padding: 0.5em;
+}
+
+/**********************************************/
+
+textarea {
+    width: 100%;
 }
 
 /**********************************************/

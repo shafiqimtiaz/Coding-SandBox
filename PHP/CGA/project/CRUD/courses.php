@@ -19,21 +19,23 @@ if (isset($_POST['courses_add'])) {
         array_push($errors, "Course Number is required");
     }
 
-    $course_add = "INSERT INTO course (course_name, course_number) VALUES('$course_name', '$course_number');";
+    if (count($errors) == 0) {
+        $add = "INSERT INTO course (course_name, course_number) VALUES('$course_name', '$course_number');";
 
-    if (mysqli_query($conn, $course_add)) {
-        array_push($success, "Course added Successful");
-        // clear variables
-        $course_name = $course_number = "";
-    } else {
-        array_push($errors, "Error adding course: ", mysqli_error($conn));
+        if (mysqli_query($conn, $add)) {
+            array_push($success, "Course added Successful");
+            // clear variables
+            $course_name = $course_number = "";
+        } else {
+            array_push($errors, "Error adding course: ", mysqli_error($conn));
+        }
     }
 }
 
 // UPDATE
 if (isset($_POST['update_course'])) {
 
-    $id = $_GET['update_id'];
+    $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
     // receive all input values from the form
     $course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
@@ -48,37 +50,41 @@ if (isset($_POST['update_course'])) {
         array_push($errors, "Course Number is required");
     }
 
-    $update = "UPDATE course set course_name = '$course_name', course_number = '$course_number' WHERE id$id ='$id'";
+    if (count($errors) == 0) {
+        $update = "UPDATE course set course_name = '$course_name', course_number = '$course_number' WHERE course_id ='$id'";
 
-    if (mysqli_query($conn, $update)) {
-        array_push($success, "Update Successful");
-        // clear variables
-        $course_name = $course_number = "";
-    } else {
-        array_push($errors, "Error updating course: ", mysqli_error($conn));
+        if (mysqli_query($conn, $update)) {
+            array_push($success, "Update Successful");
+            // clear variables
+            $course_name = $course_number = "";
+        } else {
+            array_push($errors, "Error updating course: ", mysqli_error($conn));
+        }
     }
 }
 
 // DELETE
 if (isset($_GET['delete_id'])) {
-    $id = $_GET['delete_id'];
-    $query = "DELETE FROM course WHERE id$id='$id'";
-    if (mysqli_query($conn, $query)) {
+    $id = mysqli_real_escape_string($conn, $_GET['delete_id']);
+    $delete = "DELETE FROM course WHERE course_id='$id'";
+    if (mysqli_query($conn, $delete)) {
         array_push($success, "Delete successful");
     } else {
         array_push($errors, "Delete error: " . mysqli_error($conn));
     }
 }
 
-$query = "SELECT * FROM course ORDER BY course_name ASC";
-$results = mysqli_query($conn, $query);
-
 ?>
 
 <div class="content-body">
-    <?php if (isset($_GET['delete_view']))
+    <?php if (isset($_GET['delete_view'])) {
         display_success();
-    display_error();
+        display_error();
+    }
+
+    $query = "SELECT * FROM course ORDER BY course_name ASC";
+    $results = mysqli_query($conn, $query);
+
     ?>
     <p><b>Courses</b></p>
     <table>
@@ -147,12 +153,12 @@ $results = mysqli_query($conn, $query);
     <?php if (isset($_GET['update_view'])) { ?>
 
         <?php
-        $id = $_GET['update_id'];
-        $query = "SELECT * FROM course WHERE id$id='$id'";
+        $id = mysqli_real_escape_string($conn, $_GET['update_id']);
+        $query = "SELECT * FROM course WHERE course_id='$id'";
         $results = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($results)) {
-            $id = $row['id$id'];
+            $id = $row['course_id'];
             $course_name = $row['course_name'];
             $course_number = $row['course_number'];
         }
