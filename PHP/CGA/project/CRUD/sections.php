@@ -101,10 +101,10 @@ if (isset($_GET['delete_id'])) {
         </thead>
         <tbody>
             <?php
-            while ($sections = mysqli_fetch_assoc($results)) {
-                $id = $sections['section_id'];
-                $section_name = $sections['section_name'];
-                $course_name = $sections['course_name'];
+            while ($row = mysqli_fetch_assoc($results)) {
+                $id = $row['section_id'];
+                $section_name = $row['section_name'];
+                $course_name = $row['course_name'];
             ?>
                 <tr>
                     <?php if (isAdmin()) {
@@ -174,7 +174,7 @@ if (isset($_GET['delete_id'])) {
         while ($row = mysqli_fetch_assoc($results)) {
             $id = $row['section_id'];
             $section_name = $row['section_name'];
-            $course_id = $row['course_id'];
+            $update_course_id = $row['course_id'];
         }
         ?>
 
@@ -193,11 +193,26 @@ if (isset($_GET['delete_id'])) {
                     <span><input type="text" name="section_name" value='<?= $section_name ?>'></span>
                 </div>
                 <div class="form-input">
-                    <label>Course Name</label>
-                    <span><input type="number" name="course_id" value='<?= $course_id ?>'> </span>
+                    <label for="course">Choose a Course</label>
+                    <span>
+                        <select id="course" name="course_id">
+                            <?php
+                            $courses = get_table_array('course');
+                            foreach ($courses as $row) {
+                                $course_id = $row['course_id'];
+                                $course_name = $row['course_name'];
+                                if ($update_course_id == $course_id) {
+                                    echo "<option name=course_id value='$course_id' selected>$course_name</option>";
+                                } else {
+                                    echo "<option name=course_id value='$course_id'>$course_name</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </span>
                 </div>
                 <div class="form-submit">
-                    <input type="submit" name="update_Section" value="Update">
+                    <input type="submit" name="update_section" value="Update">
                 </div>
             </form>
         </div>

@@ -99,10 +99,10 @@ if (isset($_GET['delete_id'])) {
         </thead>
         <tbody>
             <?php
-            while ($courses = mysqli_fetch_assoc($results)) {
-                $id = $courses['course_id'];
-                $course_name = $courses['course_name'];
-                $course_number = $courses['course_number'];
+            while ($row = mysqli_fetch_assoc($results)) {
+                $id = $row['course_id'];
+                $course_name = $row['course_name'];
+                $course_number = $row['course_number'];
             ?>
                 <tr>
                     <?php if (isAdmin()) {
