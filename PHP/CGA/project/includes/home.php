@@ -78,13 +78,13 @@ if (!isAdmin()) {
             <p>10000 - user<br>
                 20000 - student<br>
                 30000 - ta<br>
-                40000 - prof<br>
+                40000 - professor<br>
                 50000 - course<br>
                 60000 - section<br>
                 70000 - groups<br>
                 <br>
-                1100000 - discussion<br>
-                2200000 - announcement<br>
+                1100000 - announcement<br>
+                2200000 - discussion<br>
                 3300000 - comment<br>
                 4400000 - files
             </p>

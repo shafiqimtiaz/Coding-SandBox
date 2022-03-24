@@ -176,7 +176,7 @@ if (isset($_GET['delete_id'])) {
                     <div class="form-input">
                         <label for="course">Choose a Course</label>
                         <span>
-                            <select id="course" name="course_id">
+                            <select name="course_id">
                                 <option value="" selected hidden>Choose a Course</option>
                                 <?php
                                 $courses = get_table_array('course');
@@ -243,7 +243,7 @@ if (isset($_GET['delete_id'])) {
                     <div class="form-input">
                         <label for="course">Choose a Course</label>
                         <span>
-                            <select id="course" name="course_id">
+                            <select name="course_id">
                                 <?php
                                 $courses = get_table_array('course');
                                 foreach ($courses as $row) {

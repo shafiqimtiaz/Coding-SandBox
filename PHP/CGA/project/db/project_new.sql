@@ -6,7 +6,7 @@ use cga;
 10000 - user
 20000 - student
 30000 - ta
-40000 - prof
+40000 - professor
 50000 - course
 60000 - section
 70000 - groups
