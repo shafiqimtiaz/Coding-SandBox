@@ -25,9 +25,9 @@
 
                     <h3>Assign</h3>
                     <ul class="menu-list">
-                        <li><a href="?page=professors">Professors</a></li>
-                        <li><a href="?page=tas">Teaching Assistants</a></li>
-                        <li><a href="?page=students">Students</a></li>
+                        <li><a href="?page=assign-professors">Professors</a></li>
+                        <li><a href="?page=assign-tas">Teaching Assistants</a></li>
+                        <li><a href="?page=assign-students">Students</a></li>
                     </ul>
                 </div>
             </div>

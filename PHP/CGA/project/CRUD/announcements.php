@@ -26,8 +26,8 @@ if (isset($_POST['announcement_add'])) {
     $user_id = $_SESSION['user_id'];
 
     if (count($errors) == 0) {
-        $add = "INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id)
-            VALUES('$title', '$user_id', CURRENT_TIMESTAMP,'$content', '$course_id')";
+        $add = "INSERT INTO announcement (title, content, posted_by_uid, posted_on, course_id)
+            VALUES('$title', '$content', '$user_id', CURRENT_TIMESTAMP,'$course_id')";
 
         if (mysqli_query($conn, $add)) {
             array_push($success, "Added successfully");
@@ -111,9 +111,9 @@ if (isset($_GET['delete_id'])) {
             <tr>
                 <?php isAdmin() ? print '<th>Announcement ID</th>' : ''; ?>
                 <th>Title</th>
+                <th>Content</th>
                 <th>Posted by</th>
                 <th>Posted on</th>
-                <th>Content</th>
                 <th>Course Name</th>
                 <?php isAdmin() ? print '<th colspan="2">Action</th>' : ''; ?>
 
@@ -124,9 +124,9 @@ if (isset($_GET['delete_id'])) {
             while ($announcements = mysqli_fetch_assoc($results)) {
                 $id = $announcements['announcement_id'];
                 $title = $announcements['title'];
+                $content = $announcements['content'];
                 $posted_by = $announcements['username'];
                 $posted_on = $announcements['posted_on'];
-                $content = $announcements['content'];
                 $course_id = $announcements['course_id'];
                 $course_name = $announcements['course_name'];
             ?>
@@ -135,9 +135,9 @@ if (isset($_GET['delete_id'])) {
                         echo '<td>' . $id . '</td>';
                     } ?>
                     <td><?php echo $title ?></td>
+                    <td><?php echo $content ?></td>
                     <td><?php echo $posted_by ?></td>
                     <td><?php echo $posted_on ?></td>
-                    <td><?php echo $content ?></td>
                     <td><?php echo $course_name ?></td>
                     <?php if (isAdmin()) {
                         echo '<td><a href="?page=announcements&update_view=true&update_id=' . $id . '">Update</a></td>';

@@ -46,7 +46,7 @@ if (isset($_POST['login_user'])) {
                 }
             }
 
-            if ($first_login == 1) {
+            if ($check['first_login'] == 1) {
                 header("location: reset-password.php");
                 exit;
             } else {
