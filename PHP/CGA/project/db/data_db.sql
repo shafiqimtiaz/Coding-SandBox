@@ -58,7 +58,23 @@ INSERT INTO section_groups (section_id, group_id) VALUES(60000, 70000);
 INSERT INTO section_groups (section_id, group_id) VALUES(60000, 70001);
 
 -- Course Anncoucement Table
-INSERT INTO announcement (announcement_id, title, posted_by_uid, posted_on, content, course_id) VALUES(2200000, "Project Due 1 !!", 10001, "2022-03-11", "Must submit project on time!", 50000);
-INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id) VALUES("Project Due 2 !!", 10001, "2022-03-11", "Must submit project on time!", 50001);
-INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id) VALUES("Project Due 3 !!", 10001, "2022-03-11", "Must submit project on time!", 50002);
-INSERT INTO announcement (title, posted_by_uid, posted_on, content, course_id) VALUES("Project Due 4 !!", 10001, "2022-03-11", "Must submit project on time!", 50003);
+INSERT INTO announcement (announcement_id, title, content, posted_by_uid, posted_on, course_id) VALUES(1100000, "Project Due 1 !!", "Must submit project on time!", 10001, "2022-03-11", 50000);
+INSERT INTO announcement (title, content, posted_by_uid, posted_on, course_id) VALUES("Project Due 2 !!", "Must submit project on time!", 10001, "2022-03-11",  50001);
+INSERT INTO announcement (title, content, posted_by_uid, posted_on, course_id) VALUES("Project Due 3 !!", "Must submit project on time!", 10001, "2022-03-11", 50002);
+INSERT INTO announcement (title, content, posted_by_uid, posted_on, course_id) VALUES("Project Due 4 !!", "Must submit project on time!", 10001, "2022-03-11", 50003);
+
+-- Group  Discussion Table
+INSERT INTO discussion (discussion_id, title, content, posted_by_uid, posted_on, group_id) VALUES(2200000, "Too much Stress 1", "When will this course end -_-", 10003, "2022-03-11", 70000);
+INSERT INTO discussion (title, content, posted_by_uid, posted_on, group_id) VALUES("Too much Stress 2", "When will this course end -_-", 10004, "2022-03-11", 70001);
+INSERT INTO discussion (title, content, posted_by_uid, posted_on, group_id) VALUES("Too much Stress 3", "When will this course end -_-", 10001, "2022-03-11", 70000);
+INSERT INTO discussion (title, content, posted_by_uid, posted_on, group_id) VALUES("Too much Stress 4", "When will this course end -_-", 10002, "2022-03-11", 70001);
+
+-- Group  Comment Table
+INSERT INTO comment (comment_id, content, posted_by_uid, posted_on, discussion_id) VALUES(3300000, "No Comment 1", 10003, "2022-03-11", 2200000);
+INSERT INTO comment (content, posted_by_uid, posted_on, discussion_id) VALUES("No Comment 2", 10004, "2022-03-11", 2200001);
+INSERT INTO comment (content, posted_by_uid, posted_on, discussion_id) VALUES("No Comment 3", 10001, "2022-03-11", 2200002);
+INSERT INTO comment (content, posted_by_uid, posted_on, discussion_id) VALUES("No Comment 4", 10002, "2022-03-11", 2200003);
+
+-- Group  Files Table
+INSERT INTO files (file_id, file_name, file_type, file_location, uploaded_by_uid, uploaded_on, discussion_id) VALUES(4400000, "random list","txt", "./CGA/files", 10002, "2022-03-11", 2200000);
+INSERT INTO files (file_name, file_type, file_location, uploaded_by_uid, uploaded_on, discussion_id) VALUES("another list","txt", "./CGA/files", 10003, "2022-03-11", 2200001);

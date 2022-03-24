@@ -11,8 +11,8 @@ use cga;
 60000 - section
 70000 - groups
 
-1100000 - discussion
-2200000 - announcement
+1100000 - announcement
+2200000 - discussion
 3300000 - comment
 4400000 - files
 
@@ -89,18 +89,6 @@ CREATE TABLE Course_Section
   UNIQUE (section_name)
 );
 
-CREATE TABLE Announcement
-(
-  announcement_id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(255) NOT NULL,
-  posted_by_uid INT NOT NULL,
-  posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-  content VARCHAR(1024) NOT NULL,
-  course_id INT NOT NULL,
-  PRIMARY KEY (announcement_id),
-  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE
-);
-
 CREATE TABLE Student_groups
 (
   group_id INT NOT NULL AUTO_INCREMENT,
@@ -155,38 +143,50 @@ CREATE TABLE Group_project
   FOREIGN KEY (group_id) REFERENCES Student_groups(group_id)
 );
 
+CREATE TABLE Announcement
+(
+  announcement_id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  content VARCHAR(1024) NOT NULL,
+  posted_by_uid INT NOT NULL,
+  posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
+  course_id INT NOT NULL,
+  PRIMARY KEY (announcement_id),
+  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE
+);
+
 CREATE TABLE Discussion
 (
   discussion_id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(30) NOT NULL,
   content VARCHAR(1024) NOT NULL,
-  posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   posted_by_uid INT NOT NULL,
+  posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   group_id INT NOT NULL,
   PRIMARY KEY (discussion_id),
   FOREIGN KEY (group_id) REFERENCES Student_groups(group_id) ON DELETE CASCADE
 );
 
-CREATE TABLE Files
-(
-  file_id INT NOT NULL AUTO_INCREMENT,
-  permission VARCHAR(30) NOT NULL,
-  uploaded_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-  file_type VARCHAR(30) NOT NULL,
-  uploaded_by_uid INT NOT NULL,
-  file_location VARCHAR(255) NOT NULL,
-  discussion_id INT NOT NULL,
-  PRIMARY KEY (file_id),
-  FOREIGN KEY (discussion_id) REFERENCES Discussion(discussion_id) ON DELETE CASCADE
-);
-
 CREATE TABLE Comment
 (
   comment_id INT NOT NULL AUTO_INCREMENT,
-  posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-  posted_by_uid INT NOT NULL,
   content VARCHAR(1024) NOT NULL,
+  posted_by_uid INT NOT NULL,
+  posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   discussion_id INT NOT NULL,
   PRIMARY KEY (comment_id),
+  FOREIGN KEY (discussion_id) REFERENCES Discussion(discussion_id) ON DELETE CASCADE
+);
+
+CREATE TABLE Files
+(
+  file_id INT NOT NULL AUTO_INCREMENT,
+  file_name VARCHAR(30) NOT NULL,
+  file_type VARCHAR(30) NOT NULL,
+  file_location VARCHAR(255) NOT NULL,
+  uploaded_by_uid INT NOT NULL,
+  uploaded_on DATETIME DEFAULT CURRENT_TIMESTAMP,
+  discussion_id INT NOT NULL,
+  PRIMARY KEY (file_id),
   FOREIGN KEY (discussion_id) REFERENCES Discussion(discussion_id) ON DELETE CASCADE
 );

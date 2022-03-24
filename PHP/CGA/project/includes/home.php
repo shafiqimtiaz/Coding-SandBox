@@ -73,6 +73,21 @@ if (!isAdmin()) {
             echo '<li>Students: <b> ' . mysqli_num_rows(get_table_array('student')) . '</b> </li>';
             echo "</ul><br>";
             ?>
+            <p>Key ID Legends</p>
+            <hr>
+            <p>10000 - user<br>
+                20000 - student<br>
+                30000 - ta<br>
+                40000 - prof<br>
+                50000 - course<br>
+                60000 - section<br>
+                70000 - groups<br>
+                <br>
+                1100000 - discussion<br>
+                2200000 - announcement<br>
+                3300000 - comment<br>
+                4400000 - files
+            </p>
         </div>
     <?php } ?>
 

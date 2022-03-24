@@ -4,7 +4,7 @@
 $id = $course_name = $course_number = "";
 
 // ADD
-if (isset($_POST['courses_add'])) {
+if (isset($_POST['add_course'])) {
 
     // receive all input values from the form
     $course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
@@ -82,7 +82,7 @@ if (isset($_GET['delete_id'])) {
         display_error();
     }
 
-    $query = "SELECT * FROM course ORDER BY course_name ASC";
+    $query = "SELECT * FROM course ORDER BY course_id ASC";
     $results = mysqli_query($conn, $query);
 
     ?>
@@ -99,10 +99,10 @@ if (isset($_GET['delete_id'])) {
         </thead>
         <tbody>
             <?php
-            while ($users = mysqli_fetch_assoc($results)) {
-                $id = $users['course_id'];
-                $course_name = $users['course_name'];
-                $course_number = $users['course_number'];
+            while ($courses = mysqli_fetch_assoc($results)) {
+                $id = $courses['course_id'];
+                $course_name = $courses['course_name'];
+                $course_number = $courses['course_number'];
             ?>
                 <tr>
                     <?php if (isAdmin()) {
@@ -143,7 +143,7 @@ if (isset($_GET['delete_id'])) {
                     <span><input type="number" name="course_number"> </span>
                 </div>
                 <div class="form-submit">
-                    <input type="submit" name="courses_add" value="Add">
+                    <input type="submit" name="add_course" value="Add">
                 </div>
             </form>
         </div>

@@ -177,6 +177,7 @@ if (isset($_GET['delete_id'])) {
                         <label for="course">Choose a Course</label>
                         <span>
                             <select id="course" name="course_id">
+                                <option value="" selected hidden>Choose a Course</option>
                                 <?php
                                 $courses = get_table_array('course');
                                 foreach ($courses as $row) {
