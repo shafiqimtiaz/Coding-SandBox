@@ -1,9 +1,9 @@
 <?php
 
 // initializing variables
-$first_name = $last_name = $dob = $email = $username = $password_1 = $password_2 = $role = "";
+$id = $first_name = $last_name = $dob = $email = $username = $password_1 = $password_2 = $role = "";
 
-// ADD USER
+// ADD
 if (isset($_POST['add_user'])) {
     // receive all input values from the form
     $first_name = mysqli_real_escape_string($conn, $_POST['firstname']);
@@ -70,14 +70,14 @@ if (isset($_POST['add_user'])) {
         if (mysqli_query($conn, $user_add)) {
             array_push($success, "Registration Successful");
             // clear variables
-            $first_name = $last_name = $dob = $email = $username = $password_1 = $password_2 = $role_id = "";
+            $id = $first_name = $last_name = $dob = $email = $username = $password_1 = $password_2 = $role_id = "";
         } else {
             array_push($errors, "Error registering user: ", mysqli_error($conn));
         }
     }
 }
 
-// UPDATE USER
+// UPDATE
 if (isset($_POST['update_user'])) {
     // receive all input values from the form
     $first_name = mysqli_real_escape_string($conn, $_POST['firstname']);
@@ -122,7 +122,7 @@ if (isset($_POST['update_user'])) {
     }
 }
 
-// DELETE USER
+// DELETE
 if (isset($_GET['delete_id'])) {
     $id = mysqli_real_escape_string($conn, $_GET['delete_id']);
     $delete = "DELETE FROM users WHERE user_id='$id'";
@@ -164,6 +164,9 @@ $results = mysqli_query($conn, $query);
                 $role_name = $users['role_name'];
             ?>
                 <tr>
+                    <?php if (isAdmin()) {
+                        echo '<td>' . $user_id . '</td>';
+                    } ?>
                     <td><?php echo $user_id ?></td>
                     <td><?php echo $first_name ?></td>
                     <td><?php echo $last_name ?></td>
@@ -183,9 +186,11 @@ $results = mysqli_query($conn, $query);
         </tbody>
     </table>
 
-    <a href="?page=users&add_view=true">
-        <button>Add User</button>
-    </a>
+    <?php if (isAdmin()) { ?>
+        <a href="?page=users&add_view=true">
+            <button>Add User</button>
+        </a>
+    <?php } ?>
 
     <?php if (isset($_GET['add_view'])) { ?>
         <hr>

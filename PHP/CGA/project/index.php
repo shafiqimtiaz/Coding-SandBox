@@ -16,6 +16,28 @@ $role_name = $_SESSION['role_name'];
 $user_id = $_SESSION['user_id'];
 $role_id = $_SESSION['role_id'];
 
+$query = "SELECT * FROM users as u
+JOIN user_course as uc
+ON u.user_id = uc. user_id
+JOIN course as c
+ON uc.course_id = c.course_id
+JOIN course_section as cs
+ON c.course_id = cs.course_id
+WHERE u.user_id = '$user_id'";
+$user_info = mysqli_query($conn, $query);
+
+$query = "SELECT * FROM users as u
+JOIN user_course as uc
+ON u.user_id = uc. user_id
+JOIN course as c
+ON uc.course_id = c.course_id
+JOIN course_section as cs
+ON c.course_id = cs.course_id
+WHERE u.user_id = '$user_id'";
+$student_info = mysqli_query($conn, $query);
+
+$_SESSION['student_info'] = $student_info;
+
 
 ?>
 

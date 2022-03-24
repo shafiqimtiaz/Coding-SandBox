@@ -84,11 +84,7 @@ if (isset($_POST['reset_email'])) {
                 </div>
                 <br>
                 <span>
-                    <a href="../index.php">Welcome Page</a>
-                </span>
-                <br>
-                <span>
-                    <a href="./logout.php">Logout</a>
+                    <a href="../index.php">Welcome</a>
                 </span>
 
             </form>
