@@ -240,6 +240,7 @@ if (isset($_GET['delete_id'])) {
                         <label for="roles">Choose a Role</label>
                         <span>
                             <select id="roles" name="role_id">
+                                <option value="" selected hidden>Choose a Role</option>
                                 <?php
                                 $roles = get_table_array('roles');
                                 foreach ($roles as $role) {
