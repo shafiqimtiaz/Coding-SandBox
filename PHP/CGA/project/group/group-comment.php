@@ -119,8 +119,9 @@ if (isset($_GET['delete_id'])) {
 
         <hr>
 
-        <?php if (isset($_GET['update_view'])) {
-
+        <?php if (isset($_GET['update_view'])) { ?>
+            
+            <?php
             $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
             $query = "SELECT * FROM comment as c
@@ -131,7 +132,7 @@ if (isset($_GET['delete_id'])) {
             foreach ($comments as $row) {
                 $content = $row['content'];
             }
-        ?>
+            ?>
 
             <div class="form-container">
                 <form class="form-body" action="" method="POST">

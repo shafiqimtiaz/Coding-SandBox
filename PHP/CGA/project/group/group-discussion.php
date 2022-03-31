@@ -213,7 +213,9 @@ if (isset($_GET['delete_id'])) {
 
     <?php } ?>
 
-    <?php if (isset($_GET['update_view'])) {
+    <?php if (isset($_GET['update_view'])) { ?>
+
+        <?php
 
         $id = mysqli_real_escape_string($conn, $_GET['update_id']);
         $query = "SELECT d.*, u.username, g.group_name, c.course_name FROM discussion as d
@@ -234,7 +236,7 @@ if (isset($_GET['delete_id'])) {
             // $update_group_id = $row['group_id'];
         }
 
-    ?>
+        ?>
 
         <hr>
         <div class="form-container">

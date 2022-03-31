@@ -95,13 +95,14 @@ if (isset($_POST['update'])) {
     //    if (empty($_POST['course_id'])) {
     //        array_push($errors, "Please select a course");
     //    } else {
-    $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
+    $course_id = mysqli_real_escape_string($conn, $_GET['course_id']);
     //    }
 
     //    if (empty($_POST['section_id'])) {
     //        array_push($errors, "Please select a section");
     //    } else {
     $section_id = mysqli_real_escape_string($conn, $_POST['section_id']);
+    $_GET['section_id'] = $section_id;
     //    }
 
 
@@ -122,8 +123,8 @@ if (isset($_POST['update'])) {
 
     if (count($errors) == 0) {
 
-        $update = "UPDATE user_course_section set user_id = '$user_id', course_id = '$course_id', section_id = '$section_id'
-            WHERE user_id ='$user_id' AND section_id = '$section_id'";
+        $update = "UPDATE user_course_section set section_id = '$section_id'
+            WHERE user_id ='$user_id' AND course_id = '$course_id'";
 
         if (mysqli_query($conn, $update)) {
             array_push($success, "Updated Successfully");
@@ -392,17 +393,17 @@ Always visible and shows delete error if delete_view is set true -->
                         <select name="course_id" disabled>
                             <option value="" selected hidden>Choose a Course</option>
                             <?php
-                            $query = "SELECT * FROM course";
-                            $courses = mysqli_query($conn, $query);
-                            foreach ($courses as $row) {
-                                $course_id = $row['course_id'];
-                                $course_name = $row['course_name'];
-                                if ($update_course_id == $course_id) {
-                                    echo "<option value='$course_id' selected>$course_name</option>";
-                                } else {
-                                    echo "<option value='$course_id'>$course_name</option>";
-                                }
-                            }
+                            // $query = "SELECT * FROM course";
+                            // $courses = mysqli_query($conn, $query);
+                            // foreach ($courses as $row) {
+                            //     $course_id = $row['course_id'];
+                            //     $course_name = $row['course_name'];
+                            // if ($update_course_id == $course_id) {
+                            echo "<option value='$course_id' selected>$course_name</option>";
+                            // } else {
+                            //     echo "<option value='$course_id'>$course_name</option>";
+                            // }
+                            // }
                             ?>
                         </select>
                     </div>

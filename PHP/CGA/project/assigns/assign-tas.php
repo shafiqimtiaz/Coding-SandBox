@@ -92,13 +92,14 @@ if (isset($_POST['update'])) {
     //    if (empty($_POST['course_id'])) {
     //        array_push($errors, "Please select a course");
     //    } else {
-    $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
+    $course_id = mysqli_real_escape_string($conn, $_GET['course_id']);
     //    }
 
     //    if (empty($_POST['section_id'])) {
     //        array_push($errors, "Please select a section");
     //    } else {
     $section_id = mysqli_real_escape_string($conn, $_POST['section_id']);
+    $_GET['section_id'] = $section_id;
     //    }
 
 
