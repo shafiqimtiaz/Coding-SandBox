@@ -112,16 +112,15 @@ if (isset($_GET['delete_id'])) {
                 <li>
                     &emsp;<a href="?page=group-comment&update_view=true&discussion_id=<?= $row['discussion_id'] ?>&update_id=<?= $row['comment_id'] ?>">Update</a>
                     |
-                    <a href="?page=group-comment&delete_view=true&discussion_id=<?= $row['discussion_id'] ?>&delete_id=<?= $row['comment_id'] ?>">Delete</a>
+                    <a href="?page=group-comment&delete_view=true&discussion_id=<?= $row['discussion_id'] ?>&delete_id=<?= $row['comment_id'] ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                 </li>
             </ul><br>
         <?php } ?>
 
         <hr>
 
-        <?php if (isset($_GET['update_view'])) { ?>
-            
-            <?php
+        <?php if (isset($_GET['update_view'])) {
+
             $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
             $query = "SELECT * FROM comment as c
@@ -132,7 +131,7 @@ if (isset($_GET['delete_id'])) {
             foreach ($comments as $row) {
                 $content = $row['content'];
             }
-            ?>
+        ?>
 
             <div class="form-container">
                 <form class="form-body" action="" method="POST">

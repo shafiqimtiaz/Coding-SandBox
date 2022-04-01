@@ -51,7 +51,7 @@ if (isset($_POST['update_course'])) {
     }
 
     if (count($errors) == 0) {
-        $update = "UPDATE course SET course_name = '$course_name', course_number = '$course_number' WHERE course_id ='$id'";
+        $update = "UPDATE course set course_name = '$course_name', course_number = '$course_number' WHERE course_id ='$id'";
 
         if (mysqli_query($conn, $update)) {
             array_push($success, "Update Successful");
@@ -113,7 +113,7 @@ if (isset($_GET['delete_id'])) {
                     <td><?php echo $course_number ?></td>
                     <?php if (isAdmin()) {
                         echo '<td><a href="?page=courses&update_view=true&update_id=' . $id . '">Update</a></td>';
-                        echo '<td><a href="?page=courses&delete_view=true&delete_id=' . $id . '">Delete</a></td>';
+                        echo "<td><a href='?page=courses&delete_view=true&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete</a></td>";
                     } ?>
                 </tr>
             <?php
@@ -162,7 +162,7 @@ if (isset($_GET['delete_id'])) {
             $query = "SELECT * FROM course WHERE course_id='$id'";
             $results = mysqli_query($conn, $query);
 
-            foreach ($results as $row) {
+            foreach ($results as $row){
                 $id = $row['course_id'];
                 $course_name = $row['course_name'];
                 $course_number = $row['course_number'];
