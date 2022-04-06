@@ -1,8 +1,5 @@
 <?php
 
-// initializing variables
-$id = $section_name = $course_id = "";
-
 // ADD
 if (isset($_POST['add_section'])) {
 
@@ -24,8 +21,6 @@ if (isset($_POST['add_section'])) {
 
         if (mysqli_query($conn, $add)) {
             array_push($success, "Section added Successful");
-            // clear variables
-            $section_name = $course_id = "";
         } else {
             array_push($errors, "Error adding sections: ", mysqli_error($conn));
         }
@@ -55,8 +50,6 @@ if (isset($_POST['update_section'])) {
 
         if (mysqli_query($conn, $update)) {
             array_push($success, "Update Successful");
-            // clear variables
-            $section_name = $course_id = "";
         } else {
             array_push($errors, "Error updating sections: ", mysqli_error($conn));
         }
@@ -78,14 +71,13 @@ if (isset($_GET['delete_id'])) {
 
 <div class="content-body">
     <?php
-    if (isset($_GET['delete_view'])) {
-        display_success();
-        display_error();
-    }
+
+    display_success();
+    display_error();
 
     $query = "SELECT * FROM section as s
-            JOIN course as c ON c.course_id = s.course_id
-            ORDER BY section_id ASC";
+JOIN course as c ON c.course_id = s.course_id
+ORDER BY section_id ASC";
     $results = mysqli_query($conn, $query);
 
     ?>
@@ -112,16 +104,14 @@ if (isset($_GET['delete_id'])) {
                     <?php if (isAdmin()) {
                         echo '<td>' . $id . '</td>';
                     } ?>
-                    <td><?php echo $section_name ?></td>
-                    <td><?php echo $course_name ?></td>
+                    <td><?= $section_name ?></td>
+                    <td><?= $course_name ?></td>
                     <?php if (isAdmin()) {
                         echo '<td><a href="?page=sections&update_view=true&update_id=' . $id . '">Update</a></td>';
-                        echo "<td><a href='?page=sections&delete_view=true&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete</a></td>";
+                        echo "<td><a href='?page=sections&delete_view=true&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete Section</a></td>";
                     } ?>
                 </tr>
-            <?php
-            }
-            ?>
+            <?php } ?>
         </tbody>
     </table>
 
@@ -134,11 +124,6 @@ if (isset($_GET['delete_id'])) {
             <hr>
             <div class="form-container">
                 <form class="form-body" action="" method="POST">
-
-                    <?php
-                    echo display_success();
-                    echo display_error();
-                    ?>
 
                     <h3>Add Section</h3>
                     <div class="form-input">
@@ -186,11 +171,6 @@ if (isset($_GET['delete_id'])) {
             <hr>
             <div class="form-container">
                 <form class="form-body" action="" method="POST">
-
-                    <?php
-                    echo display_success();
-                    echo display_error();
-                    ?>
 
                     <h3>Update Section</h3>
                     <div class="form-input">

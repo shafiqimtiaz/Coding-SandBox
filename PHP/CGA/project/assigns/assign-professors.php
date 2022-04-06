@@ -21,8 +21,6 @@
 
 <?php
 
-$user_id = $course_id = $section_id = $user_id_selected = $course_id_selected = "";
-
 /*******************************************************
  * ADD SQL
  ********************************************************/
@@ -33,14 +31,14 @@ if (isset($_POST['assign'])) {
     //        array_push($errors, "Please select a user");
     //    } else {
     $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
-	$_GET['user_id'] = $user_id;
+    $_GET['user_id'] = $user_id;
     //    }
 
     //    if (empty($_POST['course_id'])) {
     //        array_push($errors, "Please select a course");
     //    } else {
     $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
-	$_GET['course_id'] = $course_id;
+    $_GET['course_id'] = $course_id;
     //    }
 
     $query = "SELECT * FROM user_course_section WHERE user_id = '$user_id'";
@@ -60,8 +58,6 @@ if (isset($_POST['assign'])) {
 
         if (mysqli_query($conn, $add)) {
             array_push($success, "Professor successfully assigned to this course.");
-            // clear variables
-            $user_id = $course_id = $section_id = $user_id_selected = $course_id_selected = "";
         } else {
             array_push($errors, "Could not INSERT error: " . mysqli_error($conn));
         }
@@ -73,14 +69,14 @@ if (isset($_POST['assign'])) {
  ********************************************************/
 
 if (isset($_POST['update'])) {
-	
+
     $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
 
     //    if (empty($_POST['course_id'])) {
     //        array_push($errors, "Please select a course");
     //    } else {
     $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
-	$_GET['course_id'] = $course_id;
+    $_GET['course_id'] = $course_id;
     //    }
 
     $query = "SELECT * FROM user_course_section WHERE user_id = '$user_id'";
@@ -88,19 +84,17 @@ if (isset($_POST['update'])) {
 
     foreach ($check as $row) {
         $check_course_id = $row['course_id'];
-		if ($check_course_id == $course_id) {
-				array_push($errors, "Professor is already assigned to this course.");
-			}
-	}
-    
+        if ($check_course_id == $course_id) {
+            array_push($errors, "Professor is already assigned to this course.");
+        }
+    }
+
     if (count($errors) == 0) {
 
         $update = "UPDATE user_course_section set course_id = '$course_id', section_id = null WHERE user_id ='$user_id'";
-		
+
         if (mysqli_query($conn, $update)) {
             array_push($success, "Updated successfully.");
-            // clear variables
-            $user_id = $course_id = $section_id = $user_id_selected = $course_id_selected = "";
         } else {
             array_push($errors, "Could not UPDATE error: " . mysqli_error($conn));
         }
@@ -139,16 +133,16 @@ Always visible and shows delete error if delete_view is set true -->
 <div class="content-body">
 
     <?php
-    if (isset($_GET['delete_view'])) {
-        display_success();
-        display_error();
-    }
+
+    display_success();
+    display_error();
+
 
     $query = "SELECT * FROM users as u
-                JOIN professor as p ON p.user_id = u.user_id
-                JOIN user_course_section as ucs ON ucs.user_id = u.user_id
-                JOIN course as c ON c.course_id = ucs.course_id
-                ORDER BY u.user_id ASC";
+    JOIN professor as p ON p.user_id = u.user_id
+    JOIN user_course_section as ucs ON ucs.user_id = u.user_id
+    JOIN course as c ON c.course_id = ucs.course_id
+    ORDER BY u.user_id ASC";
     $results = mysqli_query($conn, $query);
 
     ?>
@@ -175,9 +169,9 @@ Always visible and shows delete error if delete_view is set true -->
                 $course_name = $row['course_name'];
             ?>
                 <tr>
-                    <td><?php echo $professor_id ?></td>
-                    <td><?php echo $first_name . " " . $last_name ?></td>
-                    <td><?php echo $course_name ?></td>
+                    <td><?= $professor_id ?></td>
+                    <td><?= $first_name . " " . $last_name ?></td>
+                    <td><?= $course_name ?></td>
                     <!-- <td><a href="?page=assign-professors&update_view=true&user_id=<?= $user_id ?>&course_id=<?= $course_id ?>">Change Course</a></td> -->
                     <td><a href="?page=assign-professors&delete_view=true&user_id=<?= $user_id ?>&course_id=<?= $course_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete Course</a></td>
                 </tr>
@@ -201,11 +195,6 @@ Always visible and shows delete error if delete_view is set true -->
         <div class="form-container">
             <form class="form-body" action="" method="POST" onSubmit="return validateProfessorCourse()">
 
-                <?php
-                echo display_success();
-                echo display_error();
-                ?>
-
                 <div class="form-input">
                     <p>Professor</p>
                     <div class="scroll-list">
@@ -213,8 +202,8 @@ Always visible and shows delete error if delete_view is set true -->
                             <option value="" selected hidden>Choose a Professor</option>
                             <?php
                             $query = "SELECT * FROM users as u
-                                        JOIN professor as p ON p.user_id = u.user_id
-                                        WHERE role_id != 1";
+                            JOIN professor as p ON p.user_id = u.user_id
+                            WHERE role_id != 1";
                             $users = mysqli_query($conn, $query);
                             foreach ($users as $user) {
                                 $user_id = $user['user_id'];
@@ -271,7 +260,7 @@ Always visible and shows delete error if delete_view is set true -->
         JOIN user_course_section as ucs ON ucs.user_id = u.user_id
         JOIN course as c ON c.course_id = ucs.course_id
         WHERE u.user_id='$user_id' AND c.course_id = '$course_id'";
-		
+
         $results = mysqli_query($conn, $query);
 
         foreach ($results as $row) {
@@ -283,11 +272,6 @@ Always visible and shows delete error if delete_view is set true -->
 
         <div class="form-container">
             <form class="form-body" action="" method="POST">
-
-                <?php
-                echo display_success();
-                echo display_error();
-                ?>
 
                 <div class="form-input">
                     <label>Professor: </label>

@@ -5,7 +5,7 @@ $user_id = $_SESSION['user_id'];
 // DELETE
 if (isset($_GET['delete_id'])) {
     $id = mysqli_real_escape_string($conn, $_GET['delete_id']);
-    $delete = "DELETE FROM comment WHERE comment_id='$id'";
+    $delete = "DELETE FROM reply WHERE reply_id='$id'";
     if (mysqli_query($conn, $delete)) {
         array_push($success, "Delete successful");
     } else {
@@ -21,52 +21,45 @@ if (isset($_GET['delete_id'])) {
     display_success();
     display_error();
 
-    $query = "SELECT c.*, d.*, u.*, cr.course_name, g.group_name FROM comment as c
-    JOIN discussion as d ON d.discussion_id = c.discussion_id
-    JOIN student_group as g ON g.group_id = d.group_id
-    JOIN group_of_course as gc ON gc.group_id = g.group_id
-    JOIN course as cr ON cr.course_id = gc.course_id
-    JOIN users as u ON u.user_id = c.posted_by_uid
-    ORDER BY c.comment_id ASC";
-    $comments = mysqli_query($conn, $query);
+    $query = "SELECT * FROM reply as r
+    JOIN forum as f ON f.forum_id = r.forum_id
+    JOIN course as c ON c.course_id = f.course_id
+    JOIN users as u ON u.user_id = r.posted_by_uid
+    ORDER BY r.reply_id ASC";
+    $replys = mysqli_query($conn, $query);
 
     ?>
-    <h2>Comments</h2>
+    <h2>Replys</h2>
     <hr>
     <table>
         <thead>
             <tr>
-                <th>Comment ID</th>
+                <th>Reply ID</th>
                 <th>Content</th>
                 <th>Posted by</th>
                 <th>Posted on</th>
-                <th>Discussion Title</th>
-                <th>Group Name</th>
+                <th>Forum Title</th>
                 <th>Course Name</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($comments as $row) {
-                $id = $row['comment_id'];
-                $content = $row['comment_content'];
+            <?php foreach ($replys as $row) {
+                $id = $row['reply_id'];
+                $content = $row['reply_content'];
                 $posted_by = $row['username'];
                 $posted_on = date_convert($row['posted_on']);
-                $discussion_title = $row['discussion_title'];
-                $group_name = $row['group_name'];
+                $forum_title = $row['forum_title'];
                 $course_name = $row['course_name'];
             ?>
                 <tr>
-
                     <td><?= $id ?></td>
-
                     <td><?= $content ?></td>
                     <td><?= $posted_by ?></td>
                     <td><?= $posted_on ?></td>
-                    <td><?= $discussion_title ?></td>
-                    <td><?= $group_name ?></td>
+                    <td><?= $forum_title ?></td>
                     <td><?= $course_name ?></td>
-                    <td><a href="?page=comments&delete_view=true&delete_id=<?= $id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete Comment</a></td>
+                    <td><a href="?page=reply&delete_view=true&delete_id=<?= $id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete Reply</a></td>
                 </tr>
             <?php } ?>
         </tbody>
