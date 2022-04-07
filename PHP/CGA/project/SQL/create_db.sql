@@ -19,7 +19,6 @@ use cga;
 4400000 - discussion
 5500000 - comment
 6600000 - files
-7700000 - grades
 
 */
 
@@ -29,7 +28,7 @@ CREATE TABLE Roles
   role_name VARCHAR(30) NOT NULL UNIQUE,
   role_description VARCHAR(255) NOT NULL
 );
-ALTER TABLE roles AUTO_INCREMENT = 1;
+ALTER TABLE Roles AUTO_INCREMENT = 1;
 
 
 CREATE TABLE Users
@@ -46,7 +45,7 @@ CREATE TABLE Users
   role_id INT NOT NULL,
   FOREIGN KEY (role_id) REFERENCES Roles(role_id)
 );
-ALTER TABLE users AUTO_INCREMENT = 10000;
+ALTER TABLE Users AUTO_INCREMENT = 10000;
 
 
 CREATE TABLE Student
@@ -55,7 +54,7 @@ CREATE TABLE Student
   user_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-ALTER TABLE student AUTO_INCREMENT = 20000;
+ALTER TABLE Student AUTO_INCREMENT = 20000;
 
 
 CREATE TABLE TA
@@ -64,7 +63,7 @@ CREATE TABLE TA
   user_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-ALTER TABLE ta AUTO_INCREMENT = 30000;
+ALTER TABLE TA AUTO_INCREMENT = 30000;
 
 
 CREATE TABLE Professor
@@ -73,7 +72,7 @@ CREATE TABLE Professor
   user_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-ALTER TABLE professor AUTO_INCREMENT = 40000;
+ALTER TABLE Professor AUTO_INCREMENT = 40000;
 
 
 CREATE TABLE Course
@@ -82,7 +81,7 @@ CREATE TABLE Course
   course_name VARCHAR(30) NOT NULL UNIQUE,
   course_number INT NOT NULL UNIQUE
 );
-ALTER TABLE course AUTO_INCREMENT = 50000;
+ALTER TABLE Course AUTO_INCREMENT = 50000;
 
 
 CREATE TABLE Section
@@ -92,7 +91,7 @@ CREATE TABLE Section
   course_id INT NOT NULL,
   FOREIGN KEY (course_id) REFERENCES Course(course_id)
 );
-ALTER TABLE section AUTO_INCREMENT = 60000;
+ALTER TABLE Section AUTO_INCREMENT = 60000;
 
 
 CREATE TABLE Student_Group
@@ -120,7 +119,7 @@ CREATE TABLE Task
 (
   task_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   task_type VARCHAR(30) NOT NULL,
-  task_content VARCHAR(255) NOT NULL,
+  task_content VARCHAR(255) NOT NULL UNIQUE,
   task_deadline DATETIME NOT NULL,
   file_id INT NOT NULL,
   course_id INT NOT NULL,
@@ -134,24 +133,13 @@ CREATE TABLE Solution
 (
   solution_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   solution_type VARCHAR(30) NOT NULL,
-  solution_content VARCHAR(255) NOT NULL,
+  solution_content VARCHAR(255) NOT NULL UNIQUE,
   task_id INT NOT NULL,
   file_id INT NOT NULL,
   FOREIGN KEY (task_id) REFERENCES Task(task_id),
   FOREIGN KEY (file_id) REFERENCES Files(file_id)
 );
 ALTER TABLE Solution AUTO_INCREMENT = 90000;
-
-CREATE TABLE Grades
-(
-  grade_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  grade INT NOT NULL,
-  student_id INT NOT NULL,
-  solution_id INT NOT NULL,
-  FOREIGN KEY (student_id) REFERENCES Student(student_id),
-  FOREIGN KEY (solution_id) REFERENCES Solution(solution_id)
-);
-ALTER TABLE Grades AUTO_INCREMENT = 7700000;
 
 CREATE TABLE Announcement
 (
