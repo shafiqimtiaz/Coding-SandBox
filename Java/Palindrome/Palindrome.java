@@ -6,25 +6,34 @@ public class Palindrome {
         Scanner input = new Scanner(System.in);
         int num = input.nextInt();
 
-        if (isPalindrome(num)) {
-            System.out.println(num + " is Palindrome");
-        } else System.out.println("Not Palindrome");
+        System.out.println(process(num));
     }
 
-    static boolean isPalindrome(int num) {
-        int lastDigit, reverse = 0, match;
+    static int process(int num) {
+        int reverse = getRev(num);
+        int sum = reverse + num;
+        if (check(sum)){
+            return sum;
+        } else{
+            return getRev(sum) + sum;
+        }
+    }
 
-        match = num;
-        while (num > 0) {
-            lastDigit = num % 10;
-            reverse = (reverse * 10) + lastDigit;
+    static boolean check(int num) {
+        int reverse = getRev(num);
+        return reverse == num;
+    }
+
+    static int getRev(int num) {
+        int reverse = 0;
+        // run loop until num becomes 0
+        while(num != 0) {
+            // get last digit from num
+            int digit = num % 10;
+            reverse = reverse * 10 + digit;
+            // remove the last digit from num
             num /= 10;
         }
-
-        if (reverse == match) {
-            return true;
-        } else {
-            return false;
-        }
+        return reverse;
     }
 }
