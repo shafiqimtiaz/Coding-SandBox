@@ -1,4 +1,4 @@
-class CharFreqSimple {
+class CharFreq {
     public static void main(String[] args) {
 
         String str = "Lorem ipsum dolor sit amet Sed tempore";
