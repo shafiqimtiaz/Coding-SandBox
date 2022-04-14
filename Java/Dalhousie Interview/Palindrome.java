@@ -7,14 +7,15 @@ public class Palindrome {
         int num = input.nextInt();
 
         System.out.println(process(num));
+        input.close();
     }
 
     static int process(int num) {
         int reverse = getRev(num);
         int sum = reverse + num;
-        if (check(sum)){
+        if (check(sum)) {
             return sum;
-        } else{
+        } else {
             return getRev(sum) + sum;
         }
     }
@@ -27,7 +28,7 @@ public class Palindrome {
     static int getRev(int num) {
         int reverse = 0;
         // run loop until num becomes 0
-        while(num != 0) {
+        while (num != 0) {
             // get last digit from num
             int digit = num % 10;
             reverse = reverse * 10 + digit;
