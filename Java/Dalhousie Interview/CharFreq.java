@@ -1,32 +1,31 @@
 class CharFreq {
     public static void main(String[] args) {
 
-        String str = "Lorem ipsum dolor sit amet Sed tempore";
+        String str = "Do you know how to program in Java?";
 
         // Scanner input = new Scanner(System.in);
         // String str = input.nextLine();
 
-        int[] freq = new int[str.length()];
-
         // Convert the given string into character array
+        int len = str.length();
+        int[] freq = new int[len];
         char[] ch = str.toCharArray();
-        for (int i = 0; i < str.length(); i++) {
-            freq[i] = 1;
-            for (int j = i + 1; j < str.length(); j++) {
 
+        for (int i = 0; i < len; i++) {
+
+            freq[i] = 1;
+
+            for (int j = i + 1; j < len; j++) {
                 if (ch[i] == ch[j]) {
                     freq[i]++;
-                    // Set ch[j] to 0 to avoid printing visited character
-                    ch[j] = '0';
+                    ch[j] = ' '; // Set ch[j] to ' ' to avoid printing visited character
                 }
             }
-        }
 
-        // Displays the characters and their corresponding frequency
-        for (int i = 0; i < freq.length; i++) {
-            if (ch[i] != ' ' && ch[i] != '0') {
+            if (ch[i] != ' ') {
                 System.out.print(ch[i] + "(" + freq[i] + ") ");
             }
+
         }
     }
 }

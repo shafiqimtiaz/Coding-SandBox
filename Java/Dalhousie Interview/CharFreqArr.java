@@ -10,27 +10,28 @@ public class CharFreqArr {
         String[] words = str.split(" ");
 
         for (String w : words) {
-            
-            // Convert the given string into character array
-            char[] ch = w.toCharArray();
-            int[] freq = new int[w.length()];
 
-            for (int i = 0; i < w.length(); i++) {
+            // Convert the given string into character array
+            int len = w.length();
+            int[] freq = new int[len];
+            char[] ch = w.toCharArray();
+
+            for (int i = 0; i < len; i++) {
 
                 // Counts the characters and their corresponding frequency
                 freq[i] = 1;
-                for (int j = i + 1; j < w.length(); j++) {
+                for (int j = i + 1; j < len; j++) {
                     if (ch[i] == ch[j]) {
                         freq[i]++;
-                        // Set ch[j] to 0 to avoid printing visited character
-                        ch[j] = '0';
+                        ch[j] = ' '; // Set ch[j] to ' ' to avoid printing visited character
                     }
                 }
 
                 // Displays the characters and their corresponding frequency
-                if (ch[i] != ' ' && ch[i] != '0') {
+                if (ch[i] != ' ') {
                     System.out.print(ch[i] + "(" + freq[i] + ") ");
                 }
+
             }
 
             System.out.println();
