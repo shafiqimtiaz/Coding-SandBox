@@ -29,6 +29,7 @@ class CheckPin {
             }
         }
 
+        System.out.println("Welcome to MATRIX");
         input.close();
 
     }
