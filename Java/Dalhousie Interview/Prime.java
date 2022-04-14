@@ -1,5 +1,3 @@
-import javax.sound.sampled.BooleanControl;
-
 import java.util.*;
 
 public class Prime {
