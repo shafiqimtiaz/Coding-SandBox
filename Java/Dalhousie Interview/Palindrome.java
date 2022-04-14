@@ -11,13 +11,14 @@ public class Palindrome {
     }
 
     static int process(int num) {
-        int reverse = getRev(num);
-        int sum = reverse + num;
-        if (check(sum)) {
-            return sum;
-        } else {
+
+        while (!check(num)) {
+            int reverse = getRev(num);
+            int sum = reverse + num;
             return getRev(sum) + sum;
         }
+
+        return num;
     }
 
     static boolean check(int num) {
