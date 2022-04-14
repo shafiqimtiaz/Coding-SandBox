@@ -9,7 +9,7 @@ class CharFreq {
         int[] freq = new int[str.length()];
 
         // Convert the given string into character array
-        char ch[] = str.toCharArray();
+        char[] ch = str.toCharArray();
         for (int i = 0; i < str.length(); i++) {
             freq[i] = 1;
             for (int j = i + 1; j < str.length(); j++) {

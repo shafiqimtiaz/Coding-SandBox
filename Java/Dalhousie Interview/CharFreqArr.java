@@ -2,7 +2,7 @@ public class CharFreqArr {
 
     public static void main(String[] args) {
 
-        String str = "Lorem ipsum dolor sit amet Sed tempore";
+        String str = "Do you know how to program in Java?";
 
         // Scanner input = new Scanner(System.in);
         // String str = input.nextLine();
@@ -11,12 +11,12 @@ public class CharFreqArr {
 
         for (String w : words) {
             // Convert the given string into character array
-            char ch[] = w.toCharArray();
+            char[] ch = w.toCharArray();
             int[] freq = new int[w.length()];
+
             for (int i = 0; i < w.length(); i++) {
                 freq[i] = 1;
                 for (int j = i + 1; j < w.length(); j++) {
-
                     if (ch[i] == ch[j]) {
                         freq[i]++;
                         // Set ch[j] to 0 to avoid printing visited character
