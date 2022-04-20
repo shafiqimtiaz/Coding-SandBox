@@ -8,7 +8,7 @@ function display_error()
 {
     global $errors;
     if (count($errors) > 0) {
-        echo '<div class="error">';
+        echo '<div class="error" id="notification" onclick="this.remove()">';
         foreach ($errors as $error) {
             echo $error . '<br>';
         }
@@ -21,7 +21,7 @@ function display_success()
 {
     global $success;
     if (count($success) > 0) {
-        echo '<div class="success">';
+        echo '<div class="success" id="notification" onclick="this.remove()">';
         foreach ($success as $success) {
             echo $success . '<br>';
         }
@@ -45,6 +45,17 @@ function get_records_where($table, $key, $value)
     $query = "SELECT * FROM $table WHERE $key='$value'";
     $result = mysqli_query($conn, $query);
     return $result;
+}
+
+function isGroupLeader($student_id, $group_id)
+{
+    global $conn;
+    $query = "SELECT * FROM student_groups WHERE group_leader_sid='$student_id' AND group_id='$group_id'";
+    $result = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result) > 0) {
+        return true;
+    }
+    return false;
 }
 
 function isAdmin()
@@ -88,7 +99,7 @@ function isLoggedIn()
     }
 }
 
-function pre_print($var)
+function prep($var)
 {
     echo '<pre>';
     print_r($var);

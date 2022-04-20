@@ -1,6 +1,27 @@
+<script>
+    function validateDiscussion() {
+
+        var discussion_title, discussion_content;
+
+        discussion_title = document.getElementById("discussion_title").value;
+        discussion_content = document.getElementById("discussion_content").value;
+
+        if (discussion_title == '') {
+            alert("Please enter a discussion title.");
+            document.getElementById("discussion_title").focus();
+            return false;
+        } else if (discussion_content == '') {
+            alert("Please enter discussion content.");
+            document.getElementById("discussion_content").focus();
+            return false;
+        } else
+            return true;
+    }
+</script>
+
 <?php
 
-$user_id = $_SESSION['user_id'];
+$session_user_id = $_SESSION['user_id'];
 
 if (isset($_GET['group_id'])) {
     $group_id = $_GET['group_id'];
@@ -33,11 +54,11 @@ if (isset($_POST['add_discussion'])) {
     if (count($errors) == 0) {
         if ($group_id != null) {
             $add = "INSERT INTO discussion (discussion_title, discussion_content, posted_by_uid, posted_on, group_id)
-            VALUES('$title', '$content', '$user_id', NOW(),'$group_id')";
+            VALUES('$title', '$content', '$session_user_id', NOW(),'$group_id')";
         }
         if ($task_id != null) {
             $add = "INSERT INTO discussion (discussion_title, discussion_content, posted_by_uid, posted_on, task_id)
-            VALUES('$title', '$content', '$user_id', NOW(),'$task_id')";
+            VALUES('$title', '$content', '$session_user_id', NOW(),'$task_id')";
         }
 
         if (mysqli_query($conn, $add)) {
@@ -57,7 +78,6 @@ if (isset($_POST['update_discussion'])) {
     // receive all input values from the form
     $title = mysqli_real_escape_string($conn, $_POST['discussion_title']);
     $content = mysqli_real_escape_string($conn, $_POST['discussion_content']);
-    // $group_id = mysqli_real_escape_string($conn, $_POST['group_id']);
 
     // form validation: ensure that the form is correctly filled ...
     // by adding (array_push()) corresponding error unto $errors array
@@ -67,13 +87,10 @@ if (isset($_POST['update_discussion'])) {
     if (empty($content)) {
         array_push($errors, "Content is required");
     }
-    // if (empty($group_id)) {
-    //     array_push($errors, "Group is required");
-    // }
 
     if (count($errors) == 0) {
 
-        $update = "UPDATE discussion set discussion_title = '$title', discussion_content = '$content'
+        $update = "UPDATE discussion SET discussion_title = '$title', discussion_content = '$content'
         WHERE discussion_id ='$id'";
 
         if (mysqli_query($conn, $update)) {
@@ -106,7 +123,7 @@ if (isset($_GET['delete_id'])) {
 
     $query = "SELECT * FROM discussion as d
     JOIN users as u ON u.user_id = d.posted_by_uid
-    LEFT JOIN student_group as g ON g.group_id = d.group_id
+    LEFT JOIN student_groups as g ON g.group_id = d.group_id
     LEFT JOIN task as t ON t.task_id = d.task_id
     LEFT JOIN group_of_course as gc ON gc.group_id = g.group_id
     JOIN course as c ON c.course_id = gc.course_id OR c.course_id = t.course_id
@@ -114,11 +131,15 @@ if (isset($_GET['delete_id'])) {
     ORDER BY discussion_id ASC";
     $discussions = mysqli_query($conn, $query);
 
-    if ($group_id != null) {
-        $discussion_heading = mysqli_fetch_assoc($discussions)['group_name'];
-    }
-    if ($task_id != null) {
-        $discussion_heading = mysqli_fetch_assoc($discussions)['task_content'];
+    if (mysqli_num_rows($discussions) > 0) {
+        if ($group_id != null) {
+            $discussion_heading = mysqli_fetch_assoc($discussions)['group_name'];
+        }
+        if ($task_id != null) {
+            $discussion_heading = mysqli_fetch_assoc($discussions)['task_content'];
+        }
+    } else {
+        $discussion_heading = "No";
     }
 
     ?>
@@ -144,6 +165,7 @@ if (isset($_GET['delete_id'])) {
                 $title = $row['discussion_title'];
                 $content = $row['discussion_content'];
                 $posted_by = $row['username'];
+                $posted_by_uid = $row['posted_by_uid'];
                 $posted_on = date_convert($row['posted_on']);
                 $group_id = $row['group_id'];
                 $course_name = $row['course_name'];
@@ -154,8 +176,12 @@ if (isset($_GET['delete_id'])) {
                     <td><?= $posted_by ?></td>
                     <td><?= $posted_on ?></td>
                     <td><?= $course_name ?></td>
-                    <td><a href="?page=group-discussion&update_view=true&group_id=<?= $group_id ?>&task_id=<?= $task_id ?>&update_id=<?= $discussion_id ?>">Update</a></td>
-                    <td><a href="?page=group-discussion&delete_view=true&group_id=<?= $group_id ?>&task_id=<?= $task_id ?>&delete_id=<?= $discussion_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a></td>
+                    <?php if ($posted_by_uid == $session_user_id) { ?>
+                        <td><a href="?page=group-discussion&update_view=true&group_id=<?= $group_id ?>&task_id=<?= $task_id ?>&update_id=<?= $discussion_id ?>">Update</a></td>
+                        <td><a href="?page=group-discussion&delete_view=true&group_id=<?= $group_id ?>&task_id=<?= $task_id ?>&delete_id=<?= $discussion_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a></td>
+                    <?php } else { ?>
+                        <td></td>
+                    <?php } ?>
                 </tr>
             <?php
             }
@@ -170,19 +196,19 @@ if (isset($_GET['delete_id'])) {
     <?php if (isset($_GET['add_view'])) { ?>
         <hr>
         <div class="form-container">
-            <form class="form-body" action="" method="POST">
+            <form class="form-body" action="" method="POST" onsubmit="return validateDiscussion()">
 
                 <h3>Post Discussion</h3>
 
                 <div class="form-input">
                     <label>Title</label>
-                    <span><input type="text" name="discussion_title"></span>
+                    <span><input type="text" name="discussion_title" id="discussion_title"></span>
                 </div>
 
                 <div class="form-input">
                     <label>Content </label>
                     <br>
-                    <textarea name="discussion_content"></textarea>
+                    <textarea name="discussion_content" id="discussion_content"></textarea>
                 </div>
 
                 <div class="form-submit">
@@ -199,7 +225,7 @@ if (isset($_GET['delete_id'])) {
         $id = mysqli_real_escape_string($conn, $_GET['update_id']);
         $query = "SELECT d.*, u.username, g.group_name, c.course_name FROM discussion as d
             JOIN users as u ON u.user_id = d.posted_by_uid
-            JOIN student_group as g ON g.group_id = d.group_id
+            JOIN student_groups as g ON g.group_id = d.group_id
             JOIN group_of_course as gc ON gc.group_id = g.group_id
             JOIN course as c ON c.course_id = gc.course_id
             WHERE d.discussion_id='$id'
@@ -218,19 +244,19 @@ if (isset($_GET['delete_id'])) {
 
         <hr>
         <div class="form-container">
-            <form class="form-body" action="" method="POST">
+            <form class="form-body" action="" method="POST" onsubmit="return validateDiscussion()">
 
                 <h3>Update Discussion</h3>
 
                 <div class="form-input">
                     <label>Title</label>
-                    <span><input type="text" name="discussion_title" value='<?= $title ?>'></span>
+                    <span><input type="text" name="discussion_title" id="discussion_title" value='<?= $title ?>'></span>
                 </div>
 
                 <div class="form-input">
                     <label>Content</label>
                     <br>
-                    <textarea name="discussion_content"><?= $content ?></textarea>
+                    <textarea name="discussion_content" id="discussion_content"><?= $content ?></textarea>
                 </div>
 
                 <div class="form-submit">

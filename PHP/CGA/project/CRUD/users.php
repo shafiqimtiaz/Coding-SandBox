@@ -86,15 +86,13 @@ if (isset($_POST['add_user'])) {
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $dob = mysqli_real_escape_string($conn, $_POST['dob']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    // $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = strtolower(mysqli_real_escape_string($conn, $_POST['email']));
     $password_new = mysqli_real_escape_string($conn, $_POST['password_new']);
     $password_confirm = mysqli_real_escape_string($conn, $_POST['password_confirm']);
     $role_id = mysqli_real_escape_string($conn, $_POST['role_id']);
 
     //make a unique username
     $username = strtolower($first_name[0] . "_" . $last_name . "_" . "$role_id");
-    // rand(1, 99));
 
     // first check the database to make sure 
     // a user does not already exist with the same username and/or email
@@ -164,7 +162,7 @@ if (isset($_POST['update_user'])) {
     //    $role_id = mysqli_real_escape_string($conn, $_POST['role_id']);
 
     if (count($errors) == 0) {
-        $update = "UPDATE users set first_name = '$first_name', last_name = '$last_name', 
+        $update = "UPDATE users SET first_name = '$first_name', last_name = '$last_name', 
                     dob = '$dob', email = '$email' WHERE user_id ='$user_id'";
 
         if (mysqli_query($conn, $update)) {

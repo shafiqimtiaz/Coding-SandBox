@@ -23,13 +23,13 @@
                 <ul class="menu-list">
                     <li><a href="?page=groups">Groups</a></li>
                     <li><a href="?page=announcements">Announcements</a></li>
+                    <li><a href="?page=grades">Grades</a></li>
                 </ul>
                 <br>
                 <h2>Assign</h2>
                 <ul class="menu-list">
                     <li><a href="?page=assign-students">Students</a></li>
                     <li><a href="?page=assign-tas">Teaching Assistants</a></li>
-                    <li><a href="?page=assign-group">Group Members</a></li>
                 </ul>
             </div>
         </section>

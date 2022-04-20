@@ -1,6 +1,22 @@
+<script>
+    function validateComment() {
+
+        var comment;
+
+        comment = document.getElementById("comment").value;
+
+        if (comment == '') {
+            alert("Please enter a comment.");
+            document.getElementById("comment").focus();
+            return false;
+        } else
+            return true;
+    }
+</script>
+
 <?php
 
-$user_id = $_SESSION['user_id'];
+$session_user_id = $_SESSION['user_id'];
 $discussion_id = $_GET['discussion_id'];
 
 // ADD
@@ -17,7 +33,7 @@ if (isset($_POST['add_comment'])) {
 
     if (count($errors) == 0) {
         $add = "INSERT INTO comment (comment_content, posted_by_uid, posted_on, discussion_id)
-                VALUES ('$content', '$user_id', NOW(), '$discussion_id')";
+                VALUES ('$content', '$session_user_id', NOW(), '$discussion_id')";
 
         if (mysqli_query($conn, $add)) {
             header('location: ?page=group-comment&discussion_id=' . $discussion_id);
@@ -43,7 +59,7 @@ if (isset($_POST['update_comment'])) {
     }
 
     if (count($errors) == 0) {
-        $update = "UPDATE comment set comment_content = '$content'
+        $update = "UPDATE comment SET comment_content = '$content'
         WHERE comment_id ='$id'";
 
         if (mysqli_query($conn, $update)) {
@@ -103,24 +119,28 @@ if (isset($_GET['delete_id'])) {
     <div class="comment-content">
 
         <?php
-        foreach ($comments as $row) {
-            $comment_id = $row['comment_id'];
-            $comment_content = $row['comment_content'];
-            $comment_posted_by = $row['first_name'] . " " . $row['last_name'];
-            $comment_posted_on = date_convert($row['posted_on']);
-            $discussion_id = $row['discussion_id'];
+        if (mysqli_num_rows($comments) > 0) {
+            foreach ($comments as $row) {
+                $comment_id = $row['comment_id'];
+                $comment_content = $row['comment_content'];
+                $comment_posted_by = $row['first_name'] . " " . $row['last_name'];
+                $comment_posted_on = date_convert($row['posted_on']);
+                $discussion_id = $row['discussion_id'];
         ?>
-            <ul>
-                <li><?= $comment_content ?></li>
-                <li>&emsp;by <b><?= $comment_posted_by ?></b> | <?= $comment_posted_on ?></li>
-                <?php if ($user_id == $row['posted_by_uid']) { ?>
-                    <li>
-                        &emsp;<a href="?page=group-comment&update_view=true&discussion_id=<?= $discussion_id ?>&update_id=<?= $comment_id ?>">Update</a>
-                        |
-                        <a href="?page=group-comment&delete_view=true&discussion_id=<?= $discussion_id ?>&delete_id=<?= $comment_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-                    </li>
-                <?php } ?>
-            </ul><br>
+                <ul>
+                    <li><?= $comment_content ?></li>
+                    <li>&emsp;by <b><?= $comment_posted_by ?></b> | <?= $comment_posted_on ?></li>
+                    <?php if ($session_user_id == $row['posted_by_uid']) { ?>
+                        <li>
+                            &emsp;<a href="?page=group-comment&update_view=true&discussion_id=<?= $discussion_id ?>&update_id=<?= $comment_id ?>">Update</a>
+                            |
+                            <a href="?page=group-comment&delete_view=true&discussion_id=<?= $discussion_id ?>&delete_id=<?= $comment_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                        </li>
+                    <?php } ?>
+                </ul><br>
+            <?php } ?>
+        <?php } else { ?>
+            <p>No Comments</p>
         <?php } ?>
 
         <hr>
@@ -130,21 +150,21 @@ if (isset($_GET['delete_id'])) {
             $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
             $query = "SELECT * FROM comment as c
-    WHERE c.comment_id = '$id'
-    ORDER BY c.comment_id ASC";
+            WHERE c.comment_id = '$id'
+            ORDER BY c.comment_id ASC";
             $comments = mysqli_query($conn, $query);
 
             foreach ($comments as $row) {
-                $content = $row['content'];
+                $content = $row['comment_content'];
             }
         ?>
 
             <div class="form-container">
-                <form class="form-body" action="" method="POST">
+                <form class="form-body" action="" method="POST" onSubmit="return validateComment()">
                     <div class="form-input">
                         <label>Comment</label>
                         <br>
-                        <textarea name="comment_content"><?= $content ?></textarea>
+                        <textarea name="comment_content" id="comment" ><?= $content ?></textarea>
                     </div>
                     <div class="form-submit">
                         <input type="submit" name="update_comment" value="Update">
@@ -156,11 +176,11 @@ if (isset($_GET['delete_id'])) {
         <?php } else { ?>
 
             <div class="form-container">
-                <form class="form-body" action="" method="POST">
+                <form class="form-body" action="" method="POST" onSubmit="return validateComment()">
                     <div class="form-input">
                         <label>Comment</label>
                         <br>
-                        <textarea name="comment_content"></textarea>
+                        <textarea name="comment_content" id="comment" ></textarea>
                     </div>
                     <div class="form-submit">
                         <input type="submit" name="add_comment" value="Comment">

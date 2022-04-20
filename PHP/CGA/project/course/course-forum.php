@@ -1,6 +1,27 @@
+<script>
+    function validatePost() {
+
+        var student_id, course_id, section_id;
+
+        forum_title = document.getElementById("forum_title").value;
+        forum_content = document.getElementById("forum_content").value;
+
+        if (forum_title == '') {
+            alert("Please enter a title.");
+            document.getElementById("forum_title").focus();
+            return false;
+        } else if (forum_content == '') {
+            alert("Please enter some content.");
+            document.getElementById("forum_content").focus();
+            return false;
+        } else
+            return true;
+    }
+</script>
+
 <?php
 
-$user_id = $_SESSION['user_id'];
+$session_user_id = $_SESSION['user_id'];
 $course_id = $_GET['course_id'];
 
 // ADD
@@ -21,7 +42,7 @@ if (isset($_POST['add_forum'])) {
 
     if (count($errors) == 0) {
         $add = "INSERT INTO forum (forum_title, forum_content, posted_by_uid, posted_on, course_id)
-            VALUES('$title', '$content', '$user_id', NOW(),'$course_id')";
+            VALUES('$title', '$content', '$session_user_id', NOW(),'$course_id')";
 
         if (mysqli_query($conn, $add)) {
             array_push($success, "Added successfully");
@@ -56,7 +77,7 @@ if (isset($_POST['update_forum'])) {
 
     if (count($errors) == 0) {
 
-        $update = "UPDATE forum set forum_title = '$title', forum_content = '$content'
+        $update = "UPDATE forum SET forum_title = '$title', forum_content = '$content'
         WHERE forum_id ='$id'";
 
         if (mysqli_query($conn, $update)) {
@@ -94,9 +115,15 @@ if (isset($_GET['delete_id'])) {
     ORDER BY f.forum_id ASC";
     $forum = mysqli_query($conn, $query);
 
+    if (mysqli_num_rows($forum) > 0) {
+        $course_name = mysqli_fetch_assoc($forum)['course_name'];
+    } else {
+        $course_name = "No";
+    }
+
     ?>
 
-    <h2><?= mysqli_fetch_assoc($forum)['course_name'] ?> Forum</h2>
+    <h2><?= $course_name ?> Forum</h2>
     <hr>
     <table>
         <thead>
@@ -116,6 +143,7 @@ if (isset($_GET['delete_id'])) {
                 $title = $row['forum_title'];
                 $content = $row['forum_content'];
                 $posted_by = $row['username'];
+                $posted_by_uid = $row['posted_by_uid'];
                 $posted_on = date_convert($row['posted_on']);
             ?>
                 <tr>
@@ -123,8 +151,12 @@ if (isset($_GET['delete_id'])) {
                     <td><?= $content ?></td>
                     <td><?= $posted_by ?></td>
                     <td><?= $posted_on ?></td>
-                    <td><a href="?page=course-forum&update_view=true&course_id=<?= $course_id ?>&update_id=<?= $forum_id ?>">Update</a></td>
-                    <td><a href="?page=course-forum&delete_view=true&course_id=<?= $course_id ?>&delete_id=<?= $forum_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a></td>
+                    <?php if ($posted_by_uid == $session_user_id) { ?>
+                        <td><a href="?page=course-forum&update_view=true&course_id=<?= $course_id ?>&update_id=<?= $forum_id ?>">Update</a></td>
+                        <td><a href="?page=course-forum&delete_view=true&course_id=<?= $course_id ?>&delete_id=<?= $forum_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a></td>
+                    <?php } else { ?>
+                        <td></td>
+                    <?php } ?>
                 </tr>
             <?php
             }
@@ -139,19 +171,19 @@ if (isset($_GET['delete_id'])) {
     <?php if (isset($_GET['add_view'])) { ?>
         <hr>
         <div class="form-container">
-            <form class="form-body" action="" method="POST">
+            <form class="form-body" action="" method="POST" onSubmit="return validatePost()">
 
                 <h3>Post Forum</h3>
 
                 <div class="form-input">
                     <label>Title</label>
-                    <span><input type="text" name="title"></span>
+                    <span><input type="text" name="forum_title" id="forum_title"></span>
                 </div>
 
                 <div class="form-input">
                     <label>Content</label>
                     <br>
-                    <textarea name="content"></textarea>
+                    <textarea name="forum_content" id="forum_content"></textarea>
                 </div>
 
                 <div class="form-submit">
@@ -184,19 +216,19 @@ if (isset($_GET['delete_id'])) {
 
         <hr>
         <div class="form-container">
-            <form class="form-body" action="" method="POST">
+            <form class="form-body" action="" method="POST" onSubmit="return validatePost()">
 
                 <h3>Update forum</h3>
 
                 <div class="form-input">
                     <label>Title</label>
-                    <span><input type="text" name="title" value='<?= $title ?>'></span>
+                    <span><input type="text" name="forum_title" id="forum_title" value='<?= $title ?>'></span>
                 </div>
 
                 <div class="form-input">
                     <label>Content</label>
                     <br>
-                    <textarea name="content"><?= $content ?></textarea>
+                    <textarea name="forum_content" id="forum_content"><?= $content ?></textarea>
                 </div>
 
                 <div class="form-submit">

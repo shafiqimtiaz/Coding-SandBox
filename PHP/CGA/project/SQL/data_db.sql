@@ -16,6 +16,7 @@
 4400000 - discussion
 5500000 - comment
 6600000 - files
+7700000 - grades
 
 */
 
@@ -34,31 +35,28 @@ INSERT INTO Users (first_name, last_name, dob, email, username, password, create
 ("Fan", "Zou","1980-01-01", "fan@zou.com", "f_zou_3", "12345", CURRENT_TIMESTAMP, 1, 3),
 ("Charmi", "Shah","1980-01-01", "charmi@shah.com", "s_shah_3", "12345", CURRENT_TIMESTAMP, 1, 3),
 ("John", "Doe","1990-01-01", "john@doe.com", "j_doe_4", "12345", CURRENT_TIMESTAMP,1, 4),
-("Mary", "Jane","1990-04-12", "mary@jane.com", "m_jane_4", "12345", CURRENT_TIMESTAMP,1, 4),
-("Tony", "Stark","1980-04-12", "tony@stark.com", "t_stark_4", "12345", CURRENT_TIMESTAMP,1, 4);
-
--- Professor Table
-INSERT INTO Professor (user_id) VALUES
-(10001),
-(10002),
-(10003);
-
--- TA Table
-INSERT INTO TA (user_id) VALUES
-(10004),
-(10005),
-(10006);
-
--- Student Table
-INSERT INTO Student (user_id) VALUES
-(10007),
-(10008),
-(10009);
+("Mary", "Jane","1990-01-01", "mary@jane.com", "m_jane_4", "12345", CURRENT_TIMESTAMP,1, 4),
+("Tony", "Stark","1980-01-01", "tony@stark.com", "t_stark_4", "12345", CURRENT_TIMESTAMP,1, 4),
+("Bruce", "Wayne","1990-01-01", "bruce@wayne.com", "b_wayne_4", "12345", CURRENT_TIMESTAMP,1, 4),
+("Peter", "Parker","1990-01-01", "peter@parker.com", "p_parker_4", "12345", CURRENT_TIMESTAMP,1, 4),
+("Clark", "Kent","1980-01-01", "clark@kent.com", "c_kent_4", "12345", CURRENT_TIMESTAMP,1, 4);
 
 INSERT INTO Course (course_name, course_number) VALUES
 ("Files and DB", 5531),
 ("Operating Systems", 5461),
 ("Tools and Techniques", 5541);
+
+-- Professor Table
+INSERT INTO Professor (user_id) VALUES
+(10001), (10002), (10003);
+-- TA Table
+INSERT INTO TA (user_id) VALUES
+(10004), (10005), (10006);
+-- Student Table
+INSERT INTO Student (user_id) VALUES
+(10007), (10008), (10009), (10010), (10011), (10012);
+
+---------------------------------------------------------------------------------
 
 -- Course Section Table
 INSERT INTO Section (section_name, course_id) VALUES
@@ -91,10 +89,16 @@ INSERT INTO User_Course_Section (user_id, course_id, section_id) VALUES
 (10009, 50002, 60004);
 
 -- Student Groups Table
-INSERT INTO Student_Group (group_name, group_leader_sid) VALUES
+INSERT INTO Student_Groups (group_name, group_leader_sid) VALUES
 ("Group_1", 20000),
 ("Group_2", 20001),
 ("Group_3", 20002);
+
+-- Assign Groups to Course
+INSERT INTO Group_of_Course (group_id, course_id) VALUES
+(70000, 50000),
+(70001, 50001),
+(70002, 50002);
 
 -- Assign Student to Group  
 INSERT INTO Member_of_Group (student_id, group_id) VALUES
@@ -105,11 +109,20 @@ INSERT INTO Member_of_Group (student_id, group_id) VALUES
 (20001, 70002),
 (20002, 70002);
 
--- Assign Groups to Course
-INSERT INTO Group_of_Course (group_id, course_id) VALUES
-(70000, 50000),
-(70001, 50001),
-(70002, 50002);
+-- Assign TA to Section  
+INSERT INTO TA_of_Section (ta_id, section_id) VALUES
+(30000, 60000),
+(30000, 60001),
+(30001, 60002),
+(30001, 60003),
+(30002, 60004),
+(30002, 60005);
+
+-- Assign Prof to Course  
+INSERT INTO Prof_of_Course (professor_id, course_id) VALUES
+(40000, 50000),
+(40001, 50001),
+(40002, 50002);
 
 -- Files Table
 INSERT INTO Files (file_name, file_content, file_type, file_size, uploaded_by_uid, uploaded_on) VALUES
@@ -135,6 +148,17 @@ INSERT INTO Solution (solution_type, solution_content, task_id, file_id) VALUES
 ("Project", "Project DB Solve", 80001, 6600005),
 ("Assignment", "Assignment OS Solve", 80002, 6600006),
 ("Project", "Project OS Solve", 80003, 6600007);
+
+-- Grades Table
+INSERT INTO Grades (grade, student_id, solution_id) VALUES
+(100, 20000, 90000),
+(90, 20000, 90001),
+(50, 20000, 90002),
+(40, 20000, 90003),
+(100, 20001, 90000),
+(90, 20001, 90001),
+(50, 20001, 90002),
+(60, 20001, 90003);
 
 -- Course Anncoucement Table
 INSERT INTO Announcement (announcement_title, announcement_content, posted_by_uid, posted_on, course_id) VALUES

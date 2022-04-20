@@ -4,7 +4,7 @@ unset($_REQUEST);
 
 $username = $_SESSION['username'];
 $role_name = $_SESSION['role_name'];
-$user_id = $_SESSION['user_id'];
+$session_user_id = $_SESSION['user_id'];
 $role_id = $_SESSION['role_id'];
 
 if (!isAdmin()) {
@@ -13,11 +13,11 @@ if (!isAdmin()) {
     JOIN user_course_section as ucs ON ucs.user_id = u.user_id
     JOIN course as c ON c.course_id = ucs.course_id
     LEFT JOIN section as s ON s.section_id = ucs.section_id
-    WHERE u.user_id = '$user_id'
+    WHERE u.user_id = '$session_user_id'
     ORDER BY u.user_id ASC";
     $course_info = mysqli_query($conn, $query);
 
-    $query = "SELECT g.*, st.*, u.*, s.section_name, c.course_name FROM student_group as g
+    $query = "SELECT g.*, st.*, u.*, s.section_name, c.course_name FROM student_groups as g
     JOIN member_of_group as mg ON mg.group_id = g.group_id
     JOIN student as st ON st.student_id = mg.student_id
     JOIN users as u ON u.user_id = st.user_id
@@ -25,17 +25,17 @@ if (!isAdmin()) {
     JOIN course as c ON c.course_id = gc.course_id
     JOIN section as s ON s.course_id = c.course_id
     JOIN user_course_section as ucs ON ucs.section_id = s.section_id AND ucs.user_id = u.user_id
-    WHERE u.user_id = $user_id
+    WHERE u.user_id = '$session_user_id'
     ORDER BY g.group_id ASC";
     $group_info = mysqli_query($conn, $query);
 
-    $query = "SELECT * FROM announcement as a
+    $query = "SELECT a.*, u.*, c.course_name, s.section_name FROM announcement as a
     JOIN course as c ON c.course_id = a.course_id
     JOIN users as u ON u.user_id = a.posted_by_uid
     JOIN user_course_section as ucs ON ucs.course_id = c.course_id
     LEFT JOIN section as s ON s.section_id = ucs.section_id
     JOIN users as us ON us.user_id = ucs.user_id
-    WHERE us.user_id = '$user_id'
+    WHERE us.user_id = '$session_user_id'
     ORDER BY a.announcement_id ASC";
     $announcements = mysqli_query($conn, $query);
 }
@@ -51,14 +51,14 @@ if (!isAdmin()) {
             <br>
             <?php
             echo "<ul>";
-            echo '<li>Roles:<b> ' . mysqli_num_rows(get_table_array('roles')) . '</b> </li>';
+            echo '<li>Roles: <b> ' . mysqli_num_rows(get_table_array('roles')) . '</b> </li>';
             echo '<li>Users:  <b> ' . mysqli_num_rows(get_table_array('users')) . '</b> </li>';
             echo '<li>Students: <b> ' . mysqli_num_rows(get_table_array('student')) . '</b> </li>';
             echo '<li>TAs: <b> ' . mysqli_num_rows(get_table_array('ta')) . '</b> </li>';
             echo '<li>Professors: <b> ' . mysqli_num_rows(get_table_array('professor')) . '</b> </li>';
             echo '<li>Courses: <b> ' . mysqli_num_rows(get_table_array('course')) . '</b> </li>';
             echo '<li>Sections: <b> ' . mysqli_num_rows(get_table_array('section')) . '</b> </li>';
-            echo '<li>Groups: <b> ' . mysqli_num_rows(get_table_array('student_group')) . '</b> </li>';
+            echo '<li>Groups: <b> ' . mysqli_num_rows(get_table_array('student_groups')) . '</b> </li>';
             echo '<li>Task: <b> ' . mysqli_num_rows(get_table_array('task')) . '</b> </li>';
             echo '<li>Solution: <b> ' . mysqli_num_rows(get_table_array('solution')) . '</b> </li>';
             echo '<br>';
@@ -68,6 +68,7 @@ if (!isAdmin()) {
             echo '<li>Discussions:  <b> ' . mysqli_num_rows(get_table_array('discussion')) . '</b> </li>';
             echo '<li>Comments: <b> ' . mysqli_num_rows(get_table_array('comment')) . '</b> </li>';
             echo '<li>Files: <b> ' . mysqli_num_rows(get_table_array('files')) . '</b> </li>';
+            echo '<li>Grades: <b> ' . mysqli_num_rows(get_table_array('grades')) . '</b> </li>';
             echo "</ul>";
             ?>
             <hr>
@@ -91,6 +92,7 @@ if (!isAdmin()) {
                 4400000 - discussion<br>
                 5500000 - comment<br>
                 6600000 - files<br>
+                7700000 - grades<br>
             </p>
         </div>
     <?php } ?>
@@ -114,7 +116,11 @@ if (!isAdmin()) {
                     foreach ($course_info as $row) {
                         $course_name = $row['course_name'];
                         $course_number = $row['course_number'];
-                        $section_name = $row['section_name'];
+                        if ($row['section_name'] == null) {
+                            $section_name = "All";
+                        } else {
+                            $section_name = $row['section_name'];
+                        }
                     ?>
                         <tr>
                             <td><?= $course_name ?></td>
@@ -181,14 +187,31 @@ if (!isAdmin()) {
     <?php if (!isAdmin()) { ?>
         <div class="announcement-content">
             <h3>Announcements</h3><br>
-            <?php foreach ($announcements as $row) { ?>
-                <ul>
-                    <li> <b><?= $row['announcement_title'] ?></b> </li>
-                    <li> <?= $row['announcement_content'] ?></li>
-                    <li>&emsp;<?= $row['posted_on'] ?></li>
-                    <li>&emsp;by <b><?= $row['first_name'] . " " . $row['last_name'] ?></b> | <?= $row['course_name'] ?></li>
-                </ul><br>
+            <?php
+            if (mysqli_num_rows($announcements) > 0) {
+                foreach ($announcements as $row) {
+                    $announcement_title = $row['announcement_title'];
+                    $announcement_content = $row['announcement_content'];
+                    $posted_on = $row['posted_on'];
+                    $posted_by = $row['first_name'] . " " . $row['last_name'];
+                    $course_name = $row['course_name'];
+                    $section_name = $row['section_name'];
+
+            ?>
+                    <ul>
+                        <li> <b><?= $announcement_title ?></b> </li>
+                        <li> <?= $announcement_content ?></li>
+                        <li>&emsp;<?= $posted_on ?></li>
+                        <li>&emsp;by <b><?= $posted_by ?></b> | <?= $course_name ?>
+                            <?php if (!isProfessor()) echo " | " . $section_name; ?>
+                        </li>
+                    </ul><br>
+                <?php } ?>
+
+            <?php } else { ?>
+                <p>No Announcements</p>
             <?php } ?>
+
         </div>
     <?php } ?>
 

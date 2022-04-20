@@ -1,6 +1,22 @@
+<script>
+    function validateReply() {
+
+        var reply;
+
+        reply = document.getElementById("reply").value;
+
+        if (reply == '') {
+            alert("Please enter a reply.");
+            document.getElementById("reply").focus();
+            return false;
+        } else
+            return true;
+    }
+</script>
+
 <?php
 
-$user_id = $_SESSION['user_id'];
+$session_user_id = $_SESSION['user_id'];
 $forum_id = $_GET['forum_id'];
 
 // ADD
@@ -17,7 +33,7 @@ if (isset($_POST['add_reply'])) {
 
     if (count($errors) == 0) {
         $add = "INSERT INTO reply (reply_content, posted_by_uid, posted_on, forum_id)
-                VALUES ('$content', '$user_id', NOW(), '$forum_id')";
+                VALUES ('$content', '$session_user_id', NOW(), '$forum_id')";
 
         if (mysqli_query($conn, $add)) {
             header('location: ?page=course-reply&forum_id=' . $forum_id);
@@ -43,7 +59,7 @@ if (isset($_POST['update_reply'])) {
     }
 
     if (count($errors) == 0) {
-        $update = "UPDATE reply set reply_content = '$content'
+        $update = "UPDATE reply SET reply_content = '$content'
         WHERE reply_id ='$id'";
 
         if (mysqli_query($conn, $update)) {
@@ -103,25 +119,28 @@ if (isset($_GET['delete_id'])) {
     <div class="reply-content">
 
         <?php
-        foreach ($replys as $row) {
-            $reply_id = $row['reply_id'];
-            $reply_content = $row['reply_content'];
-            $reply_posted_by = $row['first_name'] . " " . $row['last_name'];
-            $reply_posted_on = date_convert($row['posted_on']);
-            $forum_id = $row['forum_id'];
-
+        if (mysqli_num_rows($replys) > 0) {
+            foreach ($replys as $row) {
+                $reply_id = $row['reply_id'];
+                $reply_content = $row['reply_content'];
+                $reply_posted_by = $row['first_name'] . " " . $row['last_name'];
+                $reply_posted_on = date_convert($row['posted_on']);
+                $forum_id = $row['forum_id'];
         ?>
-            <ul>
-                <li><?= $reply_content ?></li>
-                <li>&emsp;by <b><?= $reply_posted_by ?></b> | <?= $reply_posted_on ?></li>
-                <?php if ($user_id == $row['posted_by_uid']) { ?>
-                    <li>
-                        &emsp;<a href="?page=course-reply&update_view=true&forum_id=<?= $forum_id ?>&update_id=<?= $reply_id ?>">Update</a>
-                        |
-                        <a href="?page=course-reply&delete_view=true&forum_id=<?= $forum_id ?>&delete_id=<?= $reply_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-                    </li>
-                <?php } ?>
-            </ul><br>
+                <ul>
+                    <li><?= $reply_content ?></li>
+                    <li>&emsp;by <b><?= $reply_posted_by ?></b> | <?= $reply_posted_on ?></li>
+                    <?php if ($session_user_id == $row['posted_by_uid']) { ?>
+                        <li>
+                            &emsp;<a href="?page=course-reply&update_view=true&forum_id=<?= $forum_id ?>&update_id=<?= $reply_id ?>">Update</a>
+                            |
+                            <a href="?page=course-reply&delete_view=true&forum_id=<?= $forum_id ?>&delete_id=<?= $reply_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                        </li>
+                    <?php } ?>
+                </ul><br>
+            <?php } ?>
+        <?php } else { ?>
+            <p>No Comments</p>
         <?php } ?>
 
         <hr>
@@ -136,16 +155,16 @@ if (isset($_GET['delete_id'])) {
             $replys = mysqli_query($conn, $query);
 
             foreach ($replys as $row) {
-                $content = $row['content'];
+                $content = $row['reply_content'];
             }
         ?>
 
             <div class="form-container">
-                <form class="form-body" action="" method="POST">
+                <form class="form-body" action="" method="POST" onSubmit="return validateReply()">
                     <div class="form-input">
                         <label>Reply</label>
                         <br>
-                        <textarea name="reply_content"><?= $content ?></textarea>
+                        <textarea name="reply_content" id="reply" ><?= $content ?></textarea>
                     </div>
                     <div class="form-submit">
                         <input type="submit" name="update_reply" value="Update">
@@ -157,11 +176,11 @@ if (isset($_GET['delete_id'])) {
         <?php } else { ?>
 
             <div class="form-container">
-                <form class="form-body" action="" method="POST">
+                <form class="form-body" action="" method="POST"onSubmit="return validateReply()">
                     <div class="form-input">
                         <label>Reply</label>
                         <br>
-                        <textarea name="reply_content"></textarea>
+                        <textarea name="reply_content" id="reply"></textarea>
                     </div>
                     <div class="form-submit">
                         <input type="submit" name="add_reply" value="reply">
