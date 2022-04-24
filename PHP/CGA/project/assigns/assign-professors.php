@@ -1,3 +1,12 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <script>
     function validateProfessorCourse() {
 
@@ -113,7 +122,6 @@ Always visible and shows delete error if delete_view is set true -->
     <table>
         <thead>
             <tr>
-                <th>Professor ID</th>
                 <th>Professor Name</th>
                 <th>Course Name</th>
                 <th colspan="2">Action</th>
@@ -130,7 +138,6 @@ Always visible and shows delete error if delete_view is set true -->
                 $course_name = $row['course_name'];
             ?>
                 <tr>
-                    <td><?= $professor_id ?></td>
                     <td><?= $first_name . " " . $last_name ?></td>
                     <td><?= $course_name ?></td>
                     <td><a href="?page=assign-professors&delete_view=true&user_id=<?= $user_id ?>&course_id=<?= $course_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete Course</a></td>

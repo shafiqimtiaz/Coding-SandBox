@@ -1,3 +1,12 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <script>
     function validateStudentCoursegroup() {
 
@@ -29,9 +38,13 @@
 
 $session_user_id = $_SESSION['user_id'];
 
-// if (isset($_GET['course_id'])) {
-//     $course_id = $_GET['course_id'];
-// }
+if (isset($_GET['group_id'])) {
+    $session_group_id = $_GET['group_id'];
+}
+
+if (isset($_GET['course_id'])) {
+    $session_course_id = $_GET['course_id'];
+}
 
 /*******************************************************
  * ADD SQL
@@ -177,9 +190,6 @@ Always visible and shows delete error if delete_view is set true -->
     display_error();
 
     if (isset($_GET['group_id'])) {
-
-        $group_id = $_GET['group_id'];
-
         if (isAdmin()) {
             $query = "SELECT g.*, c.*, st.*, u.* FROM student_groups as g
             JOIN member_of_group as mg ON mg.group_id = g.group_id
@@ -187,10 +197,9 @@ Always visible and shows delete error if delete_view is set true -->
             JOIN users as u ON u.user_id = st.user_id
             JOIN group_of_course as gc ON gc.group_id = g.group_id
             JOIN course as c ON c.course_id = gc.course_id
-            WHERE g.group_id = '$group_id'
+            WHERE g.group_id = '$session_group_id'
             ORDER BY g.group_id ASC";
-        }
-        if (isProfessor()) {
+        } elseif (isProfessor()) {
             $query = "SELECT g.*, c.*, st.*, u.* FROM student_groups as g
             JOIN member_of_group as mg ON mg.group_id = g.group_id
             JOIN student as st ON st.student_id = mg.student_id
@@ -199,7 +208,16 @@ Always visible and shows delete error if delete_view is set true -->
             JOIN course as c ON c.course_id = gc.course_id
             JOIN prof_of_course as pc ON pc.course_id = c.course_id
             JOIN professor as p ON p.professor_id = pc.professor_id
-            WHERE p.user_id = '$session_user_id' AND g.group_id = '$group_id'
+            WHERE p.user_id = '$session_user_id' AND g.group_id = '$session_group_id'
+            ORDER BY g.group_id ASC";
+        } else {
+            $query = "SELECT g.*, c.*, st.*, u.* FROM student_groups as g
+            JOIN member_of_group as mg ON mg.group_id = g.group_id
+            JOIN student as st ON st.student_id = mg.student_id
+            JOIN users as u ON u.user_id = st.user_id
+            JOIN group_of_course as gc ON gc.group_id = g.group_id
+            JOIN course as c ON c.course_id = gc.course_id
+            WHERE g.group_id = '$session_group_id'
             ORDER BY g.group_id ASC";
         }
     } else {
@@ -223,7 +241,6 @@ Always visible and shows delete error if delete_view is set true -->
     <table>
         <thead>
             <tr>
-                <th>Group ID</th>
                 <th>Group Name</th>
                 <th>Student Name</th>
                 <th>Course Name</th>
@@ -242,7 +259,6 @@ Always visible and shows delete error if delete_view is set true -->
                 $student_id = $row['student_id'];
             ?>
                 <tr>
-                    <td><?= $group_id ?></td>
                     <td><?= $group_name ?></td>
                     <?php if (isGroupLeader($student_id, $group_id)) { ?>
                         <td><u><?= $student_name ?></u></td>
@@ -250,21 +266,23 @@ Always visible and shows delete error if delete_view is set true -->
                         <td><?= $student_name ?></td>
                     <?php } ?>
                     <td><?= $course_name ?></td>
-                    <td><a href="?page=assign-group&update_view=true&user_id=<?= $user_id ?>&course_id=<?= $course_id ?>&group_id=<?= $group_id ?>">Change Group</a></td>
-                    <td><a href="?page=assign-group&delete_view=true&user_id=<?= $user_id ?>&group_id=<?= $group_id ?>" onclick="return confirm('Are you sure you want to delete?')">Remove Member</a></td>
+                    <?php if (!isStudent()) { ?>
+                        <td><a href="?page=assign-group&update_view=true&user_id=<?= $user_id ?>&course_id=<?= $course_id ?>&group_id=<?= $group_id ?>">Change Group</a></td>
+                        <td><a href="?page=assign-group&delete_view=true&user_id=<?= $user_id ?>&group_id=<?= $group_id ?>" onclick="return confirm('Are you sure you want to delete?')">Remove Member</a></td>
+                    <?php } ?>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 
     <?php if (isAdmin()) { ?>
-        <a href="?page=assign-group&add_view=true">
+        <a href="?page=assign-group&add_view=true&group_id=<?= $session_group_id ?>">
             <button>Add New</button>
         </a>
     <?php } ?>
 
     <?php if (isProfessor()) { ?>
-        <a href="?page=assign-group&add_view=true&group_id=<?= $group_id ?>">
+        <a href="?page=assign-group&add_view=true&group_id=<?= $session_group_id ?>">
             <button>Add New</button>
         </a>
     <?php } ?>
@@ -312,7 +330,7 @@ Always visible and shows delete error if delete_view is set true -->
                     <p>Groups</p>
                     <div class="scroll-list">
 
-                        <select name="group_id" id="group_id">
+                        <select name="add_group_id" id="group_id">
                             <option value="" selected hidden>Choose a group</option>
                             <?php
 

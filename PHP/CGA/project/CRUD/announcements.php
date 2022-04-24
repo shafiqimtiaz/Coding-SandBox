@@ -1,28 +1,37 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <script>
-function validateAnnouncement() {
+    function validateAnnouncement() {
 
-	var title, content, course_id;
+        var title, content, course_id;
 
-	title = document.getElementById("title").value;
-	content = document.getElementById("content").value;
-	course_id = document.getElementById("course_id").value;
+        title = document.getElementById("title").value;
+        content = document.getElementById("content").value;
+        course_id = document.getElementById("course_id").value;
 
-	if (title == '') {
-		alert("Please enter a title.");
-		document.getElementById("title").focus();
-		return false;
-	} else if (content == '') {
-		alert("Please enter some content. ");
-		document.getElementById("content").focus();
-		return false;
-	} else if (course_id == '') {
-		alert("Please select a course.");
-		document.getElementById("course_id").focus();
-		return false;
-	} else
-		return true;
+        if (title == '') {
+            alert("Please enter a title.");
+            document.getElementById("title").focus();
+            return false;
+        } else if (content == '') {
+            alert("Please enter some content. ");
+            document.getElementById("content").focus();
+            return false;
+        } else if (course_id == '') {
+            alert("Please select a course.");
+            document.getElementById("course_id").focus();
+            return false;
+        } else
+            return true;
 
-}
+    }
 </script>
 
 <?php
@@ -32,13 +41,11 @@ $session_user_id = $_SESSION['user_id'];
 // ADD
 if (isset($_POST['add_announcement'])) {
 
-    // receive all input values from the form
+
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $content = mysqli_real_escape_string($conn, $_POST['content']);
     $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
     if (empty($title)) {
         array_push($errors, "Title is required");
     }
@@ -49,14 +56,27 @@ if (isset($_POST['add_announcement'])) {
         array_push($errors, "Course is required");
     }
 
-    if (count($errors) == 0) {
-        $add = "INSERT INTO announcement (announcement_title, announcement_content, posted_by_uid, posted_on, course_id)
+    if ($course_id == 'all') {
+        $courses = get_table_array('course');
+        foreach ($courses as $row) {
+            $course_id = $row['course_id'];
+            $add_all = "INSERT INTO announcement (announcement_title, announcement_content, posted_by_uid, posted_on, course_id)
             VALUES('$title', '$content', '$session_user_id', NOW(),'$course_id')";
+            if (mysqli_query($conn, $add_all)) {
+            } else {
+                array_push($errors, "Error adding: ", mysqli_error($conn));
+            }
+        }
+    } else {
+        if (count($errors) == 0) {
+            $add = "INSERT INTO announcement (announcement_title, announcement_content, posted_by_uid, posted_on, course_id)
+                VALUES('$title', '$content', '$session_user_id', NOW(),'$course_id')";
 
-        if (mysqli_query($conn, $add)) {
-            array_push($success, "Added successfully");
-        } else {
-            array_push($errors, "Error adding: ", mysqli_error($conn));
+            if (mysqli_query($conn, $add)) {
+                array_push($success, "Added successfully");
+            } else {
+                array_push($errors, "Error adding: ", mysqli_error($conn));
+            }
         }
     }
 }
@@ -66,12 +86,12 @@ if (isset($_POST['update_announcement'])) {
 
     $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
-    // receive all input values from the form
+
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $content = mysqli_real_escape_string($conn, $_POST['content']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
+
+
     if (empty($title)) {
         array_push($errors, "Title is required");
     }
@@ -133,7 +153,6 @@ if (isset($_GET['delete_id'])) {
     <table>
         <thead>
             <tr>
-                <?php isAdmin() ? print '<th>Announcement ID</th>' : ''; ?>
                 <th>Title</th>
                 <th>Content</th>
                 <th>Posted by</th>
@@ -155,9 +174,6 @@ if (isset($_GET['delete_id'])) {
                 $course_name = $row['course_name'];
             ?>
                 <tr>
-                    <?php if (isAdmin()) {
-                        echo '<td>' . $id . '</td>';
-                    } ?>
                     <td><?= $title ?></td>
                     <td><?= $content ?></td>
                     <td><?= $posted_by ?></td>
@@ -165,7 +181,7 @@ if (isset($_GET['delete_id'])) {
                     <td><?= $course_name ?></td>
                     <?php if (!isStudent()) {
                         echo '<td><a href="?page=announcements&update_view=true&update_id=' . $id . '">Update</a></td>';
-                        echo "<td><a href='?page=announcements&delete_view=true&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete? &quot;)'>Delete Announcement</a></td>";
+                        echo "<td><a href='?page=announcements&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete? &quot;)'>Delete Announcement</a></td>";
                     } ?>
                 </tr>
             <?php
@@ -211,6 +227,7 @@ if (isset($_GET['delete_id'])) {
                                 }
                                 if (isAdmin()) {
                                     $courses = get_table_array('course');
+                                    echo "<option name=course_id value='all'>All Courses</option>";
                                 }
 
                                 foreach ($courses as $row) {
@@ -259,7 +276,7 @@ if (isset($_GET['delete_id'])) {
                     <div class="form-input">
                         <label id=>Course Name</label>
                         <span><b><?= $course_name ?></b></span>
-						<input type="hidden" id="course_id" value="<?= $course_name ?>">
+                        <input type="hidden" id="course_id" value="<?= $course_name ?>">
                     </div>
 
                     <div class="form-input">

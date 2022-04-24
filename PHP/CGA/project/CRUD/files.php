@@ -1,3 +1,12 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <div class="content-body">
     <?php
 
@@ -44,7 +53,6 @@
     <table>
         <thead>
             <tr>
-                <?php isAdmin() ? print '<th>File ID</th>' : ''; ?>
                 <th>Name</th>
                 <th>Content</th>
                 <th>Type</th>
@@ -67,9 +75,6 @@
                 $uploaded_on = date_convert($row['uploaded_on']);
             ?>
                 <tr>
-                    <?php if (isAdmin()) {
-                        echo '<td>' . $file_id . '</td>';
-                    } ?>
                     <td><?= $file_name ?></td>
                     <td><?= $content ?></td>
                     <td><?= $type ?></td>
@@ -136,7 +141,7 @@
                     </div>
                     <div class="form-input">
                         <label>Select file</label>
-                        <span><input type="file" name="file"> </span>
+                        <span><input type="file" name="file"></span>
                     </div>
                     <div class="form-submit">
                         <input type="submit" name="update_file" value="Update">

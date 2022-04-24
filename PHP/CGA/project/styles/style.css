@@ -1,3 +1,10 @@
+/* CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,11 +17,15 @@ body {
     font-size: large;
 }
 
+img {
+    max-width: 100%;
+}
+
 /**********************************************/
 
 li {
     list-style-type: none;
-    max-width: 40em;
+    overflow-wrap: break-word;
 }
 
 a {
@@ -23,19 +34,11 @@ a {
 
 /**********************************************/
 
-/* .title-bar {
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    width: 100%;
-} */
-
 header h1 {
     background: #33cccc;
     padding: 1rem 0.5rem;
     text-align: center;
     font-weight: bolder;
-    /* white-space: nowrap; */
 }
 
 /**********************************************/
@@ -53,6 +56,7 @@ nav p {
 
 nav ul {
     display: flex;
+    flex-wrap: wrap;
 }
 
 nav li {
@@ -67,7 +71,6 @@ nav li:hover {
 nav li a {
     text-decoration: none;
     color: black;
-    /* white-space: nowrap; */
 }
 
 /**********************************************/
@@ -83,27 +86,16 @@ section {
 /**********************************************/
 
 .col-left {
+    overflow: hidden;
     background-color: #33cccc;
     padding: 1em 0;
     height: 84vh;
 }
 
-/* .user-info {
-    padding-bottom: 1em;
-}
-
-.user-info p {
-    padding: 0.3em 0;
-} */
-
 hr {
     border: 1px solid black;
     margin: 1em 0;
 }
-
-/* .main-menu {
-    padding-top: 1em;
-} */
 
 .main-menu ul {
     list-style-type: none;
@@ -122,6 +114,10 @@ hr {
     background-color: #37e6e6;
 }
 
+.menu-list h2:hover {
+    background-color: #37e6e6;
+}
+
 .menu-list a {
     text-decoration: none;
     color: black;
@@ -135,14 +131,37 @@ hr {
     height: 84vh;
 }
 
-/* .col-right p {
-    padding: 0.5em 0;
-} */
-
 .content-body {
     padding: 0 0.5em;
     text-align: left;
 }
+
+.admin-content ul {
+    display: grid;
+    grid-gap: 1em;
+}
+
+.admin-content ul li {
+    font-size: large;
+    text-align: center;
+    border: solid 2px black;
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.admin-content ul li b {
+    font-size: xx-large;
+}
+
+.admin-content ul li a {
+    color: black;
+}
+
+.admin-content ul li:hover {
+    background-color: #fcd9b6;
+}
+
+/**********************************************/
 
 table,
 th,
@@ -163,7 +182,7 @@ td {
 button {
     padding: 0.5em 1em;
     border-radius: 5px;
-    margin: 1em 0;
+    margin: 1em 0 auto;
 }
 
 /**********************************************/
@@ -200,7 +219,6 @@ select {
 }
 
 .form-submit input {
-    /* margin: 1em 0; */
     padding: 0.5em 1em;
     border-radius: 5px;
 }
@@ -213,7 +231,6 @@ section .form-container {
 
 section .form-body {
     text-align: left;
-    /* padding: 0 1em; */
 }
 
 /**********************************************/
@@ -283,6 +300,11 @@ footer p {
 
 /* 0px to 479px */
 @media only screen and (max-width: 479px) {
+
+    .list-content {
+        max-width: 100%;
+    }
+
     .col-left {
         height: auto;
     }
@@ -290,21 +312,31 @@ footer p {
     .form-container {
         width: 100%;
     }
+
+    .admin-content ul {
+        grid-template-columns: 1fr 1fr;
+    }
+
 }
 
 /* 480px and up */
 @media only screen and (min-width: 480px) {
-    .form-container {
-        max-width: 60%;
-    }
 
     .main-body {
         grid-template-columns: 2fr 4fr;
+    }
+
+    .admin-content ul {
+        grid-template-columns: 1fr 1fr;
     }
 }
 
 /* 768px and up */
 @media only screen and (min-width: 768px) {
+    .list-content {
+        max-width: 50%;
+    }
+
     .form-container {
         max-width: 50%;
     }
@@ -312,10 +344,18 @@ footer p {
     .main-body {
         grid-template-columns: 1fr 4fr;
     }
+
+    .admin-content ul {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }
 
 /* 1024px and up */
 @media only screen and (min-width: 1024px) {
+    .list-content {
+        max-width: 40%;
+    }
+
     .form-container {
         max-width: 40%;
     }
@@ -323,15 +363,33 @@ footer p {
     .main-body {
         grid-template-columns: 1fr 5fr;
     }
+
+    .admin-content ul {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }
 
-/* 1200px and up */
-@media only screen and (min-width: 1200px) {
+/* 1280px and up */
+@media only screen and (min-width: 1280px) {
+    .list-content {
+        max-width: 30%;
+    }
+
     .form-container {
         max-width: 30%;
     }
 
     .main-body {
         grid-template-columns: 1fr 6fr;
+    }
+
+    .admin-content ul {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-height: 900px) {
+    .col-left {
+        overflow-y: scroll;
     }
 }

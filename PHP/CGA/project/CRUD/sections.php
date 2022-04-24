@@ -1,14 +1,23 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <?php
 
 // ADD
 if (isset($_POST['add_section'])) {
 
-    // receive all input values from the form
+
     $section_name = mysqli_real_escape_string($conn, $_POST['section_name']);
     $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
+
+
     if (empty($section_name)) {
         array_push($errors, "Section is required");
     }
@@ -32,12 +41,12 @@ if (isset($_POST['update_section'])) {
 
     $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
-    // receive all input values from the form
+
     $section_name = mysqli_real_escape_string($conn, $_POST['section_name']);
     $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
+
+
     if (empty($section_name)) {
         array_push($errors, "Section is required");
     }
@@ -86,7 +95,6 @@ ORDER BY section_id ASC";
     <table>
         <thead>
             <tr>
-                <?php isAdmin() ? print '<th>Section ID</th>' : ''; ?>
                 <th>Section Name</th>
                 <th>Course Name</th>
                 <?php isAdmin() ? print '<th colspan="2">Action</th>' : ''; ?>
@@ -101,14 +109,11 @@ ORDER BY section_id ASC";
                 $course_name = $row['course_name'];
             ?>
                 <tr>
-                    <?php if (isAdmin()) {
-                        echo '<td>' . $id . '</td>';
-                    } ?>
                     <td><?= $section_name ?></td>
                     <td><?= $course_name ?></td>
                     <?php if (isAdmin()) {
                         echo '<td><a href="?page=sections&update_view=true&update_id=' . $id . '">Update</a></td>';
-                        echo "<td><a href='?page=sections&delete_view=true&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete Section</a></td>";
+                        echo "<td><a href='?page=sections&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete Section</a></td>";
                     } ?>
                 </tr>
             <?php } ?>

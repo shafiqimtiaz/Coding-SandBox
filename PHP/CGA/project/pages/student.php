@@ -1,3 +1,12 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <?php require("../includes/header.php"); ?>
 
 <main>
@@ -6,26 +15,24 @@
         <section class="col-left">
             <div class="user-info">
                 <p>Role: <?= $_SESSION['role_name'] ?></p>
-                <p>Student ID: <?= mysqli_fetch_assoc(get_records_where('student', 'user_id', $_SESSION['user_id']))['student_id'] ?></p>
             </div>
             <hr>
             <div class="main-menu">
-                <h2>Course</h2>
-                <ul class="menu-list">
-                    <li><a href="?page=course-home">View</a></li>
-                </ul>
-                <h2>Groups</h2>
-                <ul class="menu-list">
-                    <li><a href="?page=group-home">View</a></li>
-                </ul>
+                <div class="menu-list">
+                    <h2><a href="?page=course-home">Courses</a></h2>
+                </div>
+                <div class="menu-list">
+                    <h2><a href="?page=group-home">Groups</a></h2>
+                </div>
+                <div class="menu-list">
+                    <h2><a href="?page=inbox-home">Inbox</a></h2>
+                </div>
             </div>
         </section>
 
         <section class="col-right">
-
             <div class="content-body">
                 <?php
-
                 if (isset($_GET['page'])) {
                     $page = $_GET['page'];
                     if (file_exists("../includes/" . $page . ".php")) {
@@ -36,6 +43,12 @@
                     }
                     if (file_exists("../group/" . $page . ".php")) {
                         include("../group/" . $page . ".php");
+                    }
+                    if (file_exists("../assigns/" . $page . ".php")) {
+                        include("../assigns/" . $page . ".php");
+                    }
+                    if (file_exists("../inbox/" . $page . ".php")) {
+                        include("../inbox/" . $page . ".php");
                     }
                 } else {
                     include("../includes/home.php");

@@ -1,3 +1,12 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <script>
     function validateUserInput() {
 
@@ -82,7 +91,7 @@
 // ADD
 if (isset($_POST['add_user'])) {
 
-    // receive all input values from the form
+
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $dob = mysqli_real_escape_string($conn, $_POST['dob']);
@@ -151,15 +160,12 @@ if (isset($_POST['add_user'])) {
 
 // UPDATE
 if (isset($_POST['update_user'])) {
-    // receive all input values from the form
+
     $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
     $first_name = mysqli_real_escape_string($conn, $_POST['firstname']);
     $last_name = mysqli_real_escape_string($conn, $_POST['lastname']);
     $dob = mysqli_real_escape_string($conn, $_POST['dob']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-
-    //    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    //    $role_id = mysqli_real_escape_string($conn, $_POST['role_id']);
 
     if (count($errors) == 0) {
         $update = "UPDATE users SET first_name = '$first_name', last_name = '$last_name', 
@@ -226,7 +232,6 @@ if (isset($_GET['delete_id'])) {
     <table>
         <thead>
             <tr>
-                <th>User ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Date of Birth</th>
@@ -251,9 +256,6 @@ if (isset($_GET['delete_id'])) {
                 $role_id = $users['role_id'];
             ?>
                 <tr>
-                    <?php if (isAdmin()) {
-                        echo '<td>' . $user_id . '</td>';
-                    } ?>
                     <td><?= $first_name ?></td>
                     <td><?= $last_name ?></td>
                     <td><?= $dob ?></td>
@@ -263,7 +265,7 @@ if (isset($_GET['delete_id'])) {
                     <td><?= $role_name ?></td>
                     <?php if (isAdmin()) {
                         echo '<td><a href="?page=users&update_view=true&update_id=' . $user_id . '">Update</a></td>';
-                        echo "<td><a href='?page=users&delete_view=true&delete_id=" . $user_id . "&role_id=" . $role_id . "' onclick='return confirm(&quot;Are you sure you want to delete? &quot;)'>Delete User</a></td>";
+                        echo "<td><a href='?page=users&delete_id=" . $user_id . "&role_id=" . $role_id . "' onclick='return confirm(&quot;Are you sure you want to delete? &quot;)'>Delete User</a></td>";
                     } ?>
                 </tr>
             <?php
@@ -302,10 +304,6 @@ if (isset($_GET['delete_id'])) {
                         <label>Email</label>
                         <span><input type="email" name="email" id="email"> </span>
                     </div>
-                    <!-- <div class="form-input">
-                        <label>Username</label>
-                        <span><input type="text" name="username"></span>
-                    </div> -->
                     <div class="form-input">
                         <label>Password</label>
                         <span><input type="password" name="password_new" id="password_new"> </span>
@@ -346,7 +344,6 @@ if (isset($_GET['delete_id'])) {
             $results = mysqli_query($conn, $query);
 
             foreach ($results as $row) {
-                //$user_id = $row['user_id'];
                 $first_name = $row['first_name'];
                 $last_name = $row['last_name'];
                 $dob = $row['dob'];
@@ -379,31 +376,6 @@ if (isset($_GET['delete_id'])) {
                         <label>Email</label>
                         <span><input type="email" name="email" id="email" value='<?= $email ?>'> </span>
                     </div>
-
-                    <!-- <div class="form-input">
-                        <label>Username</label>
-                        <span><input type="text" name="username" value='<?= $username ?>'></span>
-                    </div> -->
-
-                    <!-- <div class="form-input">
-                        <label for="roles">Choose a Role</label>
-                        <span>
-                            <select id="roles" name="role_id">
-                                <?php
-                                // $roles = get_table_array('roles');
-                                // foreach ($roles as $role) {
-                                //     $role_id = $role['role_id'];
-                                //     $role_name = $role['role_name'];
-                                //     if ($update_role_id == $role_id) {
-                                //         echo "<option name=role_name value='$role_id' selected>$role_name</option>";
-                                //     } else {
-                                //         echo "<option name=role_name value='$role_id'>$role_name</option>";
-                                //     }
-                                // }
-                                ?>
-                            </select>
-                        </span>
-                    </div> -->
                     <div class="form-submit">
                         <input type="submit" name="update_user" value="Update">
                     </div>

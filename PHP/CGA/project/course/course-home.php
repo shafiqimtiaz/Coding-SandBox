@@ -1,7 +1,21 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <?php
 
 $session_user_id = $_SESSION['user_id'];
 $role_id = $_SESSION['role_id'];
+
+//DOWNLOAD
+if (isset($_GET['download_file'])) {
+    download_file($_GET['download_file']);
+}
 
 if (!isProfessor()) {
     $query = "SELECT c.*, u.*, s.section_name FROM course as c
@@ -64,9 +78,9 @@ $course_info = mysqli_query($conn, $query);
                         <?php if (!isProfessor()) { ?>
                             <td><?= $section_name ?></td>
                         <?php } ?>
-                        <td><a href="?page=course-home&forum_view=true&course_id=<?= $course_id ?> ">View</a></td>
-                        <td><a href="?page=course-forum&course_id=<?= $course_id ?> ">Manage</a></td>
-                        <td><a href="?page=course-task&course_id=<?= $course_id ?> ">Manage</a></td>
+                        <td><a href="?page=course-home&forum_view=true&course_id=<?= $course_id ?>">View</a></td>
+                        <td><a href="?page=course-forum&course_id=<?= $course_id ?>">Manage</a></td>
+                        <td><a href="?page=course-task&course_id=<?= $course_id ?>">Manage</a></td>
                     </tr>
                 <?php
                 }
@@ -124,10 +138,11 @@ $course_info = mysqli_query($conn, $query);
         <hr>
 
         <?php
-        $query = "SELECT f.*, c.*, s.*, u.* FROM forum as f
+        $query = "SELECT f.*, c.*, s.*, u.*, fl.* FROM forum as f
         JOIN course as c ON c.course_id = f.course_id
         JOIN user_course_section as ucs ON ucs.course_id = c.course_id
         LEFT JOIN section as s ON s.section_id = ucs.section_id
+        LEFT JOIN files as fl ON fl.file_id = f.file_id
         JOIN users as u ON u.user_id = f.posted_by_uid
         JOIN users as us ON us.user_id = ucs.user_id
         WHERE us.user_id = '$session_user_id'
@@ -136,36 +151,39 @@ $course_info = mysqli_query($conn, $query);
 
         ?>
 
-        <div class="task-content">
-            <h3>Top 10 Recent Forums</h3>
-            <div class="forum-content">
-                <br>
-                <?php
-                if (mysqli_num_rows($forum_all) > 0) {
-                    foreach ($forum_all as $row) {
-                        $forum_id = $row['forum_id'];
-                        $forum_title = $row['forum_title'];
-                        $forum_content = $row['forum_content'];
-                        $posted_by = $row['first_name'] . " " . $row['last_name'];
-                        $posted_on = date_convert($row['posted_on']);
-                        $course_name = $row['course_name'];
-                        $section_name = $row['section_name'];
-                ?>
-                        <ul>
+        <h3>Top 10 Recent Forums</h3>
+        <div class="list-content">
+            <br>
+            <?php
+            if (mysqli_num_rows($forum_all) > 0) {
+                foreach ($forum_all as $row) {
+                    $forum_id = $row['forum_id'];
+                    $forum_title = $row['forum_title'];
+                    $forum_content = $row['forum_content'];
+                    $posted_by = $row['first_name'] . " " . $row['last_name'];
+                    $posted_on = date_convert($row['posted_on']);
+                    $course_name = $row['course_name'];
+                    $section_name = $row['section_name'];
+                    $file_id = $row['file_id'];
+                    $file_name = $row['file_name'];
+            ?>
+                    <ul>
+                        <li>
+                            <b><a href='?page=course-reply&forum_id=<?= $forum_id ?>'><?= $forum_title ?></a></b>
+                        </li>
+                        <li><?= $forum_content ?></li>
+                        <?php if ($file_id != '') { ?>
                             <li>
-                                <b><a href='?page=course-reply&forum_id=<?= $forum_id ?>'><?= $forum_title ?></a></b>
+                                <a href="?page=course-home&download_file=<?= $file_id ?>">[ <b><?= $file_name ?></b> ]</a>
                             </li>
-                            <li><?= $forum_content ?></li>
-                            <li>&emsp;<?= $posted_on ?></li>
-                            <li>&emsp;by <b><?= $posted_by ?></b> | <?= $course_name ?>
-                                <?php if (isStudent()) echo " | " . $section_name; ?>
-                            </li>
-                        </ul><br>
-                    <?php } ?>
-                <?php } else { ?>
-                    <p>No forums</p>
+                        <?php } ?>
+                        <li>&emsp;<?= $posted_on ?></li>
+                        <li>&emsp;by <b><?= $posted_by ?></b> | <?= $course_name ?>
+                            <?php if (isStudent()) echo " | " . $section_name; ?>
+                        </li>
+                    </ul><br>
                 <?php } ?>
-            </div>
+            <?php } else { ?>
+                <p>No forums</p>
+            <?php } ?>
         <?php } ?>
-
-        </div>

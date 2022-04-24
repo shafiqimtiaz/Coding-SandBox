@@ -1,6 +1,20 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <?php
 
 $session_user_id = $_SESSION['user_id'];
+
+//DOWNLOAD
+if (isset($_GET['download_file'])) {
+    download_file($_GET['download_file']);
+}
 
 // DELETE
 if (isset($_GET['delete_id'])) {
@@ -36,12 +50,12 @@ if (isset($_GET['delete_id'])) {
     <table>
         <thead>
             <tr>
-                <th>Solution ID</th>
                 <th>Type</th>
                 <th>Content</th>
                 <th>Uploaded by</th>
                 <th>Uploaded on</th>
                 <th>Course Name</th>
+                <th>Files</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -54,15 +68,16 @@ if (isset($_GET['delete_id'])) {
                 $uploaded_on = date_convert($row['uploaded_on']);
                 $course_name = $row['course_name'];
                 $file_id = $row['file_id'];
+                $file_name = $row['file_name'];
             ?>
                 <tr>
-                    <td><?= $id ?></td>
                     <td><?= $type ?></td>
                     <td><?= $content ?></td>
                     <td><?= $uploaded_by ?></td>
                     <td><?= $uploaded_on ?></td>
                     <td><?= $course_name ?></td>
-                    <td><a href="?page=solution&delete_view=true&delete_id=<?= $id ?>&file_id=<?= $file_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete Solution</a></td>
+                    <td><a href='?page=solution&download_file=<?= $file_id ?>'><?= $file_name ?></a></td>
+                    <td><a href="?page=solution&delete_id=<?= $id ?>&file_id=<?= $file_id ?>" onclick="return confirm('Are you sure you want to delete?')">Delete Solution</a></td>
                 </tr>
             <?php } ?>
         </tbody>

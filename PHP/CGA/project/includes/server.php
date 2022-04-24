@@ -1,9 +1,18 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <?php
 
 $session_user_id = $_SESSION['user_id'];
 
 // UPLOAD FILE
-function upload_file($table_name)
+function upload_file($table)
 {
     global $conn, $session_user_id, $errors, $success;
 
@@ -14,7 +23,7 @@ function upload_file($table_name)
     $name = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME);
 
     // unique file description based on username
-    $content = $table_name . "_" . $name;
+    $content = $table . "_" . $name;
     // date('d_m_Y', time())
 
     // destination of the file on the server
@@ -26,12 +35,6 @@ function upload_file($table_name)
     // the physical file on a temporary uploads directory on the server
     $file = $_FILES['file']['tmp_name'];
     $size = $_FILES['file']['size'];
-
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
-    if (empty($content)) {
-        array_push($errors, "File content is required");
-    }
 
     if ($_FILES['file']['error'] == 4) {
         array_push($errors, "Please upload a file !!");
@@ -100,11 +103,14 @@ function update_file($table, $id)
         array_push($errors, "Please upload a file !!");
     }
 
-    // name of the uploaded file
+    // name of the uploaded file with extension
     $file_name = $_FILES['file']['name'];
 
+    // name of the uploaded file
+    $name = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME);
+
     // unique file description based on username
-    $content = $table . "_" . $file_name;
+    $content = $table . "_" . $name;
     // date('d_m_Y', time())
 
     // destination of the file on the server

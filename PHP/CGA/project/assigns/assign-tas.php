@@ -1,3 +1,12 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <script>
     function validateTACourseSection() {
 
@@ -256,7 +265,6 @@ Always visible and shows delete error if delete_view is set true -->
     <table>
         <thead>
             <tr>
-                <th>TA ID</th>
                 <th>TA Name</th>
                 <th>Course Name</th>
                 <th>Section Name</th>
@@ -276,7 +284,6 @@ Always visible and shows delete error if delete_view is set true -->
                 $section_name = $row['section_name'];
             ?>
                 <tr>
-                    <td><?= $ta_id ?></td>
                     <td><?= $first_name . " " . $last_name ?></td>
                     <td><?= $course_name ?></td>
                     <?php if ($section_name != NULL) { ?>

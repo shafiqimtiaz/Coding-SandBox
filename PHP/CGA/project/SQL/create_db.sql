@@ -1,3 +1,10 @@
+-- CODE CONTRIBUTOR:
+
+-- # COMP 5531 - GROUP 4 (Winter 2022)
+-- Student_ID  First_Name  Last_Name   Email
+-- 40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+-- 21917730    michael     POULLAS     m_poull@encs.concordia.ca
+
 create database cga;
 use cga;
 
@@ -20,6 +27,7 @@ use cga;
 5500000 - comment
 6600000 - files
 7700000 - grades
+8800000 - messages
 
 */
 
@@ -190,7 +198,9 @@ CREATE TABLE Reply
   posted_by_uid INT NOT NULL,
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   forum_id INT NOT NULL,
-  FOREIGN KEY (forum_id) REFERENCES Forum(forum_id) ON DELETE CASCADE ON UPDATE CASCADE
+  file_id INT,
+  FOREIGN KEY (forum_id) REFERENCES Forum(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (file_id) REFERENCES Files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE Reply AUTO_INCREMENT = 3300000;
 
@@ -219,9 +229,25 @@ CREATE TABLE Comment
   posted_by_uid INT NOT NULL,
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   discussion_id INT NOT NULL,
-  FOREIGN KEY (discussion_id) REFERENCES Discussion(discussion_id) ON DELETE CASCADE ON UPDATE CASCADE
+  file_id INT,
+  FOREIGN KEY (discussion_id) REFERENCES Discussion(discussion_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (file_id) REFERENCES Files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE Comment AUTO_INCREMENT = 5500000;
+
+CREATE TABLE Messages
+(
+  message_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  message_content VARCHAR(1024) NOT NULL,
+  message_date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  sender_user_id INT NOT NULL,
+  receiver_user_id INT NOT NULL,
+  file_id INT,
+  FOREIGN KEY (sender_user_id) REFERENCES Users(user_id),
+  FOREIGN KEY (receiver_user_id) REFERENCES Users(user_id),
+  FOREIGN KEY (file_id) REFERENCES Files(file_id)
+);
+ALTER TABLE Messages AUTO_INCREMENT = 8800000;
 
 -- ------------------------------------------------------------------
 

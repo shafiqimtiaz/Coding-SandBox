@@ -1,14 +1,23 @@
+<!--
+CODE CONTRIBUTOR:
+
+# COMP 5531 - GROUP 4 (Winter 2022)
+Student_ID  First_Name  Last_Name   Email
+40159305    shafiq      IMTIAZ      s_mtiaz@encs.concordia.ca
+21917730    michael     POULLAS     m_poull@encs.concordia.ca
+-->
+
 <?php
 
 // ADD
 if (isset($_POST['add_role'])) {
 
-    // receive all input values from the form
+
     $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
     $role_description = mysqli_real_escape_string($conn, $_POST['role_description']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
+
+
     if (empty($role_name)) {
         array_push($errors, "Role Name is required");
     }
@@ -32,12 +41,12 @@ if (isset($_POST['update_role'])) {
 
     $id = mysqli_real_escape_string($conn, $_GET['update_id']);
 
-    // receive all input values from the form
+
     $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
     $role_description = mysqli_real_escape_string($conn, $_POST['role_description']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
+
+
     if (empty($role_name)) {
         array_push($errors, "Role Name is required");
     }
@@ -84,7 +93,6 @@ if (isset($_GET['delete_id'])) {
     <table>
         <thead>
             <tr>
-                <?php isAdmin() ? print '<th>Role ID</th>' : ''; ?>
                 <th>Role Name</th>
                 <th>Role Description</th>
                 <?php isAdmin() ? print '<th colspan="2">Action</th>' : ''; ?>
@@ -99,17 +107,14 @@ if (isset($_GET['delete_id'])) {
                 $role_description = $row['role_description'];
             ?>
                 <tr>
-                    <?php if (isAdmin()) {
-                        echo '<td>' . $id . '</td>';
-                    } ?>
                     <td><?= $role_name ?></td>
                     <td><?= $role_description ?></td>
                     <?php if (isAdmin()) {
                         echo '<td><a href="?page=roles&update_view=true&update_id=' . $id . '">Update</a></td>';
-                        echo "<td><a href='?page=roles&delete_view=true&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete Role</a></td>";
+                        echo "<td><a href='?page=roles&delete_id=" . $id . "' onclick='return confirm(&quot;Are you sure you want to delete?&quot;)'>Delete Role</a></td>";
                     } ?>
                 </tr>
-                <?php } ?>
+            <?php } ?>
         </tbody>
     </table>
 
