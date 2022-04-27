@@ -33,15 +33,24 @@ $role_id = $_SESSION['role_id'];
 <body>
 
     <header>
-        <h1>Welcome to CGA</h1>
-        <nav>
-            <p>Logged in as <b><?= $name ?></b></p>
-            <ul>
-                <li><a href="./auth/reset-email.php">Reset Email</a></li>
-                <li><a href="./auth/reset-password.php">Reset Password</a></li>
-                <li><a href="./auth/logout.php">Logout</a></li>
-            </ul>
-        </nav>
+        <div class="title-bar">
+            <h1>Welcome to CGA</h1>
+            <nav>
+                <div class="header-minimum">
+                    <p>Logged in as <b><?= $name ?></b></p>
+                    <a href="javascript:void(0);" class="hamburger-icon" onclick="toggleHamburger(this)">
+                        <div class="hamburger bar1"></div>
+                        <div class="hamburger bar2"></div>
+                        <div class="hamburger bar3"></div>
+                    </a>
+                </div>
+                <ul class="header-link" id="header-link">
+                    <li><a href="./auth/reset-email.php">Reset Email</a></li>
+                    <li><a href="./auth/reset-password.php">Reset Password</a></li>
+                    <li><a href="./auth/logout.php">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
