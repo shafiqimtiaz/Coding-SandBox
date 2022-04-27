@@ -25,7 +25,6 @@
 
     }
 </script>
-
 <?php
 
 $session_user_id = $_SESSION['user_id'];

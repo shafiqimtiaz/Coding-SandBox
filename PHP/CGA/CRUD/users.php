@@ -76,7 +76,6 @@
             return true;
     }
 </script>
-
 <?php
 
 // ADD

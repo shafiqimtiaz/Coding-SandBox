@@ -1,4 +1,3 @@
-
 <?php
 
 $errors = array();
