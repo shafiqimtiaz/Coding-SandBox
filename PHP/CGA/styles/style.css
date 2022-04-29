@@ -139,6 +139,7 @@ hr {
 .menu-list a {
     text-decoration: none;
     color: black;
+    display: block;
 }
 
 /**********************************************/
@@ -173,6 +174,7 @@ hr {
 
 .admin-content ul li a {
     color: black;
+    display: block;
 }
 
 .admin-content ul li:hover {

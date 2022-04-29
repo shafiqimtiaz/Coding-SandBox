@@ -28,7 +28,7 @@ INSERT INTO roles (role_name, role_description) VALUES
 ("Student", "Course Student");
 
 INSERT INTO users (first_name, last_name, dob, email, username, password, created_on, first_login, role_id) VALUES 
-("Admin", "CGA","1980-01-01", "admin@admin.com", "admin", "admin", "admin", CURRENT_TIMESTAMP, 1, 1),
+("Admin", "CGA","1980-01-01", "admin@admin.com", "admin", "admin", CURRENT_TIMESTAMP, 1, 1),
 ("Albert", "Einstein","1900-01-01", "albert@einstein.com", "a_einstein_2", "12345", CURRENT_TIMESTAMP, 1, 2),
 ("Issac", "Newton","1900-01-01", "issac@pnewton.com", "i_newton_2", "12345", CURRENT_TIMESTAMP, 1, 2),
 ("Nikola", "Tesla","1900-01-01", "nikola@tesla.com", "n_tesla_2", "12345", CURRENT_TIMESTAMP, 1, 2),
@@ -42,11 +42,6 @@ INSERT INTO users (first_name, last_name, dob, email, username, password, create
 ("Peter", "Parker","1990-01-01", "peter@parker.com", "p_parker_4", "12345", CURRENT_TIMESTAMP,1, 4),
 ("Clark", "Kent","1980-01-01", "clark@kent.com", "c_kent_4", "12345", CURRENT_TIMESTAMP,1, 4);
 
-INSERT INTO course (course_name, course_number) VALUES
-("Files and DB", 5531),
-("Operating Systems", 5461),
-("Tools and Techniques", 5541);
-
 -- Professor Table
 INSERT INTO professor (user_id) VALUES
 (10001), (10002), (10003);
@@ -56,6 +51,11 @@ INSERT INTO ta (user_id) VALUES
 -- Student Table
 INSERT INTO student (user_id) VALUES
 (10007), (10008), (10009), (10010), (10011), (10012);
+
+INSERT INTO course (course_name, course_number) VALUES
+("Files and DB", 5531),
+("Operating Systems", 5461),
+("Tools and Techniques", 5541);
 
 -- Course Section Table
 INSERT INTO section (section_name, course_id) VALUES

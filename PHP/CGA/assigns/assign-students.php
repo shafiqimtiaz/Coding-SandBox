@@ -62,6 +62,7 @@ if (isset($_POST['add'])) {
 
         if (mysqli_query($conn, $add)) {
             array_push($success, "Student has been assigned to course successfully");
+            unset($_POST["course_id"]);
         } else {
             array_push($errors, "Could not INSERT error: " . mysqli_error($conn));
         }
@@ -127,7 +128,7 @@ if (isset($_GET['delete_view'])) {
 }
 
 if (isset($_POST["course_id"])) {
-    $user_id_selected = $_POST["user_id"];
+    // $user_id_selected = $_POST["user_id"];
     $course_id_selected = $_POST["course_id"];
 }
 
@@ -289,11 +290,11 @@ Always visible and shows delete error if delete_view is set true -->
                                 $user_id = $user['user_id'];
                                 $first_name = $user['first_name'];
                                 $last_name = $user['last_name'];
-                                if ($user_id_selected == $user_id) {
-                                    echo "<option value='$user_id' selected>$first_name $last_name</option>";
-                                } else {
-                                    echo "<option value='$user_id'>$first_name $last_name</option>";
-                                }
+                                // if ($user_id_selected == $user_id) {
+                                //     echo "<option value='$user_id' selected>$first_name $last_name</option>";
+                                // } else {
+                                echo "<option value='$user_id'>$first_name $last_name</option>";
+                                // }
                             }
                             ?>
                         </select>
