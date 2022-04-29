@@ -2,8 +2,8 @@
 // Initialize the session
 session_start();
 
-require_once('../configs/config.php');
-require_once('../helper/functions.php');
+require('../configs/config.php');
+require('../helper/functions.php');
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("location: ../index.php");
@@ -27,7 +27,7 @@ if (isset($_POST['login_user'])) {
     if (count($errors) == 0) {
 
         $query = "SELECT * FROM users as u WHERE username='$username' AND password='$password' LIMIT 1";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
         if (mysqli_num_rows($result) == 1) {
 

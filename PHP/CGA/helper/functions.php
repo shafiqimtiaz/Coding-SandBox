@@ -34,7 +34,7 @@ function get_table_array($table)
 {
     global $conn;
     $query = "SELECT * FROM $table";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     return $result;
 }
 
@@ -43,7 +43,7 @@ function get_records_where($table, $key, $value)
 {
     global $conn;
     $query = "SELECT * FROM $table WHERE $key='$value'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     return $result;
 }
 
@@ -51,7 +51,7 @@ function isGroupLeader($student_id, $group_id)
 {
     global $conn;
     $query = "SELECT * FROM student_groups WHERE group_leader_sid='$student_id' AND group_id='$group_id'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     if (mysqli_num_rows($result) > 0) {
         return true;
     }
@@ -120,7 +120,7 @@ function get_column_names($table)
 {
     global $conn;
     $query = "SHOW COLUMNS FROM $table"; // WHERE Field = $var
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     return $result;
 }
 

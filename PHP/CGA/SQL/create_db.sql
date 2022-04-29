@@ -24,16 +24,16 @@ use cga;
 
 */
 
-CREATE TABLE Roles
+CREATE TABLE roles
 (
   role_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   role_name VARCHAR(30) NOT NULL UNIQUE,
   role_description VARCHAR(255) NOT NULL
 );
-ALTER TABLE Roles AUTO_INCREMENT = 1;
+ALTER TABLE roles AUTO_INCREMENT = 1;
 
 
-CREATE TABLE Users
+CREATE TABLE users
 (
   user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
@@ -45,67 +45,67 @@ CREATE TABLE Users
   created_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   first_login TINYINT NOT NULL,
   role_id INT NOT NULL,
-  FOREIGN KEY (role_id) REFERENCES Roles(role_id)
+  FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
-ALTER TABLE Users AUTO_INCREMENT = 10000;
+ALTER TABLE users AUTO_INCREMENT = 10000;
 
 
-CREATE TABLE Student
+CREATE TABLE student
 (
   student_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES Users(user_id)
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-ALTER TABLE Student AUTO_INCREMENT = 20000;
+ALTER TABLE student AUTO_INCREMENT = 20000;
 
 
-CREATE TABLE TA
+CREATE TABLE ta
 (
   ta_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES Users(user_id)
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-ALTER TABLE TA AUTO_INCREMENT = 30000;
+ALTER TABLE ta AUTO_INCREMENT = 30000;
 
 
-CREATE TABLE Professor
+CREATE TABLE professor
 (
   professor_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES Users(user_id)
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-ALTER TABLE Professor AUTO_INCREMENT = 40000;
+ALTER TABLE professor AUTO_INCREMENT = 40000;
 
 
-CREATE TABLE Course
+CREATE TABLE course
 (
   course_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   course_name VARCHAR(30) NOT NULL UNIQUE,
   course_number INT NOT NULL UNIQUE
 );
-ALTER TABLE Course AUTO_INCREMENT = 50000;
+ALTER TABLE course AUTO_INCREMENT = 50000;
 
 
-CREATE TABLE Section
+CREATE TABLE section
 (
   section_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   section_name VARCHAR(30) NOT NULL,
   course_id INT NOT NULL,
-  FOREIGN KEY (course_id) REFERENCES Course(course_id)
+  FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
-ALTER TABLE Section AUTO_INCREMENT = 60000;
+ALTER TABLE section AUTO_INCREMENT = 60000;
 
 
-CREATE TABLE Student_Groups
+CREATE TABLE student_groups
 (
   group_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   group_name VARCHAR(30) NOT NULL,
   group_leader_sid INT NOT NULL
 );
-ALTER TABLE Student_Groups AUTO_INCREMENT = 70000;
+ALTER TABLE student_groups AUTO_INCREMENT = 70000;
 
 
-CREATE TABLE Files
+CREATE TABLE files
 (
   file_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   file_name VARCHAR(30) NOT NULL,
@@ -115,9 +115,9 @@ CREATE TABLE Files
   uploaded_by_uid INT NOT NULL,
   uploaded_on DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-ALTER TABLE Files AUTO_INCREMENT = 6600000;
+ALTER TABLE files AUTO_INCREMENT = 6600000;
 
-CREATE TABLE Task
+CREATE TABLE task
 (
   task_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   task_type VARCHAR(30) NOT NULL,
@@ -125,13 +125,13 @@ CREATE TABLE Task
   task_deadline DATETIME NOT NULL,
   file_id INT NOT NULL,
   course_id INT NOT NULL,
-  FOREIGN KEY (file_id) REFERENCES Files(file_id),
-  FOREIGN KEY (course_id) REFERENCES Course(course_id)
+  FOREIGN KEY (file_id) REFERENCES files(file_id),
+  FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
-ALTER TABLE Task AUTO_INCREMENT = 80000;
+ALTER TABLE task AUTO_INCREMENT = 80000;
 
 
-CREATE TABLE Solution
+CREATE TABLE solution
 (
   solution_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   solution_type VARCHAR(30) NOT NULL,
@@ -139,25 +139,25 @@ CREATE TABLE Solution
   task_id INT NOT NULL,
   group_id INT NOT NULL,
   file_id INT NOT NULL,
-  FOREIGN KEY (task_id) REFERENCES Task(task_id),
-  FOREIGN KEY (group_id) REFERENCES Student_Groups(group_id),
-  FOREIGN KEY (file_id) REFERENCES Files(file_id)
+  FOREIGN KEY (task_id) REFERENCES task(task_id),
+  FOREIGN KEY (group_id) REFERENCES student_groups(group_id),
+  FOREIGN KEY (file_id) REFERENCES files(file_id)
 );
-ALTER TABLE Solution AUTO_INCREMENT = 90000;
+ALTER TABLE solution AUTO_INCREMENT = 90000;
 
-CREATE TABLE Grades
+CREATE TABLE grades
 (
   grade_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   grade INT NOT NULL,
   student_id INT NOT NULL,
   solution_id INT NOT NULL,
-  FOREIGN KEY (student_id) REFERENCES Student(student_id),
-  FOREIGN KEY (solution_id) REFERENCES Solution(solution_id),
+  FOREIGN KEY (student_id) REFERENCES student(student_id),
+  FOREIGN KEY (solution_id) REFERENCES solution(solution_id),
   UNIQUE (student_id, solution_id) 
 );
-ALTER TABLE Grades AUTO_INCREMENT = 7700000;
+ALTER TABLE grades AUTO_INCREMENT = 7700000;
 
-CREATE TABLE Announcement
+CREATE TABLE announcement
 (
   announcement_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   announcement_title VARCHAR(255) NOT NULL,
@@ -165,11 +165,11 @@ CREATE TABLE Announcement
   posted_by_uid INT NOT NULL,
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   course_id INT NOT NULL,
-  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-ALTER TABLE Announcement AUTO_INCREMENT = 1100000;
+ALTER TABLE announcement AUTO_INCREMENT = 1100000;
 
-CREATE TABLE Forum
+CREATE TABLE forum
 (
   forum_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   forum_title VARCHAR(30) NOT NULL,
@@ -178,13 +178,13 @@ CREATE TABLE Forum
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   course_id INT NOT NULL,
   file_id INT,
-  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (file_id) REFERENCES Files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (file_id) REFERENCES files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-ALTER TABLE Forum AUTO_INCREMENT = 2200000;
+ALTER TABLE forum AUTO_INCREMENT = 2200000;
 
 
-CREATE TABLE Reply
+CREATE TABLE reply
 (
   reply_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   reply_content VARCHAR(1024) NOT NULL,
@@ -192,13 +192,13 @@ CREATE TABLE Reply
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   forum_id INT NOT NULL,
   file_id INT,
-  FOREIGN KEY (forum_id) REFERENCES Forum(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (file_id) REFERENCES Files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (forum_id) REFERENCES forum(forum_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (file_id) REFERENCES files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-ALTER TABLE Reply AUTO_INCREMENT = 3300000;
+ALTER TABLE reply AUTO_INCREMENT = 3300000;
 
 
-CREATE TABLE Discussion
+CREATE TABLE discussion
 (
   discussion_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   discussion_title VARCHAR(30) NOT NULL,
@@ -208,14 +208,14 @@ CREATE TABLE Discussion
   group_id INT,
   task_id INT,
   file_id INT,
-  FOREIGN KEY (group_id) REFERENCES Student_Groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (task_id) REFERENCES Task(task_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (file_id) REFERENCES Files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (group_id) REFERENCES student_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (task_id) REFERENCES task(task_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (file_id) REFERENCES files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-ALTER TABLE Discussion AUTO_INCREMENT = 4400000;
+ALTER TABLE discussion AUTO_INCREMENT = 4400000;
 
 
-CREATE TABLE Comment
+CREATE TABLE comment
 (
   comment_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   comment_content VARCHAR(1024) NOT NULL,
@@ -223,12 +223,12 @@ CREATE TABLE Comment
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
   discussion_id INT NOT NULL,
   file_id INT,
-  FOREIGN KEY (discussion_id) REFERENCES Discussion(discussion_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (file_id) REFERENCES Files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (discussion_id) REFERENCES discussion(discussion_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (file_id) REFERENCES files(file_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-ALTER TABLE Comment AUTO_INCREMENT = 5500000;
+ALTER TABLE comment AUTO_INCREMENT = 5500000;
 
-CREATE TABLE Messages
+CREATE TABLE messages
 (
   message_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   message_content VARCHAR(1024) NOT NULL,
@@ -236,53 +236,53 @@ CREATE TABLE Messages
   sender_user_id INT NOT NULL,
   receiver_user_id INT NOT NULL,
   file_id INT,
-  FOREIGN KEY (sender_user_id) REFERENCES Users(user_id),
-  FOREIGN KEY (receiver_user_id) REFERENCES Users(user_id),
-  FOREIGN KEY (file_id) REFERENCES Files(file_id)
+  FOREIGN KEY (sender_user_id) REFERENCES users(user_id),
+  FOREIGN KEY (receiver_user_id) REFERENCES users(user_id),
+  FOREIGN KEY (file_id) REFERENCES files(file_id)
 );
-ALTER TABLE Messages AUTO_INCREMENT = 8800000;
+ALTER TABLE messages AUTO_INCREMENT = 8800000;
 
 -- ------------------------------------------------------------------
 
-CREATE TABLE Member_of_Group
+CREATE TABLE member_of_group
 (
   student_id INT NOT NULL,
   group_id INT NOT NULL,
-  FOREIGN KEY (student_id) REFERENCES Student(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (group_id) REFERENCES Student_Groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (student_id) REFERENCES student(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES student_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE TA_of_Section
+CREATE TABLE ta_of_section
 (
   ta_id INT NOT NULL,
   section_id INT NOT NULL,
-  FOREIGN KEY (ta_id) REFERENCES TA(ta_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (section_id) REFERENCES Section(section_id)ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (ta_id) REFERENCES ta(ta_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (section_id) REFERENCES section(section_id)ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Prof_of_Course
+CREATE TABLE prof_of_course
 (
   professor_id INT NOT NULL,
   course_id INT NOT NULL,
-  FOREIGN KEY (professor_id) REFERENCES Professor(professor_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (professor_id) REFERENCES professor(professor_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Group_of_Course
+CREATE TABLE group_of_course
 (
   group_id INT NOT NULL,
   course_id INT NOT NULL,
-  FOREIGN KEY (group_id) REFERENCES Student_Groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (group_id) REFERENCES student_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE User_Course_Section
+CREATE TABLE user_course_section
 (
   user_id INT NOT NULL,
   course_id INT NOT NULL,
   section_id INT,
-  FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (section_id) REFERENCES Section(section_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (section_id) REFERENCES section(section_id) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE (user_id, section_id)
 );

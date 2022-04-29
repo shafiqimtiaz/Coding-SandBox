@@ -2,8 +2,8 @@
 // Initialize the session
 session_start();
 
-require_once('../configs/config.php');
-require_once('../helper/functions.php');
+require('../configs/config.php');
+require('../helper/functions.php');
 
 if (isset($_POST['recover_password'])) {
 

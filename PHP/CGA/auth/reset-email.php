@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once('../configs/config.php');
-require_once('../helper/functions.php');
+require('../configs/config.php');
+require('../helper/functions.php');
 
 $session_user_id = $_SESSION['user_id'];
 
