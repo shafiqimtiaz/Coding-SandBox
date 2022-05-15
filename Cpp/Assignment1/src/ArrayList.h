@@ -1,34 +1,46 @@
-#ifndef ARRAYLIST_H_
-
-#include <iostream>
-#define ARRAYLIST_H_
+#ifndef ARRAYLIST_H
+#define ARRAYLIST_H
 
 class ArrayList
 {
-private:
-    int *pArray;
-    int *temp;
-    int capacity;
-    int used;
-
 public:
     ArrayList();
-    ArrayList(const ArrayList& arr);
+    ArrayList(const ArrayList& source);
+    ArrayList(ArrayList&& source) noexcept;
+    ArrayList& operator=(const ArrayList& rhs);
+    ArrayList& operator=(ArrayList&& rhs) noexcept;
     ~ArrayList();
-    void pushBack(int value);
-    int size() const;
+
     bool empty() const;
     bool full() const;
-    void print();
-    void resize();
+    int size() const;
+    void pushBack(int x);
+    bool contains(int x) const;
+    bool get(int position, int& value) const;
     int getCapacity() const;
 
+    void print(std::ostream& sout) const;
 
-    //friend ostream& operator<<(ostream& output, const ArrayList& arr) {
-    //    output << arr.pArray[used];
-    //    return output;
-    //}
+    friend std::ostream& operator<<(std::ostream& out, const ArrayList& source)
+    {
+        if (source.used > 0) {
+            for (int i = 0; i < source.getCapacity(); ++i) {
+                out << source.pArray[i] << " ";
+            }
+            return out;
+        }
+        else
+        {
+            return out << "";
+        }
+        
+    }
+
+private:
+    void resize();
+    int* pArray;
+    int capacity;
+    int used;
 };
-
 
 #endif

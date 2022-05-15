@@ -1,33 +1,86 @@
+#include <iostream>
 #include "ArrayList.h"
 
+/*
+* Default Constructor
+*/
 ArrayList::ArrayList()
+	: capacity{0}, used{0}, pArray{ new int[capacity] }
 {
-    capacity = 1;
-    used = 0;
-    pArray = new int[capacity];
+
 }
 
-ArrayList::ArrayList(const ArrayList& arr)
+/*
+* Copy Constructor
+*/
+ArrayList::ArrayList(const ArrayList& source)
 {
-	for (int i = 0; i < used; i++) {
-		pArray[i] = arr.pArray[i];
+	std::cout << "Copy Constructor called" << std::endl;
+	for (int i = 0; i < used; ++i) {
+		pArray[i] = source.pArray[i];
 	}
 }
 
-void ArrayList::pushBack(int value)
+/*
+* Move Constructor
+*/
+ArrayList::ArrayList(ArrayList&& source) noexcept
+	: pArray{ source.pArray }, capacity{source.capacity}, used{source.used}
 {
-	if (used >= capacity)
+	std::cout << "Move Constructor called" << std::endl;
+	source.used = 0;
+	source.capacity = 0;
+	source.pArray = nullptr;
+}
+
+/*
+* Copy Assignment Operator
+*/
+ArrayList& ArrayList::operator=(const ArrayList& rhs)
+{
+	std::cout << "Copy Assignment Operator called" << std::endl;
+	if (&rhs != this)
 	{
-		ArrayList::resize();
-		pArray[used] = value;
-		used++;
-	}
-	else {
-		pArray[used] = value;
-		used++;
-	}
+		delete[] pArray;
 
+		capacity = rhs.capacity;
+		used = rhs.used;
+		pArray = new int[capacity];
+		for (int k = 0; k < capacity; ++k)
+		{
+			pArray[k] = rhs.pArray[k];
+		}
+	}
+	return *this;
 }
+
+/*
+* Move Assignment Operator
+*/
+ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
+{
+	std::cout << "Move Assignment Operator called" << std::endl;
+	if (&rhs != this)
+	{
+		delete[] pArray;
+
+		capacity = rhs.capacity;
+		used = rhs.used;
+		pArray = rhs.pArray;
+
+		capacity = 0;
+		used = 0;
+		pArray = nullptr;
+	}
+	return *this;
+}
+
+ArrayList::~ArrayList()
+{
+	delete[] pArray;
+}
+
+
 
 bool ArrayList::empty() const
 {
@@ -56,16 +109,45 @@ int ArrayList::size() const
 
 void ArrayList::resize()
 {
-	temp = new int[capacity * 2];
-	ArrayList temp = pArray;
-	pArray = new int[capacity * 2];
-	ArrayList pArray = temp;
+	int* temp = new int[capacity + 1];
+
+	for (int i = 0; i < capacity; ++i) {
+		temp[i] = pArray[i];
+	}
+	pArray = temp;
+	capacity += 1;
 }
 
-void ArrayList::print()
+void ArrayList::pushBack(int x)
 {
-	for (int i = 0; i < used; i++) {
-		std::cout << pArray[i] << " " << std::endl;
+	if (used == capacity)
+	{
+		resize();
+	}
+
+	pArray[used] = x;
+	used++;
+}
+
+bool ArrayList::contains(int x) const
+{
+	for (int i = 0; i < capacity; ++i)
+	{
+		if (pArray[i] == x)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ArrayList::get(int position, int& value) const
+{
+	if (position > capacity) return false;
+	else
+	{
+		value = pArray[position];
+		return true;
 	}
 }
 
@@ -74,7 +156,16 @@ int ArrayList::getCapacity() const
 	return capacity;
 }
 
-ArrayList::~ArrayList()
+void ArrayList::print(std::ostream& sout) const
 {
-    delete[] pArray;
+	if (used > 0) {
+		for (int i = 0; i < getCapacity(); ++i) {
+			sout << pArray[i] << " ";
+		}
+	}
+	else
+	{
+		sout << "";
+	}
+	
 }
