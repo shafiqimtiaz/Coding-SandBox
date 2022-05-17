@@ -7,7 +7,6 @@
 ArrayList::ArrayList()
 	: capacity{0}, used{0}, pArray{ new int[capacity] }
 {
-
 }
 
 /*
@@ -167,5 +166,15 @@ void ArrayList::print(std::ostream& sout) const
 	{
 		sout << "";
 	}
-	
+}
+
+std::ostream& operator<<(std::ostream& out, const ArrayList& source)
+{
+	if (source.used > 0) {
+		for (int i = 0; i < source.getCapacity(); ++i) {
+			out << source.pArray[i] << " ";
+		}
+		return out;
+	}
+	else { return out << ""; }
 }

@@ -1,6 +1,8 @@
 #include <iostream>
 #include<cassert>
 #include "ArrayList.h"
+#include "Token.h"
+
 
 using std::cin;
 using std::cout;
@@ -50,5 +52,8 @@ int main()
 	list.print(cout);
 	
 	cout << "\nArrayList Test Successful" << endl;
+
+
+
 	return 0;
 }

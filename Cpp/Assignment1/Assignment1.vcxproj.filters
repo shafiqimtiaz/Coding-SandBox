@@ -21,9 +21,15 @@
     <ClCompile Include="src\ArrayList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ArrayList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

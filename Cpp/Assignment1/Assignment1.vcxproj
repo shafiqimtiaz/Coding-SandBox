@@ -149,9 +149,11 @@
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ArrayList.cpp" />
+    <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ArrayList.h" />
+    <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
