@@ -1,6 +1,8 @@
 #ifndef ARRAYLIST_H
 #define ARRAYLIST_H
 
+using std::ostream;
+
 class ArrayList
 {
 public:
@@ -9,7 +11,7 @@ public:
     ArrayList(ArrayList&& source) noexcept;
     ArrayList& operator=(const ArrayList& rhs);
     ArrayList& operator=(ArrayList&& rhs) noexcept;
-    ~ArrayList();
+    virtual ~ArrayList();
 
     bool empty() const;
     bool full() const;
@@ -18,15 +20,15 @@ public:
     bool contains(int x) const;
     bool get(int position, int& value) const;
     int getCapacity() const;
-    void print(std::ostream& sout) const;
-
-    friend std::ostream& operator<<(std::ostream& out, const ArrayList& source);
+    void print(ostream& sout) const;
 
 private:
     void resize();
-    int* pArray;
     int capacity;
     int used;
+    int* pArray;
 };
+
+ostream& operator<<(ostream& sout, const ArrayList& source);
 
 #endif

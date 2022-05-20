@@ -1,20 +1,35 @@
 #include <iostream>
+#include <vector>
 #include "MyArray.h"
 
+using std::vector;
 using std::cout;
 using std::endl;
 
 int main()
 {
-	MyArray a{ 10 };
-	MyArray b{ a };
+	MyArray a(10);
+	a[0] = 100;
 
-	MyArray c{ MyArray {20} };
-	a = c;
-	b = { MyArray{30} };
+	MyArray b(a);
+	cout << b[0] << endl;
+	cout << sizeof(b)/sizeof(b[0]) << endl;
 
-	const MyArray d{ 40 };
-	cout << d[0] << endl;
-	a[0] = 99;
-	cout << a[0] << endl;
+	cout << "-----" << endl;
+
+	b[0] = 200;
+	MyArray c(10);
+	c = b;
+	cout << c[0] << endl;
+	cout << sizeof(c)/sizeof(c[0]) << endl;
+
+	cout << "-----" << endl;
+
+	vector <MyArray> v;
+	v.push_back(MyArray(20));
+
+	cout << "-----" << endl;
+
+	MyArray d(10);
+	d = MyArray(30);
 }

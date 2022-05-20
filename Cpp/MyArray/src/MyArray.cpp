@@ -10,7 +10,7 @@ MyArray::MyArray(size_t len)
 MyArray::MyArray(const MyArray& source)
 	: MyArray{ source.length }
 {
-	std::cout << "MyArray of " << length << " elements copied" << std::endl;
+	std::cout << "copy ctor" << std::endl;
 	for (size_t i{ 0 }; i < length; ++i)
 	{
 		pStore[i] = source.pStore[i];
@@ -21,6 +21,7 @@ MyArray::MyArray(const MyArray& source)
 MyArray::MyArray(MyArray&& source) noexcept
 	: pStore{ source.pStore }, length{ source.length }
 {
+	std::cout << "move ctor" << std::endl;
 	source.length = 0;
 	source.pStore = nullptr;
 }
@@ -28,6 +29,7 @@ MyArray::MyArray(MyArray&& source) noexcept
 //Copy Assignment Operator Overloading
 MyArray& MyArray::operator=(const MyArray& rhs)
 {
+	std::cout << "copy op" << std::endl;
 	if (&rhs != this)
 	{
 		delete[] pStore;
@@ -45,6 +47,7 @@ MyArray& MyArray::operator=(const MyArray& rhs)
 //Move Assignment Operator Overloading
 MyArray& MyArray::operator=(MyArray&& rhs) noexcept
 {
+	std::cout << "move op" << std::endl;
 	if (&rhs != this)
 	{
 		delete[] pStore;

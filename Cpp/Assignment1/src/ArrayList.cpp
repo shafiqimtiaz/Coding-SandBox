@@ -1,35 +1,43 @@
 #include <iostream>
 #include "ArrayList.h"
 
+using std::ostream;
+using std::cin;
+using std::cout;
+using std::endl;
+
 /*
 * Default Constructor
 */
 ArrayList::ArrayList()
-	: capacity{0}, used{0}, pArray{ new int[capacity] }
+	: capacity{1}, used{0}, pArray{ new int[1] }
 {
 }
 
 /*
 * Copy Constructor
 */
-ArrayList::ArrayList(const ArrayList& source)
+ArrayList::ArrayList(const ArrayList& array)
 {
-	std::cout << "Copy Constructor called" << std::endl;
-	for (int i = 0; i < used; ++i) {
-		pArray[i] = source.pArray[i];
+	//cout << "ArrayList Copy Ctor" << endl;
+
+	for (size_t i = 0; i < used; ++i)
+	{
+		pArray[i] = array.pArray[i];
 	}
 }
 
 /*
 * Move Constructor
 */
-ArrayList::ArrayList(ArrayList&& source) noexcept
-	: pArray{ source.pArray }, capacity{source.capacity}, used{source.used}
+ArrayList::ArrayList(ArrayList&& array) noexcept
+	: capacity{ array.capacity}, used{ array.used}, pArray{ array.pArray }
 {
-	std::cout << "Move Constructor called" << std::endl;
-	source.used = 0;
-	source.capacity = 0;
-	source.pArray = nullptr;
+	//cout << "ArrayList Move Ctor" << endl;
+
+	array.capacity = 0;
+	array.used = 0;
+	array.pArray = nullptr;
 }
 
 /*
@@ -37,7 +45,7 @@ ArrayList::ArrayList(ArrayList&& source) noexcept
 */
 ArrayList& ArrayList::operator=(const ArrayList& rhs)
 {
-	std::cout << "Copy Assignment Operator called" << std::endl;
+	//cout << "ArrayList Copy Ass Op" << endl;
 	if (&rhs != this)
 	{
 		delete[] pArray;
@@ -45,7 +53,7 @@ ArrayList& ArrayList::operator=(const ArrayList& rhs)
 		capacity = rhs.capacity;
 		used = rhs.used;
 		pArray = new int[capacity];
-		for (int k = 0; k < capacity; ++k)
+		for (size_t k = 0; k < capacity; ++k)
 		{
 			pArray[k] = rhs.pArray[k];
 		}
@@ -58,7 +66,7 @@ ArrayList& ArrayList::operator=(const ArrayList& rhs)
 */
 ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
 {
-	std::cout << "Move Assignment Operator called" << std::endl;
+	//cout << "ArrayList Move Ass Op" << endl;
 	if (&rhs != this)
 	{
 		delete[] pArray;
@@ -67,13 +75,16 @@ ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
 		used = rhs.used;
 		pArray = rhs.pArray;
 
-		capacity = 0;
-		used = 0;
-		pArray = nullptr;
+		rhs.capacity = 0;
+		rhs.used = 0;
+		rhs.pArray = nullptr;
 	}
 	return *this;
 }
 
+/*
+* Destructor
+*/
 ArrayList::~ArrayList()
 {
 	delete[] pArray;
@@ -83,20 +94,24 @@ ArrayList::~ArrayList()
 
 bool ArrayList::empty() const
 {
-	if (used == 0) {
+	if (used == 0)
+	{
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
 
 bool ArrayList::full() const
 {
-	if (used == capacity) {
+	if (used == capacity)
+	{
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
@@ -108,13 +123,16 @@ int ArrayList::size() const
 
 void ArrayList::resize()
 {
-	int* temp = new int[capacity + 1];
+	int cap = capacity * 2;
+	int* temp = new int[cap * 2];
 
-	for (int i = 0; i < capacity; ++i) {
+	for (size_t i = 0; i < capacity; ++i)
+	{
 		temp[i] = pArray[i];
 	}
+
 	pArray = temp;
-	capacity += 1;
+	capacity = cap;
 }
 
 void ArrayList::pushBack(int x)
@@ -130,7 +148,7 @@ void ArrayList::pushBack(int x)
 
 bool ArrayList::contains(int x) const
 {
-	for (int i = 0; i < capacity; ++i)
+	for (size_t i = 0; i < capacity; ++i)
 	{
 		if (pArray[i] == x)
 		{
@@ -155,10 +173,12 @@ int ArrayList::getCapacity() const
 	return capacity;
 }
 
-void ArrayList::print(std::ostream& sout) const
+void ArrayList::print(ostream& sout) const
 {
-	if (used > 0) {
-		for (int i = 0; i < getCapacity(); ++i) {
+	if (used > 0)
+	{
+		for (size_t i = 0; i < used; ++i)
+		{
 			sout << pArray[i] << " ";
 		}
 	}
@@ -168,13 +188,8 @@ void ArrayList::print(std::ostream& sout) const
 	}
 }
 
-std::ostream& operator<<(std::ostream& out, const ArrayList& source)
+ostream& operator<<(ostream& sout, const ArrayList& source)
 {
-	if (source.used > 0) {
-		for (int i = 0; i < source.getCapacity(); ++i) {
-			out << source.pArray[i] << " ";
-		}
-		return out;
-	}
-	else { return out << ""; }
+	source.print(sout);
+	return sout;
 }
