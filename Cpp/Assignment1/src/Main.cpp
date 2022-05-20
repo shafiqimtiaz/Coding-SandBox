@@ -81,14 +81,24 @@ int main()
 	t4.addLineNumber(99);
 	t4.addLineNumber(65);
 	cout << "E) t4: " << t4 << endl; 
+	cout << "post-t3: " << t3 << endl;
+
 
 	Token t5{ "A",1 };
 	t5 = std::move(t4);
 	t5.addLineNumber(90);
 	t5.addLineNumber(36);
 	cout << "F) t5: " << t5 << endl;
+	cout << "post-t4: " << t4 << endl;
 
 	cout << t5.c_str() << endl;
+	cout << t5.size() << endl;
+	cout << t5.getNumberList() << endl;
+
+	Token t6{ "HellO", 10 };
+	cout << "G) t6: " << t6 << endl;
+
+	cout << t5.compare(t6);
 
 	return 0;
 }

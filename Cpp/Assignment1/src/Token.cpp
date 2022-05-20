@@ -98,13 +98,31 @@ Token::~Token()
 
 const char* Token::c_str() const
 {
-	return &cstr;
+	return cstr;
 }
+
+size_t Token::size() const
+{
+	return strlen(cstr);
+}
+
+const ArrayList& Token::getNumberList() const
+{
+	return number_list;
+}
+
 
 void Token::addLineNumber(int line_num)
 {
 	number_list.pushBack(line_num);
 	frequency++;
+}
+
+int Token::compare(const Token& aToken) const
+{
+	if (strcmp(cstr, aToken.cstr) > 0) return 1;
+	else if (strcmp(cstr, aToken.cstr) < 0) return -1;
+	else return 0;
 }
 
 void Token::print(ostream& sout) const
