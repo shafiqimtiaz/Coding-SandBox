@@ -43,6 +43,4 @@ int main()
 
 	cout << "s3: " << s3 << endl;
 	cout << "after move s2: " << s2 << endl;
-
-
 }
