@@ -75,7 +75,7 @@ SList& SList::operator=(const SList& other) // copy assignmnet
 * @param other The specified SList object.
 * @return The invoking SList object.
 */
-SList& SList::operator= (SList&& other) noexcept // move assignment
+SList& SList::operator=(SList&& other) noexcept // move assignment
 {
 	if (this != &other) // do nothing on self-assignment
 	{

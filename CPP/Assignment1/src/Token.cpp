@@ -28,7 +28,6 @@ Token::Token(const Token& token)
 {
 	//cout << "Token Copy Ctor" << endl;
 
-	delete[] cstr;
 	cstr = new char[strlen(token.cstr) + 1];
 
 	strcpy(cstr, token.cstr);

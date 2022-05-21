@@ -1,17 +1,20 @@
 #include <iostream>
 #include<cassert>
-#include "ArrayList.h"
-#include "Token.h"
 
+//#include "ArrayList.h"
+//#include "Token.h"
+#include "TokenList.h"
 
 using std::cin;
 using std::cout;
 using std::endl;
+using std::move;
 
 int main()
 {
 	/*
 	cout << "Testing ArrayList!\n";
+
 	ArrayList list{};
 	cout << "list-1 -> " << list << endl;
 
@@ -57,6 +60,7 @@ int main()
 	cout << "\nArrayList Test Successful" << endl;
 	*/
 
+	/*
 	cout << "Testing an Object of Class Token\n";
 
 	Token t1{ "Hello", 1 };
@@ -77,7 +81,7 @@ int main()
 	t3.addLineNumber(71);
 	cout << "D) t3: " << t3 << endl;
 
-	Token t4 = std::move(t3);
+	Token t4 = move(t3);
 	t4.addLineNumber(99);
 	t4.addLineNumber(65);
 	cout << "E) t4: " << t4 << endl; 
@@ -85,7 +89,7 @@ int main()
 
 
 	Token t5{ "A",1 };
-	t5 = std::move(t4);
+	t5 = move(t4);
 	t5.addLineNumber(90);
 	t5.addLineNumber(36);
 	cout << "F) t5: " << t5 << endl;
@@ -99,6 +103,32 @@ int main()
 	cout << "G) t6: " << t6 << endl;
 
 	cout << t5.compare(t6);
+	*/
+
+	TokenList bucket;
+	/*Token t1("Hello", 1);
+	bucket.addSorted(t1);
+	Token t2("Hello", 11);
+	bucket.addSorted(t2);
+	Token t3("Hello", 111);
+	bucket.addSorted(t3);*/
+
+	Token tArray[]
+	{
+		Token("How", 1),
+		Token("are", 11),
+		Token("you", 2),
+		Token("today?", 22),
+		Token("#tag", 3),
+		Token("bye", 3)
+	};
+
+	for (Token t : tArray)
+	{
+		bucket.addSorted(t);
+	}
+
+	cout << bucket << endl;
 
 	return 0;
 }

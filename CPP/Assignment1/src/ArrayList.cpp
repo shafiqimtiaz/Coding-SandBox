@@ -10,7 +10,7 @@ using std::endl;
 * Default Constructor
 */
 ArrayList::ArrayList()
-	: capacity{1}, used{0}, pArray{ new int[1] }
+	: capacity{ 1 }, used{ 0 }, pArray{ new int[1] }
 {
 }
 
