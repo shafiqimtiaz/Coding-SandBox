@@ -1,62 +1,94 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 
-using std::endl;
+#pragma warning(disable:4996)
+
+using std::ostream;
 using std::cout;
 using std::cin;
+using std::endl;
+using std::move;
+
+/************************************************************************/
 
 class MyString
 {
-private:
-	char* m_Buffer{ nullptr };
-	size_t m_Size{ 0 };
 public:
-	MyString(const char* string)
-	{
-		m_Size = strlen(string);
-		m_Buffer = new char[m_Size + 1];
-		memcpy(m_Buffer, string, m_Size);
+	MyString() = default;
 
-		m_Buffer[m_Size] = 0;
+	MyString(const char* source)
+		: data{new char[strlen(source) + 1]}, length{strlen(source)}
+	{
+		cout << "Created" << endl;
+		strcpy(data, source);
 	}
 
-	MyString(const MyString& other) : m_Size(other.m_Size)
+	MyString(const MyString& other)
+		: data{ new char[other.length] + 1 }, length{other.length}
 	{
-		m_Buffer = new char[m_Size + 1];
-		memcpy(m_Buffer, other.m_Buffer, m_Size + 1);
+		cout << "Copied" << endl;
+		strcpy(data, other.data);
 	}
 
 	~MyString()
 	{
-		delete[] m_Buffer;
+		cout << "Destroyed" << endl;
+		delete data;
 	}
 
-	static void str_print(MyString& string)
+	void print(ostream& sout) const
 	{
-		cout << string << endl;
+		sout << data;
 	}
 
-	char& operator[] (size_t index)
-	{
-		return m_Buffer[index];
-	}
+	friend ostream& operator<<(ostream& sout, const MyString& source);
 
-	friend std::ostream& operator<<(std::ostream& output, const MyString& string);
+private:
+	char* data;
+	size_t length;
 };
 
-std::ostream& operator<<(std::ostream& output, const MyString& string)
+ostream& operator<<(ostream& sout, const MyString& source)
 {
-	output << string.m_Buffer;
-	return output;
+	source.print(sout);
+	return sout;
 }
+
+/************************************************************************/
+
+class Entity
+{
+public:
+	Entity(const MyString& source)
+		: name{source}
+	{
+	}
+
+	void printName(ostream& sout) const
+	{
+		name.print(sout);
+	}
+
+	friend ostream& operator<<(ostream& sout, const Entity& source);
+
+private:
+	MyString name;
+};
+
+ostream& operator<<(ostream& sout, const Entity& source)
+{
+	source.printName(sout);
+	return sout;
+}
+
+/************************************************************************/
 
 int main()
 {
-	MyString string1 = "Shafiq";
-	MyString string2 = string1;
+	//MyString name = "Shafiq";
+	//MyString name2 = "Hoobla";
+	//cout << name << " " << name2 << endl;
 
-	string2[2] = 'o';
-
-	MyString::str_print(string1);
-	MyString::str_print(string2);
+	Entity e(MyString("Shafiq"));
+	//cout << e << endl;
 }
