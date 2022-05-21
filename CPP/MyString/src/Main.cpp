@@ -17,28 +17,44 @@ public:
 	MyString() = default;
 
 	MyString(const char* source)
-		: data{new char[strlen(source) + 1]}, length{strlen(source)}
+		: length{ strlen(source) }, data{ new char[strlen(source) + 1] }
 	{
 		cout << "Created" << endl;
+		//length = strlen(source);
+		//data = new char[length + 1];
 		strcpy(data, source);
 	}
 
 	MyString(const MyString& other)
-		: data{ new char[other.length] + 1 }, length{other.length}
+		: length{ other.length }, data{ new char[other.length + 1] }
 	{
 		cout << "Copied" << endl;
 		strcpy(data, other.data);
 	}
 
+	MyString(MyString&& other) noexcept
+	{
+		cout << "Moved" << endl;
+
+		length = other.length;
+		data = other.data;
+
+		other.length = 0;
+		other.data = nullptr;
+	}
+
 	~MyString()
 	{
-		cout << "Destroyed" << endl;
-		delete data;
+		cout << "Destroyed: " << *this << endl;
+		delete[] data;
 	}
 
 	void print(ostream& sout) const
 	{
-		sout << data;
+		if (data != NULL && strlen(data) > 0) {
+			sout << data;
+		}
+		else sout << "";
 	}
 
 	friend ostream& operator<<(ostream& sout, const MyString& source);
@@ -64,6 +80,11 @@ public:
 	{
 	}
 
+	Entity(MyString&& other) noexcept
+		: name{ move(other) }
+	{
+	}
+
 	void printName(ostream& sout) const
 	{
 		name.print(sout);
@@ -85,10 +106,18 @@ ostream& operator<<(ostream& sout, const Entity& source)
 
 int main()
 {
-	//MyString name = "Shafiq";
-	//MyString name2 = "Hoobla";
-	//cout << name << " " << name2 << endl;
-
-	Entity e(MyString("Shafiq"));
-	//cout << e << endl;
+	{
+		MyString s1 = "Copy Shafiq";
+		Entity e1(s1);
+		cout << "e1: " << e1 << endl;
+		cout << "s1: " << s1 << endl;
+	}
+	cout << endl;
+	{
+		MyString s2 = "Move Shafiq";
+		Entity e2(move(s2));
+		cout << "e2: " << e2 << endl;
+		cout << "s2: " << s2 << endl;
+	}
+	cout << endl;
 }
