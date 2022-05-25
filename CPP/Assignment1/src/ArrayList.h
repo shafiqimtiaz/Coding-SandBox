@@ -22,6 +22,9 @@ public:
     int getCapacity() const;
     void print(ostream& sout) const;
 
+    /*int& operator[](size_t index);
+    const int& operator[] (size_t index) const;*/
+
 private:
     void resize();
     int capacity;

@@ -31,7 +31,7 @@ ArrayList::ArrayList(const ArrayList& array)
 * Move Constructor
 */
 ArrayList::ArrayList(ArrayList&& array) noexcept
-	: capacity{ array.capacity}, used{ array.used}, pArray{ array.pArray }
+	: capacity{ array.capacity }, used{ array.used }, pArray{ array.pArray }
 {
 	//cout << "ArrayList Move Ctor" << endl;
 
@@ -121,6 +121,11 @@ int ArrayList::size() const
 	return used;
 }
 
+int ArrayList::getCapacity() const
+{
+	return capacity;
+}
+
 void ArrayList::resize()
 {
 	int cap = capacity * 2;
@@ -168,11 +173,6 @@ bool ArrayList::get(int position, int& value) const
 	}
 }
 
-int ArrayList::getCapacity() const
-{
-	return capacity;
-}
-
 void ArrayList::print(ostream& sout) const
 {
 	if (used > 0)
@@ -193,3 +193,25 @@ ostream& operator<<(ostream& sout, const ArrayList& source)
 	source.print(sout);
 	return sout;
 }
+
+/*
+// serves non-const MyArray objects
+int& ArrayList::operator[](size_t index)
+{
+	if (index >= used)
+	{
+		throw std::out_of_range{ "My Array out of range!" };
+	}
+	return pArray[index];
+}
+
+// serves const MyArray objects
+const int& ArrayList::operator[](size_t index) const
+{
+	if (index >= used)
+	{
+		throw std::out_of_range{ "My Array out of range!" };
+	}
+	return pArray[index];
+}
+*/

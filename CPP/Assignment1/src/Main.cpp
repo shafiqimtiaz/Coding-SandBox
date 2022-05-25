@@ -106,12 +106,12 @@ int main()
 	*/
 
 	TokenList bucket;
-	/*Token t1("Hello", 1);
+	Token t1("Hello", 1);
 	bucket.addSorted(t1);
 	Token t2("Hello", 11);
 	bucket.addSorted(t2);
 	Token t3("Hello", 111);
-	bucket.addSorted(t3);*/
+	bucket.addSorted(t3);
 
 	Token tArray[]
 	{
@@ -120,7 +120,8 @@ int main()
 		Token("you", 2),
 		Token("today?", 22),
 		Token("#tag", 3),
-		Token("bye", 3)
+		Token("bye", 3),
+		Token("Hello", 1101)
 	};
 
 	for (Token t : tArray)
@@ -129,6 +130,15 @@ int main()
 	}
 
 	cout << bucket << endl;
+
+	cout << "Front: " << bucket.front() << endl;
+	cout << "Back: " << bucket.back() << endl;
+	cout << "Size: " << bucket.size() << endl;
+
+	Token t10("How", 10);
+
+	cout << "Search: " << bucket.search(t10) << endl;
+
 
 	return 0;
 }

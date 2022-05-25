@@ -20,7 +20,7 @@ TokenList::TokenList(TokenList&& other) noexcept
 {
 	head = other.head; // move head pointer (hence the entire other SList)
 	tail = other.tail;
-	size = other.size; // move size
+	theSize = other.theSize; // move size
 	other.releaseOwnership(); // release resources owned by other SList
 }
 
@@ -33,7 +33,7 @@ void TokenList::releaseOwnership()
 {
 	head = nullptr; // disconnect the head pointer from its target
 	tail = nullptr; // disconnect the tail pointer from its target
-	size = 0; // indicate no nodes
+	theSize = 0; // indicate no nodes
 }
 
 void TokenList::clear()
@@ -46,14 +46,14 @@ void TokenList::clear()
 
 void TokenList::copy(const TokenList& other)
 {
-	size = 0; // no nodes, yet
+	theSize = 0; // no nodes, yet
 	head = nullptr; // this is an empty list, for now
 	if (other.empty()) return; // nothing to do
 
 	// so, other SList has at least one node
 	TNode* current = other.head; // first node to copy into this list
 	head = new TNode(current->theToken, nullptr); // first node copied
-	size = 1; // first node counted
+	theSize = 1; // first node counted
 
 	// set out to copy the remaining nodes, if any
 	TNode* lastNode = head; // last node copied into this list,
@@ -66,9 +66,42 @@ void TokenList::copy(const TokenList& other)
 		lastNode = newNode; // update lastNode
 		current = current->next; // advance to next node in other SList
 
-		++size; // count the newly added node
+		++theSize; // count the newly added node
 	}
 }
+
+
+bool TokenList::search(const Token& aToken) const
+{
+	TNode* current = head;
+	while (current)
+	{
+		if (current->theToken.compare(aToken) == 0)
+		{
+			return true;
+		}
+		current = current->next;
+	}
+	return false;
+}
+
+
+const Token& TokenList::front() const
+{
+	return head->theToken;
+}
+
+const Token& TokenList::back() const
+{
+	return tail->theToken;
+}
+
+
+size_t TokenList::size() const
+{
+	return theSize;
+}
+
 
 bool TokenList::empty() const
 {
@@ -80,7 +113,7 @@ void TokenList::addFront(const Token& aToken)
 	TNode* newNode = new TNode(aToken);
 	newNode->next = head;
 	head = newNode;
-	size++;
+	theSize++;
 	if (tail == NULL) { tail = head; } return;
 }
 
@@ -95,7 +128,7 @@ void TokenList::addBack(const Token& aToken)
 		tail->next = newNode;
 		tail = newNode;
 	}
-	size++;
+	theSize++;
 }
 
 bool TokenList::removeFront()
@@ -105,7 +138,7 @@ bool TokenList::removeFront()
 		TNode* temp = head; // isolate the node to pop (delete)
 		head = head->next; // advance the head pointer
 		delete temp; // delete the isolated node
-		--size; // uncount the node just deleted
+		--theSize; // uncount the node just deleted
 
 		return true;
 	}
@@ -114,13 +147,40 @@ bool TokenList::removeFront()
 
 void TokenList::addSorted(const Token& aToken)
 {
-	if (head == NULL || aToken.compare(head->theToken) < 0)
+	if (head == NULL)
 	{
 		addFront(aToken);
 	}
-	else
+	else if (tail == NULL)
 	{
 		addBack(aToken);
+	}
+	else if (aToken.compare(head->theToken) < 0)
+	{
+		addFront(aToken);
+	}
+	else if (aToken.compare(head->theToken) > 0)
+	{
+		addBack(aToken);
+	}
+	else if (aToken.compare(tail->theToken) < 0)
+	{
+		addBack(aToken);
+	}
+	else if (aToken.compare(tail->theToken) > 0)
+	{
+		addFront(aToken);
+	}
+	else if (aToken.compare(head->theToken) == 0 || aToken.compare(tail->theToken) == 0)
+	{
+		int len = aToken.getNumberList().size();
+
+		for (size_t i = 0; i < len; ++i)
+		{
+			int a{};
+			aToken.getNumberList().get(i, a);
+			head->theToken.addLineNumber(a);
+		}
 	}
 }
 

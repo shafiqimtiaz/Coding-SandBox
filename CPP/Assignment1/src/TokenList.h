@@ -30,14 +30,18 @@ private:
 	// beging class TokenList
 	TNode* head{ nullptr }; // points to the first node in the list
 	TNode* tail{ nullptr }; // points to the last node in the list
-	size_t size{ 0 };
+	size_t theSize{ 0 };
 
 public:
-	TokenList() : head{}, tail{}, size{} {}
+	TokenList() : head{}, tail{}, theSize{} {}
 	TokenList(const TokenList& other); // copy ctor
 	TokenList(TokenList&& other) noexcept; //move ctor
 	virtual ~TokenList();
-
+	
+	bool search(const Token& aToken) const;
+	const Token& front() const;
+	const Token& back() const;
+	size_t size() const;
 	bool empty() const;
 	void print(ostream& sout) const;
 	void addFront(const Token& aToken);
