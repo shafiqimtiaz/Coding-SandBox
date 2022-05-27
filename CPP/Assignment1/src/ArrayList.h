@@ -1,6 +1,5 @@
 #ifndef ARRAYLIST_H
 #define ARRAYLIST_H
-
 using std::ostream;
 
 class ArrayList
@@ -21,9 +20,6 @@ public:
     bool get(int position, int& value) const;
     int getCapacity() const;
     void print(ostream& sout) const;
-
-    /*int& operator[](size_t index);
-    const int& operator[] (size_t index) const;*/
 
 private:
     void resize();

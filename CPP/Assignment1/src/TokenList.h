@@ -3,6 +3,7 @@
 
 #include "Token.h"
 using std::ostream;
+using std::string;
 
 class TokenList
 {
@@ -36,6 +37,8 @@ public:
 	TokenList() : head{}, tail{}, theSize{} {}
 	TokenList(const TokenList& other); // copy ctor
 	TokenList(TokenList&& other) noexcept; //move ctor
+	TokenList& operator=(const TokenList& other);
+	TokenList& operator=(TokenList&& other) noexcept;
 	virtual ~TokenList();
 	
 	bool search(const Token& aToken) const;
@@ -47,12 +50,18 @@ public:
 	void addFront(const Token& aToken);
 	void addBack(const Token& aToken);
 	bool removeFront();
+	bool removeBack();
 	void addSorted(const Token& aToken);
+	void addSorted(const string& str, int lineNumber);
+
+	bool remove(TNode* nodePtr); // make private
+	TNode* lookup(const Token& aToken) const; // make private
+	void addAfter(TNode* p, const Token& aToken); // make private
+
 private:
 	void clear();
 	void releaseOwnership();
 	void copy(const TokenList& other);
-
 };
 
 ostream& operator<<(ostream& sout, const TokenList& TList);

@@ -5,6 +5,7 @@ using std::ostream;
 using std::cin;
 using std::cout;
 using std::endl;
+using std::move;
 
 /*
 * Default Constructor
@@ -17,11 +18,12 @@ ArrayList::ArrayList()
 /*
 * Copy Constructor
 */
-ArrayList::ArrayList(const ArrayList& array)
+ArrayList::ArrayList(const ArrayList& array) 
+	: capacity{ array.capacity }, used{ array.used }, pArray{ new int[array.capacity] }
 {
-	//cout << "ArrayList Copy Ctor" << endl;
+	//cout << "ArrayList Copy Ctor: " << array << endl;
 
-	for (size_t i = 0; i < used; ++i)
+	for (size_t i{ 0 }; i < used; ++i)
 	{
 		pArray[i] = array.pArray[i];
 	}
@@ -31,11 +33,10 @@ ArrayList::ArrayList(const ArrayList& array)
 * Move Constructor
 */
 ArrayList::ArrayList(ArrayList&& array) noexcept
-	: capacity{ array.capacity }, used{ array.used }, pArray{ array.pArray }
+	: capacity{ array.capacity }, used{ array.used }, pArray{ move(array.pArray) }
 {
 	//cout << "ArrayList Move Ctor" << endl;
-
-	array.capacity = 0;
+	array.capacity = 1;
 	array.used = 0;
 	array.pArray = nullptr;
 }
@@ -45,7 +46,7 @@ ArrayList::ArrayList(ArrayList&& array) noexcept
 */
 ArrayList& ArrayList::operator=(const ArrayList& rhs)
 {
-	//cout << "ArrayList Copy Ass Op" << endl;
+	//cout << "ArrayList Copy Ass Op: " << rhs << endl;
 	if (&rhs != this)
 	{
 		delete[] pArray;
@@ -53,7 +54,8 @@ ArrayList& ArrayList::operator=(const ArrayList& rhs)
 		capacity = rhs.capacity;
 		used = rhs.used;
 		pArray = new int[capacity];
-		for (size_t k = 0; k < capacity; ++k)
+
+		for (size_t k{ 0 }; k < used; ++k)
 		{
 			pArray[k] = rhs.pArray[k];
 		}
@@ -73,9 +75,9 @@ ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
 
 		capacity = rhs.capacity;
 		used = rhs.used;
-		pArray = rhs.pArray;
+		pArray = move(rhs.pArray);
 
-		rhs.capacity = 0;
+		rhs.capacity = 1;
 		rhs.used = 0;
 		rhs.pArray = nullptr;
 	}
@@ -165,7 +167,7 @@ bool ArrayList::contains(int x) const
 
 bool ArrayList::get(int position, int& value) const
 {
-	if (position > capacity) return false;
+	if (position > used) return false;
 	else
 	{
 		value = pArray[position];
@@ -182,10 +184,6 @@ void ArrayList::print(ostream& sout) const
 			sout << pArray[i] << " ";
 		}
 	}
-	else
-	{
-		sout << "";
-	}
 }
 
 ostream& operator<<(ostream& sout, const ArrayList& source)
@@ -193,25 +191,3 @@ ostream& operator<<(ostream& sout, const ArrayList& source)
 	source.print(sout);
 	return sout;
 }
-
-/*
-// serves non-const MyArray objects
-int& ArrayList::operator[](size_t index)
-{
-	if (index >= used)
-	{
-		throw std::out_of_range{ "My Array out of range!" };
-	}
-	return pArray[index];
-}
-
-// serves const MyArray objects
-const int& ArrayList::operator[](size_t index) const
-{
-	if (index >= used)
-	{
-		throw std::out_of_range{ "My Array out of range!" };
-	}
-	return pArray[index];
-}
-*/

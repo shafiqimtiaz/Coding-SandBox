@@ -80,8 +80,8 @@ SList& SList::operator=(SList&& other) noexcept // move assignment
 	if (this != &other) // do nothing on self-assignment
 	{
 		clear(); // remove all nodes from this SList
-		head = other.head; // remove all nodes from this SList
-		theSize = other.theSize; // including its size
+		head = other.head; // remove all nodes from this SList - do it by std::move()
+		theSize = other.theSize; // including its size - do it by std::move()
 		other.releaseOwnership(); // release resources owned by other SList
 	}
 	return *this;

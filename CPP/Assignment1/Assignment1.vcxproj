@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dictionary.cpp" />
+    <ClCompile Include="src\Driver.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ArrayList.cpp" />
     <ClCompile Include="src\Token.cpp" />
@@ -154,6 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ArrayList.h" />
+    <ClInclude Include="src\Dictionary.h" />
+    <ClInclude Include="src\Driver.h" />
     <ClInclude Include="src\Token.h" />
     <ClInclude Include="src\TokenList.h" />
   </ItemGroup>

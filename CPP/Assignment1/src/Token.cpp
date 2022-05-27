@@ -25,14 +25,10 @@ Token::Token(const char* cstr, int line_num)
 * Copy Constructor
 */
 Token::Token(const Token& token)
+	: cstr{ new char[strlen(token.cstr) + 1] }, frequency{token.frequency}, number_list{token.number_list}
 {
 	//cout << "Token Copy Ctor" << endl;
-
-	cstr = new char[strlen(token.cstr) + 1];
-
 	strcpy(cstr, token.cstr);
-	frequency = token.frequency;
-	number_list = token.number_list;
 }
 
 /*
@@ -119,22 +115,16 @@ void Token::addLineNumber(int line_num)
 
 int Token::compare(const Token& aToken) const
 {
-	if (strcmp(cstr, aToken.cstr) > 0) return 1;
-	else if (strcmp(cstr, aToken.cstr) < 0) return -1;
-	else return 0;
+	if (cstr != NULL)
+		return strcmp(cstr, aToken.cstr);
+	else
+		return NULL;
 }
 
 void Token::print(ostream& sout) const
 {
-	if (strlen(cstr) > 0 && number_list.size() > 0)
-	{
-		sout << cstr << "\t(" << frequency << ") ";
-		number_list.print(sout);
-	}
-	else
-	{
-		sout << "";
-	}
+	sout << cstr << " (" << frequency << ") ";
+	number_list.print(sout);
 }
 
 ostream& operator<<(ostream& sout, const Token& token)
