@@ -64,7 +64,7 @@ void Dictionary::print(ostream& sout) const
 	for (int i = 0; i < 27; ++i)
 	{
 		if (i == 26) cout << "<>" << "\n";
-		else cout << "<" << char(i+'A') << ">" << "\n";
+		else cout << "<" << char(i + 'A') << ">" << "\n";
 		tokenListBuckets[i].print(sout);
 		cout << "\n";
 	}

@@ -33,7 +33,13 @@ TokenList::TokenList(TokenList&& other) noexcept
 	other.releaseOwnership(); // release resources owned by other SList
 }
 
-// copy assignment
+/**
+* Copy assignment
+* Assigns a specified TokenList object to the invoking TokenList object
+*
+* @param other The specified TokenList object
+* @return The invoking TokenList object
+*/
 TokenList& TokenList::operator=(const TokenList& other)
 {
 	if (this != &other) // do nothing on self-assignment
@@ -72,7 +78,7 @@ void TokenList::releaseOwnership()
 
 void TokenList::clear()
 {
-	while(!empty())
+	while (!empty())
 	{
 		removeFront();
 	}
@@ -317,7 +323,6 @@ void TokenList::addSorted(const string& str, int lineNumber)
 		addFront(aToken);
 		return;
 	}
-
 	if ((nodePtr->theToken).compare(aToken) == 0)
 	{
 		ArrayList arr = nodePtr->theToken.getNumberList();
@@ -327,15 +332,14 @@ void TokenList::addSorted(const string& str, int lineNumber)
 		{
 			int temp{};
 			arr.get(i, temp);
-			
+
 			if (!arr.contains(lineNumber))
-			{		
+			{
 				(nodePtr->theToken).addLineNumber(lineNumber);
 				return;
 			}
 		}
 	}
-
 	else
 	{
 		addAfter(nodePtr, aToken);

@@ -34,13 +34,13 @@ private:
 	size_t theSize;
 
 public:
-	TokenList() : head{ nullptr }, tail{ nullptr }, theSize{0} {} // default ctor
+	TokenList() : head{ nullptr }, tail{ nullptr }, theSize{ 0 } {} // default ctor
 	TokenList(const TokenList& other); // copy ctor
 	TokenList(TokenList&& other) noexcept; //move ctor
 	TokenList& operator=(const TokenList& other); // copy assignment
 	TokenList& operator=(TokenList&& other) noexcept; // move assignment
 	virtual ~TokenList(); // virtual dtor
-	
+
 	bool empty() const;
 	size_t size() const;
 	void print(ostream& sout) const;

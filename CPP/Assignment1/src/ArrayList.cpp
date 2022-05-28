@@ -7,38 +7,45 @@ using std::cout;
 using std::endl;
 using std::move;
 
-/*
+/**
 * Copy Constructor
+* Creates the specified ArrayList object by copying the invoking ArrayList object
+*
+* @param array - The specified ArrayList object
 */
-ArrayList::ArrayList(const ArrayList& array) 
+ArrayList::ArrayList(const ArrayList& array)
 	: capacity{ array.capacity }, used{ array.used }, pArray{ new int[array.capacity] }
 {
-	//cout << "ArrayList Copy Ctor: " << array << endl;
-
 	for (size_t i{ 0 }; i < used; ++i)
 	{
 		pArray[i] = array.pArray[i];
 	}
 }
 
-/*
+
+/**
 * Move Constructor
+* Creates the specified ArrayList object by moving the invoking ArrayList object
+*
+* @param array - The specified ArrayList object
 */
 ArrayList::ArrayList(ArrayList&& array) noexcept
 	: capacity{ array.capacity }, used{ array.used }, pArray{ move(array.pArray) }
 {
-	//cout << "ArrayList Move Ctor" << endl;
 	array.capacity = 1;
 	array.used = 0;
 	array.pArray = nullptr;
 }
 
-/*
+/**
 * Copy Assignment Operator
+* Copies a specified ArrayList object to the invoking ArrayList object
+*
+* @param rhs - The specified ArrayList object
+* @return The invoking ArrayList object
 */
 ArrayList& ArrayList::operator=(const ArrayList& rhs)
 {
-	//cout << "ArrayList Copy Ass Op: " << rhs << endl;
 	if (&rhs != this)
 	{
 		delete[] pArray;
@@ -55,12 +62,15 @@ ArrayList& ArrayList::operator=(const ArrayList& rhs)
 	return *this;
 }
 
-/*
+/**
 * Move Assignment Operator
+* Moves a specified ArrayList object to the invoking ArrayList object
+*
+* @param rhs - The specified ArrayList object
+* @return The invoking ArrayList object
 */
 ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
 {
-	//cout << "ArrayList Move Ass Op" << endl;
 	if (&rhs != this)
 	{
 		delete[] pArray;
@@ -76,8 +86,11 @@ ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
 	return *this;
 }
 
-/*
-* Destructor
+/**
+* ArrayList Destructor
+*
+* Destroys the ArrayList object by clearing pArray memory from heap
+* at the end of execution scope
 */
 ArrayList::~ArrayList()
 {
@@ -85,7 +98,9 @@ ArrayList::~ArrayList()
 }
 
 
-
+/**
+* @return bool if ArrayList is empty or not
+*/
 bool ArrayList::empty() const
 {
 	if (used == 0)
@@ -98,6 +113,9 @@ bool ArrayList::empty() const
 	}
 }
 
+/**
+* @return bool if ArrayList is full or not
+*/
 bool ArrayList::full() const
 {
 	if (used == capacity)
@@ -110,16 +128,25 @@ bool ArrayList::full() const
 	}
 }
 
+/**
+* @return the the number of elements in the ArrayList
+*/
 int ArrayList::size() const
 {
 	return used;
 }
 
+/**
+* @return the total capacity of the ArrayList
+*/
 int ArrayList::getCapacity() const
 {
 	return capacity;
 }
 
+/**
+* doubles the ArrayList when invoked
+*/
 void ArrayList::resize()
 {
 	int cap = capacity * 2;
@@ -134,6 +161,9 @@ void ArrayList::resize()
 	capacity = cap;
 }
 
+/**
+* @param x - value to be inserted to the ArrayList
+*/
 void ArrayList::pushBack(int x)
 {
 	if (used == capacity)
@@ -145,6 +175,10 @@ void ArrayList::pushBack(int x)
 	used++;
 }
 
+/**
+* @param x - value to be checked in the ArrayList
+* @return bool if int x is present in the ArrayList
+*/
 bool ArrayList::contains(int x) const
 {
 	for (size_t i = 0; i < capacity; ++i)
@@ -157,6 +191,11 @@ bool ArrayList::contains(int x) const
 	return false;
 }
 
+/**
+* @param position - element position in ArrayList
+* @param &value - variable ref in which element to be placed
+* @return bool if value placed
+*/
 bool ArrayList::get(int position, int& value) const
 {
 	if (position > used) return false;
@@ -167,6 +206,9 @@ bool ArrayList::get(int position, int& value) const
 	}
 }
 
+/**
+* @param sout - the ArrayList ostream to be printed
+*/
 void ArrayList::print(ostream& sout) const
 {
 	if (used > 0)
@@ -178,6 +220,11 @@ void ArrayList::print(ostream& sout) const
 	}
 }
 
+/**
+* @param sout - the ArrayList ostream to be printed
+* @param source - the ArrayList object ref
+* @return ArrayList ostream object ref
+*/
 ostream& operator<<(ostream& sout, const ArrayList& source)
 {
 	source.print(sout);

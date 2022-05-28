@@ -15,7 +15,7 @@ private:
 public:
 	Dictionary(const string& filename);
 	void processToken(const string& token, int linenum);
-    void print(ostream& sout) const;
+	void print(ostream& sout) const;
 	Dictionary() = delete; // no default ctor
 	~Dictionary() = default; // default dtor
 	Dictionary(const Dictionary&) = default; // copy ctor
