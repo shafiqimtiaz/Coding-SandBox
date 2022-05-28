@@ -7,20 +7,20 @@ using std::ostream;
 class Token
 {
 public:
-	Token(const char* cstr, int line_num);
+	Token(const char* cstr, int line_num); // normal ctor
 	Token() = delete;
-	Token(const Token& token);
-	Token(Token&& token) noexcept;
-	Token& operator=(const Token& rhs);
-	Token& operator=(Token&& rhs) noexcept;
-	virtual ~Token();
+	Token(const Token& token); // copy ctor
+	Token(Token&& token) noexcept; // move ctor
+	Token& operator=(const Token& rhs); // copy assignment
+	Token& operator=(Token&& rhs) noexcept; // move assignment
+	virtual ~Token(); // virtual dtor
 
 	const char* c_str() const;
-	size_t size() const;
-	const ArrayList& getNumberList() const;
 	void addLineNumber(int line_num);
-	int compare(const Token& aToken) const;
+	size_t size() const;
 	void print(ostream& sout) const;
+	const ArrayList& getNumberList() const;
+	int compare(const Token& aToken) const;
 
 private:
 	char* cstr;

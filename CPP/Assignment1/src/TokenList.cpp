@@ -1,6 +1,7 @@
 #pragma warning(disable : 4996) // to use strcpy
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include "TokenList.h"
 
@@ -10,6 +11,10 @@ using std::cout;
 using std::endl;
 using std::move;
 using std::string;
+
+using std::fixed;
+using std::right;
+using std::setw;
 
 // Copy Ctor
 TokenList::TokenList(const TokenList& other)
@@ -315,8 +320,20 @@ void TokenList::addSorted(const string& str, int lineNumber)
 
 	if ((nodePtr->theToken).compare(aToken) == 0)
 	{
-		(nodePtr->theToken).addLineNumber(lineNumber);
-		return;
+		ArrayList arr = nodePtr->theToken.getNumberList();
+		int len = arr.size();
+
+		for (int i = 0; i < len; ++i)
+		{
+			int temp{};
+			arr.get(i, temp);
+			
+			if (!arr.contains(lineNumber))
+			{		
+				(nodePtr->theToken).addLineNumber(lineNumber);
+				return;
+			}
+		}
 	}
 
 	else
@@ -332,6 +349,9 @@ void TokenList::print(ostream& sout) const
 	if (empty()) return;
 	TNode* curr = head;
 	while (curr != nullptr) {
+		cout << right
+			<< setw(20)
+			<< fixed;
 		curr->theToken.print(cout);
 		cout << "\n";
 		curr = curr->next;

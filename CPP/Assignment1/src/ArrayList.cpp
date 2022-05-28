@@ -8,14 +8,6 @@ using std::endl;
 using std::move;
 
 /*
-* Default Constructor
-*/
-ArrayList::ArrayList()
-	: capacity{ 1 }, used{ 0 }, pArray{ new int[1] }
-{
-}
-
-/*
 * Copy Constructor
 */
 ArrayList::ArrayList(const ArrayList& array) 

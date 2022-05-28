@@ -1,13 +1,13 @@
 #include <iostream>
 #include<cassert>
 #include<string>
-
-#include "Driver.h"
+#include <fstream>
 
 #include "ArrayList.h"
 #include "Token.h"
 #include "TokenList.h"
 #include "Dictionary.h"
+#include "Driver.h"
 
 using std::ostream;
 using std::cin;
@@ -147,8 +147,8 @@ void Driver::Test_TokenList()
 
 	Token tA("today?", 10);
 	bucket.addSorted(tA);
-	Token tB("Shafiq", 300);
 
+	/*Token tB("Shafiq", 300);
 	bucket.addAfter(bucket.lookup(tA), tB);
 	cout << "\n" << tA << " lookup: " << bucket.size() << "\n\n" << bucket << "\n";
 
@@ -156,14 +156,16 @@ void Driver::Test_TokenList()
 	cout << tC << "\n" << bucket.lookup(tC)->theToken << "\n";
 
 	bucket.remove(bucket.lookup(tA));
-	cout << "\n" << tA << " remove: " << bucket.size() << "\n\n" << bucket << "\n";
+	cout << "\n" << tA << " remove: " << bucket.size() << "\n\n" << bucket << "\n";*/
+
+	cout << "\n" << tA << " search: " << bucket.search(tA) << "\n\n" << bucket << "\n";
 }
 
 void Driver::Test_Dictionary()
 {
 	//cout << "Enter the name of input text file: ";
-	//string filename;
+	string filename = "input_file_A1.txt";
 	//cin >> filename;
-	//Dictionary dictionary(filename);
-	//dictionary.print(cout);
+	Dictionary dictionary(filename);
+	cout << dictionary;
 }

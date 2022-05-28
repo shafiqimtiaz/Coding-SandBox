@@ -29,36 +29,37 @@ private:
 	};
 
 	// beging class TokenList
-	TNode* head{ nullptr }; // points to the first node in the list
-	TNode* tail{ nullptr }; // points to the last node in the list
-	size_t theSize{ 0 };
+	TNode* head; // points to the first node in the list
+	TNode* tail; // points to the last node in the list
+	size_t theSize;
 
 public:
-	TokenList() : head{}, tail{}, theSize{} {}
+	TokenList() : head{ nullptr }, tail{ nullptr }, theSize{0} {} // default ctor
 	TokenList(const TokenList& other); // copy ctor
 	TokenList(TokenList&& other) noexcept; //move ctor
-	TokenList& operator=(const TokenList& other);
-	TokenList& operator=(TokenList&& other) noexcept;
-	virtual ~TokenList();
+	TokenList& operator=(const TokenList& other); // copy assignment
+	TokenList& operator=(TokenList&& other) noexcept; // move assignment
+	virtual ~TokenList(); // virtual dtor
 	
-	bool search(const Token& aToken) const;
+	bool empty() const;
+	size_t size() const;
+	void print(ostream& sout) const;
 	const Token& front() const;
 	const Token& back() const;
-	size_t size() const;
-	bool empty() const;
-	void print(ostream& sout) const;
-	void addFront(const Token& aToken);
-	void addBack(const Token& aToken);
-	bool removeFront();
-	bool removeBack();
 	void addSorted(const Token& aToken);
 	void addSorted(const string& str, int lineNumber);
-
-	bool remove(TNode* nodePtr); // make private
-	TNode* lookup(const Token& aToken) const; // make private
-	void addAfter(TNode* p, const Token& aToken); // make private
+	bool removeFront();
+	bool removeBack();
+	bool search(const Token& aToken) const;
+	void addFront(const Token& aToken);
+	void addBack(const Token& aToken);
 
 private:
+
+	bool remove(TNode* nodePtr); // make public to test
+	TNode* lookup(const Token& aToken) const; // make public to test
+	void addAfter(TNode* p, const Token& aToken); // make public to test
+
 	void clear();
 	void releaseOwnership();
 	void copy(const TokenList& other);

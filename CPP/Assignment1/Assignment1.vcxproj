@@ -161,6 +161,10 @@
     <ClInclude Include="src\Token.h" />
     <ClInclude Include="src\TokenList.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input_file_A1.txt" />
+    <Text Include="output_file_A1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

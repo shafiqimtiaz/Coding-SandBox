@@ -5,12 +5,12 @@ using std::ostream;
 class ArrayList
 {
 public:
-    ArrayList();
-    ArrayList(const ArrayList& source);
-    ArrayList(ArrayList&& source) noexcept;
-    ArrayList& operator=(const ArrayList& rhs);
-    ArrayList& operator=(ArrayList&& rhs) noexcept;
-    virtual ~ArrayList();
+    ArrayList() : capacity{ 1 }, used{ 0 }, pArray{ new int[1] } {} // default ctor
+    ArrayList(const ArrayList& source); // copy ctor
+    ArrayList(ArrayList&& source) noexcept; // move ctor
+    ArrayList& operator=(const ArrayList& rhs); // copy assignment
+    ArrayList& operator=(ArrayList&& rhs) noexcept; // move assignment
+    virtual ~ArrayList(); // virtual dtor
 
     bool empty() const;
     bool full() const;
