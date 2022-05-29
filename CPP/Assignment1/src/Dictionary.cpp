@@ -13,6 +13,12 @@ using std::string;
 using std::ifstream;
 using std::istringstream;
 
+/**
+* Normal Constructor
+* Creates the specified Dictionary object
+*
+* @param fiename - name of the file to be read
+*/
 Dictionary::Dictionary(const string& filename) : filename(filename)
 {
 	ifstream fin(filename); // create an input file stream
@@ -22,26 +28,27 @@ Dictionary::Dictionary(const string& filename) : filename(filename)
 		cout << "could not open input file: " << filename << endl;
 		exit(1);
 	}
-	int linenum = 0;
+	int lineNumber = 0;
 	string line;
-	getline(fin, line); // very important first attempt to read;
-	// this first attemot will get the i/o flags initialized
+	getline(fin, line); // first attempt to read, this first attempt will get the i/o flags initialized
 	while (fin)
 	{
-		//cout << line << endl;
-		++linenum; // count the line
+		++lineNumber; // count the line
 		istringstream sin(line); // turn the line into an input string stream
 		string tokenStr;
 		while (sin >> tokenStr) // extract token strings
 		{
-			//cout << tokenStr << "\n";
-			processToken(tokenStr, linenum);
+			processToken(tokenStr, lineNumber); // process the token
 		}
 		getline(fin, line); // attempt to read the next line, if any
 	}
 	fin.close();
 }
 
+/**
+* @param token - the token string to be checked index for
+* @return size_t index position of the token string in the Dictionary bucket
+*/
 size_t Dictionary::bucketIndex(const string& token) const
 {
 	size_t index = 26; // bucket index for tokens not beginning with a letter
@@ -53,12 +60,19 @@ size_t Dictionary::bucketIndex(const string& token) const
 	return index;
 }
 
-void Dictionary::processToken(const string& token, int linenum)
+/**
+* @param token - the token string to be inserted
+* @param lineNumber - the line number of the Token
+*/
+void Dictionary::processToken(const string& token, int lineNumber)
 {
 	size_t i = bucketIndex(token);
-	tokenListBuckets[i].addSorted(token, linenum);
+	tokenListBuckets[i].addSorted(token, lineNumber);
 }
 
+/**
+* @param sout - the Dictionary ostream to be printed
+*/
 void Dictionary::print(ostream& sout) const
 {
 	for (int i = 0; i < 27; ++i)
@@ -70,6 +84,11 @@ void Dictionary::print(ostream& sout) const
 	}
 }
 
+/**
+* @param sout - the Dictionary ostream to be printed
+* @param dictionary - the Dictionary object ref
+* @return Dictionary ostream object ref
+*/
 ostream& operator<<(ostream& sout, const Dictionary& dictionary)
 {
 	dictionary.print(sout);

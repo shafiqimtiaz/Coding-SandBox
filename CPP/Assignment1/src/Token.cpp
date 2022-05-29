@@ -21,11 +21,8 @@ using std::move;
 Token::Token(const char* cstr, int line_num)
 	: cstr{ new char[strlen(cstr) + 1] }, frequency{ 1 }, number_list{}
 {
-	// copies the passed cstr to object cstr
-	strcpy(this->cstr, cstr);
-
-	// inserts the line_number in the number_list
-	number_list.pushBack(line_num);
+	strcpy(this->cstr, cstr); // copies the passed cstr to object cstr
+	number_list.pushBack(line_num); // inserts the line_number in the number_list
 }
 
 /**
@@ -37,8 +34,7 @@ Token::Token(const char* cstr, int line_num)
 Token::Token(const Token& token)
 	: cstr{ new char[strlen(token.cstr) + 1] }, frequency{ token.frequency }, number_list{ token.number_list }
 {
-	// copies the passed token.cstr to object cstr
-	strcpy(cstr, token.cstr);
+	strcpy(cstr, token.cstr); // copies the passed token.cstr to object cstr
 }
 
 /**
@@ -65,8 +61,7 @@ Token::Token(Token&& token) noexcept
 */
 Token& Token::operator=(const Token& rhs)
 {
-	// checking for self assignment
-	if (&rhs != this)
+	if (&rhs != this) // checking for self assignment
 	{
 		delete[] cstr;
 		cstr = new char[strlen(rhs.cstr) + 1];
@@ -87,8 +82,7 @@ Token& Token::operator=(const Token& rhs)
 */
 Token& Token::operator=(Token&& rhs) noexcept
 {
-	// checking for self assignment
-	if (&rhs != this)
+	if (&rhs != this) // checking for self assignment
 	{
 		delete[] cstr;
 
@@ -145,9 +139,7 @@ const ArrayList& Token::getNumberList() const
 void Token::addLineNumber(int line_num)
 {
 	number_list.pushBack(line_num);
-
-	// increment the number of occurences of the Token
-	frequency++;
+	frequency++; // increment the number of occurences of the Token
 }
 
 /**

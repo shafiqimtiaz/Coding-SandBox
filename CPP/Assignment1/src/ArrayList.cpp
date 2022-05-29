@@ -32,6 +32,7 @@ ArrayList::ArrayList(const ArrayList& array)
 ArrayList::ArrayList(ArrayList&& array) noexcept
 	: capacity{ array.capacity }, used{ array.used }, pArray{ move(array.pArray) }
 {
+	// resetting the already moved token object to a safe state
 	array.capacity = 1;
 	array.used = 0;
 	array.pArray = nullptr;
@@ -79,6 +80,7 @@ ArrayList& ArrayList::operator=(ArrayList&& rhs) noexcept
 		used = rhs.used;
 		pArray = move(rhs.pArray);
 
+		// resetting the already moved token object to a safe state
 		rhs.capacity = 1;
 		rhs.used = 0;
 		rhs.pArray = nullptr;

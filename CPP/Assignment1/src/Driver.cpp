@@ -163,9 +163,10 @@ void Driver::Test_TokenList()
 
 void Driver::Test_Dictionary()
 {
-	//cout << "Enter the name of input text file: ";
-	string filename = "input_file_A1.txt";
-	//cin >> filename;
+	cout << "Enter the name of input text file (without '.txt') : ";
+	string filename;
+	cin >> filename;
+	filename.append(".txt");
 	Dictionary dictionary(filename);
 	cout << dictionary;
 }

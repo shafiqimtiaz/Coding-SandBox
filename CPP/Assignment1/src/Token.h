@@ -14,7 +14,7 @@ public:
 	Token(const char* cstr, int line_num);
 
 	/**
-	* deleted default constructor
+	* default constructor = delete
 	*/
 	Token() = delete;
 
