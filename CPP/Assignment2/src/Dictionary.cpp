@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <iomanip>
 #include "Dictionary.h"
 
 using std::ostream;
@@ -12,6 +13,7 @@ using std::move;
 using std::string;
 using std::ifstream;
 using std::istringstream;
+using std::setw;
 
 /**
 * Normal Constructor
@@ -19,7 +21,7 @@ using std::istringstream;
 *
 * @param fiename - name of the file to be read
 */
-Dictionary::Dictionary(const string& filename) : filename(filename)
+Dictionary::Dictionary(const string& filename, const string& separators) : filename(filename)
 {
 	ifstream fin(filename); // create an input file stream
 
@@ -38,7 +40,7 @@ Dictionary::Dictionary(const string& filename) : filename(filename)
 		string tokenStr;
 		while (sin >> tokenStr) // extract token strings
 		{
-			processToken(tokenStr, lineNumber); // process the token
+			push_back_into_bucket(tokenStr, lineNumber); // process the token
 		}
 		getline(fin, line); // attempt to read the next line, if any
 	}
@@ -49,13 +51,13 @@ Dictionary::Dictionary(const string& filename) : filename(filename)
 * @param token - the token string to be checked index for
 * @return size_t index position of the token string in the Dictionary bucket
 */
-size_t Dictionary::bucketIndex(const string& token) const
+size_t Dictionary::bucketIndex(const string& tokenText) const
 {
 	size_t index = 26; // bucket index for tokens not beginning with a letter
-	if (isalpha(token[0]))
+	if (isalpha(tokenText[0]))
 	{
-		if (isupper(token[0])) index = token[0] - 'A';
-		else index = token[0] - 'a';
+		if (isupper(tokenText[0])) index = (size_t)tokenText[0] - 'A';
+		else index = (size_t)tokenText[0] - 'a';
 	}
 	return index;
 }
@@ -64,10 +66,10 @@ size_t Dictionary::bucketIndex(const string& token) const
 * @param token - the token string to be inserted
 * @param lineNumber - the line number of the Token
 */
-void Dictionary::processToken(const string& token, int lineNumber)
+void Dictionary::push_back_into_bucket(const string& tokenText, size_t line_number)
 {
-	size_t i = bucketIndex(token);
-	tokenListBuckets[i].addSorted(token, lineNumber);
+	size_t i = bucketIndex(tokenText);
+	token_list_buckets[i].push_back(Token{ tokenText, line_number });
 }
 
 /**
@@ -79,7 +81,12 @@ void Dictionary::print(ostream& sout) const
 	{
 		if (i == 26) cout << "<>" << "\n";
 		else cout << "<" << char(i + 'A') << ">" << "\n";
-		tokenListBuckets[i].print(sout);
+
+		for (const Token& tlist : token_list_buckets[i])
+		{
+			cout << setw(20) << tlist << "\n";
+		}
+
 		cout << "\n";
 	}
 }

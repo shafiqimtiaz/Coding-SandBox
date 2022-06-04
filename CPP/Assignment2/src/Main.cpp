@@ -16,9 +16,8 @@ int main()
 	// Initializing program Driver Object
 	Driver D;
 
-	D.Test_Token();
-	//D.Test_TokenList();
-	//D.Test_Dictionary();
+	//D.Test_Token();
+	D.Test_Dictionary();
 
 	return 0;
 }

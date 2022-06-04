@@ -3,11 +3,9 @@
 
 #include <string>
 #include <vector>
-#include <forward_list>
 
 using std::string;
 using std::vector;
-using std::forward_list;
 using std::ostream;
 
 class Token

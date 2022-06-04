@@ -4,8 +4,7 @@
 #include <fstream>
 
 #include "Token.h"
-//#include "TokenList.h"
-//#include "Dictionary.h"
+#include "Dictionary.h"
 #include "Driver.h"
 
 using std::ostream;
@@ -97,6 +96,16 @@ void Driver::Test_Token()
 	{
 		cout << t << "\n";
 	}
+
+	Token f7{ "cake!",100 };
+
+	set<Token> slist{ f1, f2, f3, f4, f5, f6, f7 };
+	cout << "\nset :\n";
+	for (const Token& s : slist)
+	{
+		cout << s << "\n";
+	}
+
 }
 
 /**
@@ -104,13 +113,13 @@ void Driver::Test_Token()
 */
 
 
-//void Driver::Test_Dictionary()
-//{
-//	cout << "Enter the name of input text file : ";
-//	//cout << "Enter the name of input text file (without '.txt') : ";
-//	string filename;
-//	cin >> filename;
-//	//filename.append(".txt");
-//	Dictionary dictionary(filename);
-//	cout << dictionary;
-//}
+void Driver::Test_Dictionary()
+{
+	//cout << "Enter the name of input text file : ";
+	string filename = "Seuss.txt";
+	//cin >> filename;
+	string theSeparators = " \n\t\0\"\\;.,?!=':|{}[]()&+-*%$#!~>^</";
+	//cin >> theSeparators;
+	Dictionary dictionary(filename, theSeparators);
+	cout << dictionary;
+}

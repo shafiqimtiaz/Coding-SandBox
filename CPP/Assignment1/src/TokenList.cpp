@@ -14,8 +14,6 @@ using std::string;
 
 
 // std elements needed for ostrean formatting
-using std::fixed;
-using std::right;
 using std::setw;
 
 /**

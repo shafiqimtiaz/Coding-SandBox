@@ -143,17 +143,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dictionary.cpp" />
     <ClCompile Include="src\Driver.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dictionary.h" />
     <ClInclude Include="src\Driver.h" />
     <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input_file_A1.txt" />
-    <Text Include="output_file_A1.txt" />
+    <Text Include="Seuss.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

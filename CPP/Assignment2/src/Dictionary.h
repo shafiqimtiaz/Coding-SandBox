@@ -1,25 +1,39 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
-#include<string>
-#include<list>
-
 #include "Token.h"
 
+#include<iostream>
+#include <fstream>
+#include<string>
+#include<list>
+#include<array>
+#include<vector>
+#include<set>
+#include <forward_list>
+
+using std::ostream;
 using std::string;
+using std::forward_list;
+using std::set;
+using std::vector;
+using std::array;
 using std::list;
 
 class Dictionary
 {
 private:
 	string filename;
-	list<Token> tokenListBuckets[27]; // 26 alpha buckets + 1 none-alpha bucket
+	const string theSeparators;
+	vector<string> input_lines;
+	array<list<Token>, 27> token_list_buckets;
 
 	/**
 	* @param token - the token string to be checked index for
 	* @return size_t index position of the token string in the Dictionary bucket
 	*/
-	size_t bucketIndex(const string& token) const;
+	size_t bucketIndex(const string& tokenText) const;
+
 public:
 	/**
 	* Normal Constructor
@@ -27,26 +41,23 @@ public:
 	*
 	* @param fiename - name of the file to be read
 	*/
-	Dictionary(const string& filename);
+	Dictionary(const string& filename, const string& separators = " \t\n");
 
 	/**
-	* @param token - the token string to be inserted
-	* @param lineNumber - the line number of the Token
+	* @param tokenText - the token string to be inserted
+	* @param line_number - the line number of the Token
 	*/
-	void processToken(const string& token, int lineNumber);
+	void push_back_into_bucket(const string& tokenText, size_t line_number);
 
 	/**
 	* @param sout - the Dictionary ostream to be printed
 	*/
 	void print(ostream& sout) const;
 
-
-	Dictionary() = delete; // no default constructor
-
 	/**
-	* Virtual Default Destructor
+	* Default Constructor disabled
 	*/
-	virtual ~Dictionary() = default;
+	Dictionary() = delete;
 
 	/**
 	* Default Copy Constructor
@@ -67,6 +78,11 @@ public:
 	* Default Copy Assignment Operator
 	*/
 	Dictionary& operator=(Dictionary&&) = default; // default move assignment
+
+	/**
+	* Virtual Default Destructor
+	*/
+	virtual ~Dictionary() = default;
 };
 
 /**

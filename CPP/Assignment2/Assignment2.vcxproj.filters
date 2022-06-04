@@ -4,13 +4,14 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Token.cpp" />
     <ClCompile Include="src\Driver.cpp" />
+    <ClCompile Include="src\Dictionary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Token.h" />
     <ClInclude Include="src\Driver.h" />
+    <ClInclude Include="src\Dictionary.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input_file_A1.txt" />
-    <Text Include="output_file_A1.txt" />
+    <Text Include="Seuss.txt" />
   </ItemGroup>
 </Project>
