@@ -15,6 +15,9 @@ using std::cout;
 using std::endl;
 using std::move;
 
+/**
+* Driver function to test ArrayList
+*/
 void Driver::Test_ArrrayList()
 {
 	cout << "Testing ArrayList!\n";
@@ -54,16 +57,19 @@ void Driver::Test_ArrrayList()
 	list.get(3, a);
 	cout << "get = " << a << endl;
 
-	ArrayList list2 = std::move(list);
+	ArrayList list2 = move(list);
 	cout << "list-move-ctor -> " << list2 << endl;
 
 	ArrayList list3{};
-	list3 = std::move(list2);
+	list3 = move(list2);
 	cout << "list-move-op -> " << list3 << endl;
 
 	cout << "\nArrayList Test Successful" << endl;
 }
 
+/**
+* Driver function to test Token
+*/
 void Driver::Test_Token()
 {
 	cout << "Testing an Object of Class Token\n";
@@ -110,6 +116,9 @@ void Driver::Test_Token()
 	cout << t5.compare(t6) << "\n";
 }
 
+/**
+* Driver function to test TokenList
+*/
 void Driver::Test_TokenList()
 {
 	TokenList bucket;
@@ -161,6 +170,9 @@ void Driver::Test_TokenList()
 	cout << "\n" << tA << " search: " << bucket.search(tA) << "\n\n" << bucket << "\n";
 }
 
+/**
+* Driver function to test Dictionary
+*/
 void Driver::Test_Dictionary()
 {
 	cout << "Enter the name of input text file (without '.txt') : ";

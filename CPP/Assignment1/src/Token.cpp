@@ -48,7 +48,7 @@ Token::Token(Token&& token) noexcept
 {
 	// resetting the already moved token object to a safe state
 	token.cstr = new char[1];
-	token.cstr[0] = NULL;
+	token.cstr[0] = '\0';
 	token.frequency = 0;
 }
 
@@ -92,7 +92,7 @@ Token& Token::operator=(Token&& rhs) noexcept
 
 		// resetting the already moved token object to a safe state
 		rhs.cstr = new char[1];
-		rhs.cstr[0] = NULL;
+		rhs.cstr[0] = '\0';
 		rhs.frequency = 0;
 	}
 	return *this;
@@ -148,14 +148,7 @@ void Token::addLineNumber(int line_num)
 */
 int Token::compare(const Token& aToken) const
 {
-	if (cstr != NULL)
-	{
-		return strcmp(cstr, aToken.cstr);
-	}
-	else
-	{
-		return NULL;
-	}
+	return strcmp(cstr, aToken.cstr);
 }
 
 /**
