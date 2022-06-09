@@ -34,6 +34,20 @@ private:
 	*/
 	size_t bucketIndex(const string& tokenText) const;
 
+	/**
+	* @param tokenText - the token string to be inserted
+	* @param line_number - the line number of the Token
+	*/
+	void push_back_into_bucket(const string& tokenText, size_t line_number);
+
+
+	vector<string> extract_tokens_from_line(const string& line) const;
+
+	void extract_and_push(const string& line, size_t line_number);
+
+	bool contains(list<Token>& tokenList, Token& check);
+	Token& getToken(list<Token>& tokenList, Token& check);
+
 public:
 	/**
 	* Normal Constructor
@@ -43,11 +57,8 @@ public:
 	*/
 	Dictionary(const string& filename, const string& separators = " \t\n");
 
-	/**
-	* @param tokenText - the token string to be inserted
-	* @param line_number - the line number of the Token
-	*/
-	void push_back_into_bucket(const string& tokenText, size_t line_number);
+	void print_input_lines() const;
+	void print_input_tokens() const;
 
 	/**
 	* @param sout - the Dictionary ostream to be printed

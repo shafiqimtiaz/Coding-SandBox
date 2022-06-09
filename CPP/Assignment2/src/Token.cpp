@@ -58,8 +58,12 @@ vector<size_t> Token::get_number_list() const
 */
 void Token::push_back_line_number(size_t line_num)
 {
-	line_number_list.push_back(line_num);
-	increment_freqency(); // increment the number of occurences of the Token
+	vector<size_t> numList = get_number_list();
+	if (!contains(numList, line_num))
+	{
+		line_number_list.push_back(line_num);
+		increment_freqency(); // increment the number of occurences of the Token
+	}
 }
 
 /**
@@ -138,5 +142,18 @@ bool isLessFrequent(const Token& first, const Token& second)
 	if (first.get_frequency() < second.get_frequency()) return true;
 	if (first.get_frequency() > second.get_frequency()) return false;
 
+	return false;
+}
+
+bool Token::contains(vector<size_t>& numList, const size_t& check)
+{
+	for (auto& num : numList)
+	{
+		if (num == check)
+		{
+			return true;
+			break;
+		}
+	}
 	return false;
 }

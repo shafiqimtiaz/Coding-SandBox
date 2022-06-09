@@ -88,6 +88,7 @@ public:
 	*/
 	int compare(const Token& other) const;
 
+	bool contains(vector<size_t>& numList, const size_t& check);
 
 private:
 	string text;

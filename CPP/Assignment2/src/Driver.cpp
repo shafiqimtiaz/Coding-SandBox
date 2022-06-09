@@ -43,7 +43,7 @@ void Driver::Test_Token()
 	t4.push_back_line_number(99);
 	t4.push_back_line_number(65);
 	cout << "E) t4: " << t4 << "\n";
-	cout << "post-t3: " << t3 << "\n";
+	//cout << "post-t3: " << t3 << "\n";
 
 
 	Token t5{ "A",1 };
@@ -51,7 +51,7 @@ void Driver::Test_Token()
 	t5.push_back_line_number(90);
 	t5.push_back_line_number(36);
 	cout << "F) t5: " << t5 << "\n";
-	cout << "post-t4: " << t4 << "\n";
+	//cout << "post-t4: " << t4 << "\n";
 
 	cout << t5.get_token_text() << "\n";
 	cout << t5.length() << "\n";
@@ -121,5 +121,10 @@ void Driver::Test_Dictionary()
 	string theSeparators = " \n\t\0\"\\;.,?!=':|{}[]()&+-*%$#!~>^</";
 	//cin >> theSeparators;
 	Dictionary dictionary(filename, theSeparators);
+
 	cout << dictionary;
+
+	//dictionary.print_input_lines();
+	//dictionary.print_input_tokens();
+
 }
