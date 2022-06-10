@@ -59,6 +59,7 @@ public:
 
 	void print_input_lines() const;
 	void print_input_tokens() const;
+	static string escape_tab_newline_chars(const string& separators);
 
 	/**
 	* @param sout - the Dictionary ostream to be printed

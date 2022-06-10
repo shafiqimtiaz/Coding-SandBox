@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Driver.h"
+#include "DictionaryApp.h"
 
 using std::cin;
 using std::cout;
@@ -14,7 +14,7 @@ int main()
 {
 
 	// Initializing program Driver Object
-	Driver D;
+	DictionaryApp D;
 
 	//D.Test_Token();
 	D.Test_Dictionary();

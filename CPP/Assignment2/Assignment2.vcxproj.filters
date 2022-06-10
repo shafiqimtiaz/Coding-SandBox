@@ -3,12 +3,12 @@
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Token.cpp" />
-    <ClCompile Include="src\Driver.cpp" />
+    <ClCompile Include="src\DictionaryApp.cpp" />
     <ClCompile Include="src\Dictionary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Token.h" />
-    <ClInclude Include="src\Driver.h" />
+    <ClInclude Include="src\DictionaryApp.h" />
     <ClInclude Include="src\Dictionary.h" />
   </ItemGroup>
   <ItemGroup>

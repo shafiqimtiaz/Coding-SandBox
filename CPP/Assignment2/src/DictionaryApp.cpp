@@ -1,23 +1,12 @@
-#include <iostream>
-#include<cassert>
-#include<string>
-#include <fstream>
-
 #include "Token.h"
 #include "Dictionary.h"
-#include "Driver.h"
-
-using std::ostream;
-using std::cin;
-using std::cout;
-using std::endl;
-using std::move;
+#include "DictionaryApp.h"
 
 /**
 * Driver function to test Token
 */
 
-void Driver::Test_Token()
+void DictionaryApp::Test_Token()
 {
 	cout << "Testing an Object of Class Token\n";
 
@@ -113,18 +102,90 @@ void Driver::Test_Token()
 */
 
 
-void Driver::Test_Dictionary()
+void DictionaryApp::Test_Dictionary()
 {
 	//cout << "Enter the name of input text file : ";
 	string filename = "Seuss.txt";
 	//cin >> filename;
-	string theSeparators = " \n\t\0\"\\;.,?!=':|{}[]()&+-*%$#!~>^</";
+	string theSeparators = " \n\t\"\\;.,?!=':|{}[]()&+-*%$#!~>^</";
 	//cin >> theSeparators;
-	Dictionary dictionary(filename, theSeparators);
 
-	cout << dictionary;
+	int option{};
+	string input{};
 
-	//dictionary.print_input_lines();
-	//dictionary.print_input_tokens();
+	Print_Menu(option, input);
 
+	if (input == "")
+	{
+		cout << "No Input\n";
+	}
+
+	while (option != 0)
+	{
+		Dictionary dictionary(filename, theSeparators);
+
+		cout << "\n" << option << " - " << input << "\n"
+			"Dictionary Source File: " << filename << "\n"
+			"Separator Characters:" << dictionary.escape_tab_newline_chars(theSeparators) << "\n\n";
+
+		switch (option)
+		{
+		case 1:
+			cout << "Input Lines"
+				"\n==========\n";
+			dictionary.print_input_lines();
+			break;
+		case 2:
+			cout << "Input Tokens"
+				"\n==========\n";
+			dictionary.print_input_tokens();
+			break;
+
+		case 3:
+			cout << dictionary;
+			cout << "Sorted_on_token_text"
+				"\n==========\n";
+			break;
+
+		case 4:
+			cout << "Sorted_on_token_frequecy"
+				"\n==========\n";
+			break;
+
+		case 5:
+			cout << "Sorted_on_token_length"
+				"\n==========\n";
+			break;
+
+		case 0:
+			break;
+
+		default:
+			cout << "Please chose an option mentioned\n";
+			break;
+		}
+
+
+		cout << "\n";
+		Print_Menu(option, input);
+	}
+	cout << "Goodbye";
+}
+
+void DictionaryApp::Print_Menu(int& option, string& input)
+{
+	cout << "Choose one of the options listed below and, optionally,\n"
+		"enter the initial character of the tokens to print :\n"
+		"\t1 - Print input lines\n"
+		"\t2 - Print original unsorted tokens\n"
+		"\t3 - Print tokens sorted by text\n"
+		"\t4 - Print tokens sorted by frequency\n"
+		"\t5 - Print tokens sorted by length\n"
+		"\t0 - Exit\n"
+		"Enter your input : ";
+
+	cin.clear();
+
+	cin >> option;
+	getline(cin, input);
 }

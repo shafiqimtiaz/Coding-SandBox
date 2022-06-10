@@ -15,6 +15,9 @@ using std::ifstream;
 using std::istringstream;
 using std::setw;
 
+#include <array>
+using std::array;
+
 /**
 * Normal Constructor
 * Creates the specified Dictionary object
@@ -127,6 +130,36 @@ void Dictionary::print_input_tokens() const
 			cout << setw(20) << tokenStr << "\n";
 		}
 	}
+}
+
+
+string Dictionary::escape_tab_newline_chars(const string& separators)
+{
+	string result{};
+
+	for (auto c : separators)
+	{
+		switch (c)
+		{
+		case '\n':
+			result += "\\n";
+			break;
+
+		case '\t':
+			result += "\\t";
+			break;
+
+		case '\0':
+			result += "\\0";
+			break;
+
+		default:
+			result += c;
+			break;
+		}
+	}
+
+	return result;
 }
 
 

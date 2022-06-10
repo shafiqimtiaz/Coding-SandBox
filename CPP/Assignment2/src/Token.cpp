@@ -1,11 +1,4 @@
-#include <iostream>
 #include "Token.h"
-
-using std::ostream;
-using std::cin;
-using std::cout;
-using std::endl;
-using std::move;
 
 /**
 * Normal Constructor
