@@ -54,8 +54,8 @@ size_t Dictionary::bucketIndex(const string& token) const
 	size_t index = 26; // bucket index for tokens not beginning with a letter
 	if (isalpha(token[0]))
 	{
-		if (isupper(token[0])) index = token[0] - 'A';
-		else index = token[0] - 'a';
+		if (isupper(token[0])) index = (size_t)token[0] - 'A';
+		else index = (size_t)token[0] - 'a';
 	}
 	return index;
 }

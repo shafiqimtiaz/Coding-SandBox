@@ -54,5 +54,6 @@
   <ItemGroup>
     <Text Include="input_file_A1.txt" />
     <Text Include="output_file_A1.txt" />
+    <Text Include="Readme.txt" />
   </ItemGroup>
 </Project>

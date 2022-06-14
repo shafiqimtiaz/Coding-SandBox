@@ -18,8 +18,8 @@ int main()
 
 	//D.Test_ArrrayList();
 	//D.Test_Token();
-	//D.Test_TokenList();
-	D.Test_Dictionary();
+	D.Test_TokenList();
+	//D.Test_Dictionary();
 
 	return 0;
 }

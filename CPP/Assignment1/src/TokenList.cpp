@@ -37,10 +37,10 @@ TokenList::TokenList(const TokenList& other)
 TokenList::TokenList(TokenList&& other) noexcept
 	: head{}, tail{}, theSize{}
 {
-	head = move(other.head); // move head pointer (hence the entire other SList)
+	head = move(other.head); // move head pointer (hence the entire other TokenList)
 	tail = move(other.tail);
 	theSize = move(other.theSize); // move size
-	other.release(); // release resources owned by other SList
+	other.release(); // release resources owned by other TokenList
 }
 
 /**
@@ -138,7 +138,7 @@ void TokenList::copy(const TokenList& other)
 	// copy the remaining available nodes
 	TNode* lastNode = head; // last node copied into this Tokenlist
 	current = current->next; // next node to copy into this Tokenlist
-	while (current) // while 'other' TokenList has nodes to copy into this SList
+	while (current) // while 'other' TokenList has nodes to copy into this TokenList
 	{
 		TNode* newNode = new TNode(current->theToken, nullptr);
 		lastNode->next = newNode; // append the new node
@@ -276,8 +276,7 @@ bool TokenList::remove(TNode* nodePtr)
 			{
 				TNode* temp = curr->next; // take the curr->next pointer to temp
 				curr->next = curr->next->next; // assign the curr->next->next value to curr->next
-				// by this, the curr->next will skip a node in the middle effectively disconnecting
-				// the nodePtr node
+				// by this, the curr->next will skip a node in the middle effectively disconnecting the nodePtr node
 				delete temp; // delete the curr->next
 
 				--theSize; // decrement the TokenList size
@@ -428,23 +427,16 @@ void TokenList::addSorted(const string& str, int lineNumber)
 		addFront(aToken); // if yes, add aToken to the front
 		return;
 	}
-	if ((nodePtr->theToken).compare(aToken) == 0) // check if nodePtr token is equal to aToken, if match, dont add aToken, add aToken number list
+	// check if nodePtr token is equal to aToken, if match, dont add aToken, add aToken number list
+	if ((nodePtr->theToken).compare(aToken) == 0)
 	{
 		ArrayList arr = nodePtr->theToken.getNumberList(); // get nodePtr number list
-		int len = arr.size(); // get the length of the number list
 
-		// traverse the number list
-		for (int i = 0; i < len; ++i)
+		// check for repeatations - if no repeat then only then add line number
+		if (!arr.contains(lineNumber))
 		{
-			int temp{};
-			arr.get(i, temp);
-
-			// check for repeatations - if no repeat then only then add line number
-			if (!arr.contains(lineNumber))
-			{
-				(nodePtr->theToken).addLineNumber(lineNumber);
-				return;
-			}
+			(nodePtr->theToken).addLineNumber(lineNumber);
+			return;
 		}
 	}
 	else

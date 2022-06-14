@@ -160,7 +160,6 @@ private:
 
 	/**
 	* Performs a deep copy of the 'other' TokenList into the invoking TokenList
-	*
 	* @param other - The specified TokenList object
 	*/
 	void copy(const TokenList& other);
