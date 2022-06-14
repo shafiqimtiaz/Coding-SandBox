@@ -157,6 +157,11 @@ void Driver::Test_TokenList()
 	Token tA("today?", 10);
 	bucket.addSorted(tA);
 
+	if (bucket.search(tA))
+	{
+		cout << "\n" << "Found : " << tA << "\n\n";
+	}
+
 	/*Token tB("Shafiq", 300);
 	bucket.addAfter(bucket.lookup(tA), tB);
 	cout << "\n" << tA << " lookup: " << bucket.size() << "\n\n" << bucket << "\n";
@@ -166,11 +171,6 @@ void Driver::Test_TokenList()
 
 	bucket.remove(bucket.lookup(tA));
 	cout << "\n" << tA << " remove: " << bucket.size() << "\n\n" << bucket << "\n";*/
-
-	if (bucket.search(tA))
-	{
-		cout << "\n" << "Searching : " << tA << "\n\n";
-	}
 
 	bucket.removeFront();
 	bucket.removeBack();
