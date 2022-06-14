@@ -15,6 +15,9 @@ using std::ifstream;
 using std::istringstream;
 using std::setw;
 
+using std::tolower;
+using std::toupper;
+
 #include <array>
 using std::array;
 
@@ -24,7 +27,7 @@ using std::array;
 *
 * @param fiename - name of the file to be read
 */
-Dictionary::Dictionary(const string& filename, const string& separators) : filename(filename)
+Dictionary::Dictionary(const string& filename, const string& separators) : filename(filename), theSeparators(separators)
 {
 	ifstream fin(filename); // create an input file stream
 
@@ -77,12 +80,25 @@ void Dictionary::push_back_into_bucket(const string& tokenText, size_t line_numb
 vector<string> Dictionary::extract_tokens_from_line(const string& line) const
 {
 	vector<string> lineVec;
-	istringstream sin(line); // turn the line into an input string stream
-	string tokenStr;
 
-	while (sin >> tokenStr) // extract token strings
-	{
-		lineVec.push_back(tokenStr);
+	// find the start index of first token, if any
+	size_t sndx{ line.find_first_not_of(theSeparators) };
+
+	while (sndx != string::npos) // while there are tokens
+	{ // find the end of current token that starts at sndx
+		size_t endIndex = line.find_first_of(theSeparators, sndx + 1);
+
+		// did we find a separator or did we reach the of line?
+		if (endIndex == string::npos)
+		{ // we did reach the of line, so set sndx to end of line
+			endIndex = line.length();
+		}
+		// extract the token
+		string token{ line.substr(sndx, endIndex - sndx) };
+		// again, find the start index of next token, if any
+		sndx = line.find_first_not_of(theSeparators, endIndex + 1);
+
+		lineVec.push_back(token); // push the token into lineVec
 	}
 
 	return lineVec;
@@ -118,20 +134,185 @@ void Dictionary::print_input_lines() const
 	}
 }
 
-void Dictionary::print_input_tokens() const
+void Dictionary::print_input_lines(set<char>& char_set) const
 {
+	for (const char& s : char_set)
+	{
+		cout << s << " ";
+	}
+	cout << "\n";
+
+	size_t lineNum = 1;
 	for (const string& line : input_lines)
 	{
-		istringstream sin(line);
-		vector<string> tokenVec = extract_tokens_from_line(line);
-
-		for (const string& tokenStr : tokenVec)
+		for (const char& c : char_set)
 		{
-			cout << setw(20) << tokenStr << "\n";
+			if (toupper(line[0]) == c || tolower(line[0]) == c)
+			{
+				cout << lineNum << " : " << line << "\n";
+			}
 		}
+		++lineNum;
 	}
 }
 
+void Dictionary::print_input_tokens() const
+{
+	for (int i = 0; i < 27; ++i)
+	{
+		if (i == 26) cout << "<>" << "\n";
+		else cout << "<" << char(i + 'A') << ">" << "\n";
+
+		for (const Token& token : token_list_buckets[i])
+		{
+			cout << setw(20) << token << "\n";
+		}
+
+		cout << "\n";
+	}
+}
+
+void Dictionary::print_input_tokens(set<char>& char_set) const
+{
+	for (const char& s : char_set)
+	{
+		cout << s << " ";
+	}
+	cout << "\n";
+
+	for (int i = 0; i < 27; ++i)
+	{
+		for (const char& c : char_set)
+		{
+			char headerChar = i + 'A';
+
+			if (headerChar == toupper(c))
+			{
+				cout << "<" << headerChar << ">" << "\n";
+				cout << "<" << i << " - " << c << ">" << "\n";
+			}
+			else if (i == 26 && !isalpha(c))
+			{
+				cout << "<>" << "\n";
+				cout << "<" << i << " - " << c << ">" << "\n";
+			}
+
+			for (const Token& token : token_list_buckets[i])
+			{
+				string tokenChar = token.get_token_text();
+
+				if (isalpha(tokenChar[0]) && (toupper(tokenChar[0]) == c || tolower(tokenChar[0]) == c))
+				{
+					cout << setw(20) << token << "\n";
+				}
+				else if (!isalpha(tokenChar[0]))
+				{
+					cout << setw(20) << token << "\n";
+				}
+			}
+		}
+		cout << "next " << "\n";
+	}
+}
+
+void Dictionary::print_sorted_on_token_text()const
+{
+	for (int i = 0; i < 27; ++i)
+	{
+		forward_list<Token> flist{};
+
+		if (i == 26) cout << "<>" << "\n";
+		else cout << "<" << char(i + 'A') << ">" << "\n";
+
+		for (const Token& token : token_list_buckets[i])
+		{
+			flist.push_front(token);
+		}
+
+		flist.sort(operator<);
+
+		for (Token& t : flist)
+		{
+			cout << setw(20) << t << "\n";
+		}
+		cout << "\n";
+	}
+}
+
+void Dictionary::print_sorted_on_token_text(set<char>& char_set)const
+{
+	for (const char& s : char_set)
+	{
+		cout << s << " ";
+	}
+	cout << "\n";
+}
+
+void Dictionary::print_sorted_on_token_frequecy()const
+{
+	for (int i = 0; i < 27; ++i)
+	{
+		forward_list<Token> flist{};
+
+		if (i == 26) cout << "<>" << "\n";
+		else cout << "<" << char(i + 'A') << ">" << "\n";
+
+		for (const Token& token : token_list_buckets[i])
+		{
+			flist.push_front(token);
+		}
+
+		flist.sort(isLessFrequent);
+
+		for (Token& t : flist)
+		{
+			cout << setw(20) << t << "\n";
+		}
+		cout << "\n";
+	}
+}
+
+void Dictionary::print_sorted_on_token_frequecy(set<char>& char_set)const
+{
+	for (const char& s : char_set)
+	{
+		cout << s << " ";
+	}
+	cout << "\n";
+}
+
+void Dictionary::print_sorted_on_token_length()const
+{
+	for (int i = 0; i < 27; ++i)
+	{
+		forward_list<Token> flist{};
+
+		if (i == 26) cout << "<>" << "\n";
+		else cout << "<" << char(i + 'A') << ">" << "\n";
+
+		for (const Token& token : token_list_buckets[i])
+		{
+			flist.push_front(token);
+		}
+
+		flist.sort(isShorter);
+
+		for (Token& t : flist)
+		{
+			cout << setw(20) << t << "\n";
+		}
+		cout << "\n";
+	}
+}
+
+void Dictionary::print_sorted_on_token_length(set<char>& char_set)const
+{
+	for (const char& s : char_set)
+	{
+		cout << s << " ";
+	}
+	cout << "\n";
+}
 
 string Dictionary::escape_tab_newline_chars(const string& separators)
 {

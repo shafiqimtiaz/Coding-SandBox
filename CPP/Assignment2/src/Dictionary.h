@@ -58,7 +58,20 @@ public:
 	Dictionary(const string& filename, const string& separators = " \t\n");
 
 	void print_input_lines() const;
+	void print_input_lines(set<char>& char_set) const;
+
 	void print_input_tokens() const;
+	void print_input_tokens(set<char>& char_set) const;
+
+	void print_sorted_on_token_text()const;
+	void print_sorted_on_token_text(set<char>& char_set)const;
+
+	void print_sorted_on_token_frequecy()const;
+	void print_sorted_on_token_frequecy(set<char>& char_set)const;
+
+	void print_sorted_on_token_length()const;
+	void print_sorted_on_token_length(set<char>& char_set)const;
+
 	static string escape_tab_newline_chars(const string& separators);
 
 	/**
