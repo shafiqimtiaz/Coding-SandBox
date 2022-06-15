@@ -1,5 +1,3 @@
-#include "Token.h"
-#include "Dictionary.h"
 #include "DictionaryApp.h"
 
 /**
@@ -109,139 +107,65 @@ void DictionaryApp::Test_Dictionary()
 	string separators = ". ;?(),13579=-\"\t\n";
 	//cin >> separators;
 
-	int option{};
-	string input{};
+	string input = Print_Menu();
 
-	Print_Menu(option, input);
+	int option_int{};
+	string display_string{};
+	set<char> display_set{};
 
-	set<char> input_set{};
-	for (char c : input)
+	Parse_User_Input(input, option_int, display_string, display_set);
+
+	cout << "Dictionary Source File: " << filename << "\n"
+		"Separator Characters:" << Dictionary::escape_tab_newline_chars(separators) << "\n\n";
+
+	while (option_int != 0)
 	{
-		input_set.insert(c);
-	}
+		Dictionary dictionary(filename, separators);
 
-	if (input == "")
-	{
-		while (option != 0)
+		switch (option_int)
 		{
-			Dictionary dictionary(filename, separators);
+		case 1:
+			if (display_set.size() == 0) dictionary.print_input_lines();
+			else dictionary.print_input_lines(display_set);
+			break;
+		case 2:
+			if (display_set.size() == 0) dictionary.print_input_tokens();
+			else dictionary.print_input_tokens(display_set);
+			break;
 
-			cout << "Dictionary Source File: " << filename << "\n"
-				"Separator Characters:" << dictionary.escape_tab_newline_chars(separators) << "\n\n";
+		case 3:
+			if (display_set.size() == 0) dictionary.print_sorted_on_token_text();
+			else dictionary.print_sorted_on_token_text(display_set);
+			break;
 
-			switch (option)
-			{
-			case 1:
-				cout << "Input Lines"
-					"\n==========\n";
-				dictionary.print_input_lines();
-				break;
-			case 2:
-				cout << "Input Tokens"
-					"\n==========\n";
-				dictionary.print_input_tokens();
-				break;
+		case 4:
+			if (display_set.size() == 0) dictionary.print_sorted_on_token_frequecy();
+			else dictionary.print_sorted_on_token_frequecy(display_set);
+			break;
 
-			case 3:
-				cout << "Sorted_on_token_text"
-					"\n==========\n";
-				dictionary.print_sorted_on_token_text();
-				break;
+		case 5:
+			if (display_set.size() == 0) dictionary.print_sorted_on_token_length();
+			else dictionary.print_sorted_on_token_length(display_set);
+			break;
 
-			case 4:
-				cout << "Sorted_on_token_frequecy"
-					"\n==========\n";
-				dictionary.print_sorted_on_token_frequecy();
-				break;
+		case 0:
+			break;
 
-			case 5:
-				cout << "Sorted_on_token_length"
-					"\n==========\n";
-				dictionary.print_sorted_on_token_length();
-				break;
-
-			case 0:
-				break;
-
-			default:
-				cout << "Please choose an option mentioned\n";
-				break;
-			}
-
-
-			cout << "\n";
-			Print_Menu(option, input);
-			set<char> input_set{};
-			for (char c : input)
-			{
-				input_set.insert(c);
-			}
+		default:
+			cout << "Please choose an option mentioned\n";
+			break;
 		}
 
+		cout << "\n";
+		input = Print_Menu();
+
+		Parse_User_Input(input, option_int, display_string, display_set);
 	}
-	else {
-		while (option != 0)
-		{
-			Dictionary dictionary(filename, separators);
-
-			cout << "Dictionary Source File: " << filename << "\n"
-				"Separator Characters:" << dictionary.escape_tab_newline_chars(separators) << "\n\n";
-
-			switch (option)
-			{
-			case 1:
-				cout << "Input Lines"
-					"\n==========\n";
-				dictionary.print_input_lines(input_set);
-				break;
-			case 2:
-				cout << "Input Tokens"
-					"\n==========\n";
-				dictionary.print_input_tokens(input_set);
-				break;
-
-			case 3:
-				cout << "Sorted_on_token_text"
-					"\n==========\n";
-				dictionary.print_sorted_on_token_text(input_set);
-				break;
-
-			case 4:
-				cout << "Sorted_on_token_frequecy"
-					"\n==========\n";
-				dictionary.print_sorted_on_token_frequecy(input_set);
-				break;
-
-			case 5:
-				cout << "Sorted_on_token_length"
-					"\n==========\n";
-				dictionary.print_sorted_on_token_length(input_set);
-				break;
-
-			case 0:
-				break;
-
-			default:
-				cout << "Please choose an option mentioned\n";
-				break;
-			}
-
-
-			cout << "\n";
-			Print_Menu(option, input);
-			set<char> input_set{};
-			for (char c : input)
-			{
-				input_set.insert(c);
-			}
-		}
-	}
-
 
 	cout << "Goodbye";
 }
 
-void DictionaryApp::Print_Menu(int& option, string& input)
+string DictionaryApp::Print_Menu()
 {
 	cout << "Choose one of the options listed below and, optionally,\n"
 		"enter the initial character of the tokens to print :\n"
@@ -253,36 +177,23 @@ void DictionaryApp::Print_Menu(int& option, string& input)
 		"\t0 - Exit\n"
 		"Enter your input : ";
 
-	cin.clear();
-	int digit{};
-	cin >> digit;
-	int count = 0;
+	string userInput;
+	cin >> userInput;
 
-	int temp{ digit };
+	return userInput;
+}
 
-	while (temp != 0) // count integer input
-	{
-		temp = temp / 10;
-		++count;
-	}
+void DictionaryApp::Parse_User_Input(const string& userInput, int& option_int, string& display_string, set<char>& display_set)
+{
+	char option_char = userInput[0];
 
-	temp = digit; // reset temp to digit
-	while (temp >= 10) // get Most Significant digit
-	{
-		temp /= 10;
-	}
+	option_int = 0; // reset
+	option_int = option_char - '0';
 
-	if (temp >= 0 && temp < 6) option = temp;
-	else cout << "Please choose an option mentioned\n";
+	display_string = ""; // reset
+	display_string = userInput.substr(1, userInput.length());
 
-	getline(cin, input); // get input which is the first non-integer input and so forth
+	display_set.clear(); // reset
+	display_set = set<char>(display_string.begin(), display_string.end());
 
-	temp = 0; // reset temp
-	while (digit > 0 && count > 1) // get all digits other than Most Significant one
-	{
-		temp = digit % 10;
-		input += std::to_string(temp); // add the remaining integers to input string
-		digit /= 10;
-		--count;
-	}
 }

@@ -121,6 +121,8 @@ void Driver::Test_Token()
 */
 void Driver::Test_TokenList()
 {
+	cout << "\nTesting TokenList\n";
+
 	TokenList bucket;
 	Token t1("Hello", 1);
 	bucket.addSorted(t1);

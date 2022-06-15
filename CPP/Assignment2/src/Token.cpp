@@ -134,6 +134,7 @@ bool isLessFrequent(const Token& first, const Token& second)
 {
 	if (first.get_frequency() < second.get_frequency()) return true;
 	if (first.get_frequency() > second.get_frequency()) return false;
+	if (first.compare(second) < 0) return true;
 
 	return false;
 }

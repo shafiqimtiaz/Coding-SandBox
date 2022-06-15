@@ -1,6 +1,9 @@
 #ifndef DRIVER_H
 #define DRIVER_H
 
+#include "Token.h"
+#include "Dictionary.h"
+
 #include <iostream>
 #include<string>
 #include <fstream>
@@ -21,7 +24,8 @@ public:
 	/**
 	* Print Menu
 	*/
-	void Print_Menu(int& option, string& input);
+	string Print_Menu();
+	void Parse_User_Input(const string& userInput, int& option_int, string& display_string, set<char>& display_set);
 
 	/**
 	* Test Token Class

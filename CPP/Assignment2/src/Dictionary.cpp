@@ -126,6 +126,8 @@ void Dictionary::extract_and_push(const string& line, size_t line_number)
 
 void Dictionary::print_input_lines() const
 {
+	cout << "Input Lines\n==========\n";
+
 	size_t lineNum = 1;
 	for (const string& line : input_lines)
 	{
@@ -136,32 +138,29 @@ void Dictionary::print_input_lines() const
 
 void Dictionary::print_input_lines(set<char>& char_set) const
 {
-	for (const char& s : char_set)
-	{
-		cout << s << " ";
-	}
-	cout << "\n";
+	cout << "Input Lines\n==========\n";
 
 	size_t lineNum = 1;
 	for (const string& line : input_lines)
 	{
-		for (const char& c : char_set)
+		char fchar = tolower(line[0]); // get first character
+		if (char_set.find(fchar) != char_set.end()) // if fchar is found in line till set end, display line
 		{
-			if (toupper(line[0]) == c || tolower(line[0]) == c)
-			{
-				cout << lineNum << " : " << line << "\n";
-			}
+			cout << lineNum << " : " << line << "\n";
 		}
-		++lineNum;
+		++lineNum; // increment line
 	}
 }
 
 void Dictionary::print_input_tokens() const
 {
+	cout << "Input Tokens\n==========\n";
+
 	for (int i = 0; i < 27; ++i)
 	{
-		if (i == 26) cout << "<>" << "\n";
-		else cout << "<" << char(i + 'A') << ">" << "\n";
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+		cout << "<" << headerChar << ">" << "\n"; // print headerChar
 
 		for (const Token& token : token_list_buckets[i])
 		{
@@ -174,66 +173,40 @@ void Dictionary::print_input_tokens() const
 
 void Dictionary::print_input_tokens(set<char>& char_set) const
 {
-	for (const char& s : char_set)
-	{
-		cout << s << " ";
-	}
-	cout << "\n";
+	cout << "Input Tokens - CHAR\n==========\n";
 
 	for (int i = 0; i < 27; ++i)
 	{
-		for (const char& c : char_set)
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0';
+
+		if (char_set.count(tolower(headerChar)) || i == 26)  // if fchar is found in line till set end, display line
 		{
-			char headerChar = i + 'A';
-
-			if (headerChar == toupper(c))
-			{
-				cout << "<" << headerChar << ">" << "\n";
-				cout << "<" << i << " - " << c << ">" << "\n";
-			}
-			else if (i == 26 && !isalpha(c))
-			{
-				cout << "<>" << "\n";
-				cout << "<" << i << " - " << c << ">" << "\n";
-			}
-
+			cout << "<" << headerChar << ">" << "\n";
 			for (const Token& token : token_list_buckets[i])
 			{
-				string tokenChar = token.get_token_text();
-
-				if (isalpha(tokenChar[0]) && (toupper(tokenChar[0]) == c || tolower(tokenChar[0]) == c))
-				{
-					cout << setw(20) << token << "\n";
-				}
-				else if (!isalpha(tokenChar[0]))
-				{
-					cout << setw(20) << token << "\n";
-				}
+				cout << setw(20) << token << "\n";
 			}
 		}
-		cout << "next " << "\n";
 	}
 }
 
 void Dictionary::print_sorted_on_token_text()const
 {
+	cout << "Sorted_on_token_text\n==========\n";
+
 	for (int i = 0; i < 27; ++i)
 	{
-		forward_list<Token> flist{};
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+		cout << "<" << headerChar << ">" << "\n"; // print headerChar
 
-		if (i == 26) cout << "<>" << "\n";
-		else cout << "<" << char(i + 'A') << ">" << "\n";
-
-		for (const Token& token : token_list_buckets[i])
-		{
-			flist.push_front(token);
-		}
-
+		forward_list<Token> flist(token_list_buckets[i].begin(), token_list_buckets[i].end());
 		flist.sort(operator<);
 
-		for (Token& t : flist)
+		for (Token& token : flist)
 		{
-			cout << setw(20) << t << "\n";
+			cout << setw(20) << token << "\n";
 		}
 		cout << "\n";
 	}
@@ -241,32 +214,46 @@ void Dictionary::print_sorted_on_token_text()const
 
 void Dictionary::print_sorted_on_token_text(set<char>& char_set)const
 {
-	for (const char& s : char_set)
+	cout << "Sorted_on_token_text - CHAR\n==========\n";
+
+	for (int i = 0; i < 27; ++i)
 	{
-		cout << s << " ";
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+
+		if (char_set.count(tolower(headerChar)) || i == 26)
+		{
+			cout << "<" << headerChar << ">" << "\n"; // print headerChar
+
+			forward_list<Token> flist(token_list_buckets[i].begin(), token_list_buckets[i].end());
+			flist.sort(operator<);
+
+			for (Token& token : flist)
+			{
+				cout << setw(20) << token << "\n";
+			}
+			cout << "\n";
+		}
+
 	}
-	cout << "\n";
 }
 
 void Dictionary::print_sorted_on_token_frequecy()const
 {
+	cout << "Sorted_on_token_frequecy\n==========\n";
+
 	for (int i = 0; i < 27; ++i)
 	{
-		forward_list<Token> flist{};
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+		cout << "<" << headerChar << ">" << "\n"; // print headerChar
 
-		if (i == 26) cout << "<>" << "\n";
-		else cout << "<" << char(i + 'A') << ">" << "\n";
-
-		for (const Token& token : token_list_buckets[i])
-		{
-			flist.push_front(token);
-		}
-
+		forward_list<Token> flist(token_list_buckets[i].begin(), token_list_buckets[i].end());
 		flist.sort(isLessFrequent);
 
-		for (Token& t : flist)
+		for (Token& token : flist)
 		{
-			cout << setw(20) << t << "\n";
+			cout << setw(20) << token << "\n";
 		}
 		cout << "\n";
 	}
@@ -274,32 +261,45 @@ void Dictionary::print_sorted_on_token_frequecy()const
 
 void Dictionary::print_sorted_on_token_frequecy(set<char>& char_set)const
 {
-	for (const char& s : char_set)
+	cout << "Sorted_on_token_frequecy - CHAR\n==========\n";
+
+	for (int i = 0; i < 27; ++i)
 	{
-		cout << s << " ";
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+
+		if (char_set.count(tolower(headerChar)) || i == 26)
+		{
+			cout << "<" << headerChar << ">" << "\n"; // print headerChar
+
+			forward_list<Token> flist(token_list_buckets[i].begin(), token_list_buckets[i].end());
+			flist.sort(isLessFrequent);
+
+			for (Token& token : flist)
+			{
+				cout << setw(20) << token << "\n";
+			}
+			cout << "\n";
+		}
 	}
-	cout << "\n";
 }
 
 void Dictionary::print_sorted_on_token_length()const
 {
+	cout << "Sorted_on_token_length\n==========\n";
+
 	for (int i = 0; i < 27; ++i)
 	{
-		forward_list<Token> flist{};
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+		cout << "<" << headerChar << ">" << "\n"; // print headerChar
 
-		if (i == 26) cout << "<>" << "\n";
-		else cout << "<" << char(i + 'A') << ">" << "\n";
-
-		for (const Token& token : token_list_buckets[i])
-		{
-			flist.push_front(token);
-		}
-
+		forward_list<Token> flist(token_list_buckets[i].begin(), token_list_buckets[i].end());
 		flist.sort(isShorter);
 
-		for (Token& t : flist)
+		for (Token& token : flist)
 		{
-			cout << setw(20) << t << "\n";
+			cout << setw(20) << token << "\n";
 		}
 		cout << "\n";
 	}
@@ -307,11 +307,27 @@ void Dictionary::print_sorted_on_token_length()const
 
 void Dictionary::print_sorted_on_token_length(set<char>& char_set)const
 {
-	for (const char& s : char_set)
+	cout << "Sorted_on_token_length - CHAR\n==========\n";
+
+	for (int i = 0; i < 27; ++i)
 	{
-		cout << s << " ";
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+
+		if (char_set.count(tolower(headerChar)) || i == 26)
+		{
+			cout << "<" << headerChar << ">" << "\n"; // print headerChar
+
+			forward_list<Token> flist(token_list_buckets[i].begin(), token_list_buckets[i].end());
+			flist.sort(isShorter);
+
+			for (Token& token : flist)
+			{
+				cout << setw(20) << token << "\n";
+			}
+			cout << "\n";
+		}
 	}
-	cout << "\n";
 }
 
 string Dictionary::escape_tab_newline_chars(const string& separators)
@@ -352,12 +368,13 @@ void Dictionary::print(ostream& sout) const
 {
 	for (int i = 0; i < 27; ++i)
 	{
-		if (i == 26) cout << "<>" << "\n";
-		else cout << "<" << char(i + 'A') << ">" << "\n";
+		char headerChar = i + 'A'; // convert iteration i to char ASCII starting from A
+		if (i == 26) headerChar = '\0'; // if last iteration, make headerChar to '\0'
+		cout << "<" << headerChar << ">" << "\n"; // print headerChar
 
-		for (const Token& tlist : token_list_buckets[i])
+		for (const Token& token : token_list_buckets[i])
 		{
-			cout << setw(20) << tlist << "\n";
+			cout << setw(20) << token << "\n";
 		}
 
 		cout << "\n";
