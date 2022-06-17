@@ -15,12 +15,12 @@ using std::ifstream;
 using std::istringstream;
 
 /**
-* Print the menu of options to assist the user to prompt for option
+* Helper function - Print the menu of options to assist the user to prompt for option and returns user input string
 */
 string Print_Menu();
 
 /**
-* Parse the user input in option_int, display_string and display_set
+* Helper function - Parse the user input in option_int, display_string and display_set
 */
 void Parse_User_Input(string& userInput, int& option_int, string& display_string, set<char>& display_set);
 
