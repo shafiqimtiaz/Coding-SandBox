@@ -26,7 +26,7 @@ void Parse_User_Input(string& userInput, int& option_int, string& display_string
 
 int main()
 {
-	/*cout << "Enter the name of input text file : ";
+	cout << "Enter the name of input text file : ";
 	string filename;
 	cin >> filename;
 
@@ -34,14 +34,13 @@ int main()
 	string separators;
 	cin.ignore();
 	getline(cin, separators);
-	separators += '\n';*/
+	separators += '\n';
 
-	string filename = "Seuss.txt";
+	//string filename = "Seuss.txt";
 	//string separators = " \n\t\"\0\\;.,?!=':|{}[]()&+-*%$#!~>^</";
-	string separators = ". ;?(),13579=-\"\t\n";
+	//string separators = ". ;?(),13579=-\"\t\n";
 
-	cout << "Dictionary Source File: " << filename << "\n"
-		"Separator Characters:" << Dictionary::escape_tab_newline_chars(separators) << "\n\n";
+	cout << "\n";
 
 	// take the user input from Print_Menu
 	string input = Print_Menu();
@@ -57,6 +56,10 @@ int main()
 	// loop the program until the user enters 0
 	while (option_int != 0)
 	{
+		// print source file and separators
+		cout << "\nDictionary Source File: " << filename << "\n"
+			"Separator Characters:" << Dictionary::escape_tab_newline_chars(separators) << "\n";
+
 		// creates the dictionary object 
 		Dictionary dictionary(filename, separators);
 

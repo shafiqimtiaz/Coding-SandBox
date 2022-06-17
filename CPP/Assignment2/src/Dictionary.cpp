@@ -1,23 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <iomanip>
-#include <array>
 #include "Dictionary.h"
-
-using std::ostream;
-using std::cin;
-using std::cout;
-using std::endl;
-using std::move;
-using std::string;
-using std::ifstream;
-using std::istringstream;
-using std::setw;
-using std::array;
-using std::tolower;
-using std::toupper;
 
 /**
 * Normal Constructor
@@ -353,7 +334,7 @@ void Dictionary::print_sorted_on_token_text()const
 */
 void Dictionary::print_sorted_on_token_text(set<char>& char_set)const
 {
-	cout << "Dictionary sorted by token text\n===============================\n";
+	cout << "\nDictionary sorted by token text\n===============================\n";
 
 	// loop for all 27 token_list_buckets
 	for (int i = 0; i < 27; ++i)

@@ -5,12 +5,14 @@
 
 #include<iostream>
 #include <fstream>
+#include <sstream>
 #include<string>
 #include<list>
 #include<array>
 #include<vector>
 #include<set>
 #include <forward_list>
+#include <iomanip>
 
 using std::ostream;
 using std::string;
@@ -19,6 +21,15 @@ using std::set;
 using std::vector;
 using std::array;
 using std::list;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::move;
+using std::ifstream;
+using std::istringstream;
+using std::setw;
+using std::tolower;
+using std::toupper;
 
 class Dictionary
 {
