@@ -8,16 +8,29 @@
 using std::string;
 using std::vector;
 using std::ostream;
-using std::ostream;
 using std::cin;
 using std::cout;
 using std::endl;
-using std::move;
 
 class Token
 {
-public:
+private:
+	/**
+	* Token text
+	*/
+	string text;
 
+	/**
+	* Frequency of number of lines for object Token
+	*/
+	size_t frequency;
+
+	/**
+	* vector of number lines for object Token
+	*/
+	vector<size_t> line_number_list;
+
+public:
 	/**
 	* Normal Constructor
 	*/
@@ -54,52 +67,54 @@ public:
 	virtual ~Token() = default;
 
 	/**
-	* @return the char pointer of the Token object
+	* @param the invoking Token object
+	* @return the integer value returned by compare: >0 / 0 / <0
 	*/
-	string get_token_text() const;
+	int compare(const Token& other) const;
 
 	/**
-	* @param the line_num integer to be added to the Token object number_list
-	*/
-	void push_back_line_number(size_t line_num);
-
-	/**
-	* @return the length of the Token char array
-	*/
-	size_t length() const;
-
-	/**
-	* @return the frequency of the Token
-	*/
-	size_t get_frequency() const;
-
-	/**
-	* @param sout - the Token ostream to be printed
+	* @param out - the Token ostream to be printed
 	*/
 	void print(ostream& out) const;
 
 	/**
-	* @return the number_list of the Token object
+	* @return the token string from Token object
+	*/
+	string get_token_text() const;
+
+	/**
+	* @return the frequency of number_list from Token object
+	*/
+	size_t get_frequency() const;
+
+	/**
+	* @return the number_list vector of the Token object
 	*/
 	vector<size_t> get_number_list() const;
 
 	/**
-	* increments this token's frequency
+	* @return the length of the string from Token object
+	*/
+	size_t length() const;
+
+	/**
+	* increment the number of occurences of the Token
 	*/
 	void increment_freqency();
 
 	/**
-	* @param the invoking Token object
-	* @return the integer value returned by strcmp - 0 / 1 / -1
+	* @param line_num - to be added to the Token object number_list
 	*/
-	int compare(const Token& other) const;
+	void push_back_line_number(size_t line_num);
 
+	/**
+	* Helper Function - checks whether Token number_list contains passed Token
+	*
+	* @param numList - number_list vector to iterate over
+	* @param check - passed Token ref to check if contained
+	* @return bool if number_list contains passed Token or not
+	*/
 	bool contains(vector<size_t>& numList, const size_t& check);
-
-private:
-	string text;
-	size_t frequency;
-	vector<size_t> line_number_list;
 };
 
 /**
@@ -110,14 +125,30 @@ private:
 ostream& operator<<(ostream& out, const Token& token);
 
 /**
-* @param out - the Token ostream to be printed
-* @param vec - the Token object ref
-* @return Vector ostream object ref
+* Predicate to sort based on Token string
+*
+* @param first - first token
+* @param second - second token
+* @return bool based on the Token compare function
 */
-ostream& operator<<(ostream& out, const vector<size_t> vec);
+bool operator<(const Token& first, const Token& second); // uses compare
 
-bool operator<(const Token& t1, const Token& t2); // uses compare
+/**
+* Predicate to sort based on Token length
+*
+* @param t1 - first token
+* @param t2 - second token
+* @return bool based on the Token.length() function
+*/
 bool isShorter(const Token& first, const Token& second); //uses length
+
+/**
+* Predicate to sort based on Token frequency
+*
+* @param t1 - first token
+* @param t2 - second token
+* @return bool based on the Token.get_frequency() function
+*/
 bool isLessFrequent(const Token& first, const Token& second); // uses getFrequency
 
 #endif

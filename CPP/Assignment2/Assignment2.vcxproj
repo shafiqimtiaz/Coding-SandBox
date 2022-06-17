@@ -145,12 +145,10 @@
   <ItemGroup>
     <ClCompile Include="src\Dictionary.cpp" />
     <ClCompile Include="src\DictionaryApp.cpp" />
-    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Dictionary.h" />
-    <ClInclude Include="src\DictionaryApp.h" />
     <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <ItemGroup>
