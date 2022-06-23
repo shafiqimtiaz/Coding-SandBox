@@ -34,7 +34,11 @@ int main()
 	string separators;
 	cin.ignore();
 	getline(cin, separators);
-	separators += '\n';
+	
+	// add new line character to the end of the string,
+	// only if user does not input \n themselves
+	if (separators.find("\\n") == string::npos)
+		separators += '\n';
 
 	//string filename = "Seuss.txt";
 	//string separators = " \n\t\"\0\\;.,?!=':|{}[]()&+-*%$#!~>^</";

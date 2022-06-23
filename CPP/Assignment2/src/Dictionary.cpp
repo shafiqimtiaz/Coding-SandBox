@@ -229,21 +229,29 @@ void Dictionary::print_input_lines() const
 */
 void Dictionary::print_input_lines(set<char>& char_set) const
 {
-	cout << "\nInput Lines\n==========\n";
 
+	cout << "\nInput Lines\n===========\n";
+
+	size_t firstValidIndex;
 	size_t lineNum = 1;
-	for (const string& line : input_lines)
-	{
+
+	for (const string& line : input_lines) {
+
+		char first_char;
+
 		// get first character
-		char first_char = tolower(line[0]);
+		// looking for space and tab separators while printing
+		if ((firstValidIndex = line.find_first_not_of(" \t")) != string::npos)
+			first_char = tolower(line.at(firstValidIndex));
+		else first_char = tolower(line[0]);
 
 		// if first_char is found in line till set end, display line_num and line
-		if (char_set.count(first_char))
-		{
+		if (char_set.count(first_char)) {
 			cout << lineNum << " : " << line << "\n";
 		}
 		++lineNum; // increment line
 	}
+
 }
 
 /**
