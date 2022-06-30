@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+#pragma warning(disable : 4996)
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -26,7 +28,7 @@ public:
 
 int main()
 {
-	int var{ 0 };
+	/*int var{ 0 };
 	cout << "Input1: ";
 	cin >> var;
 
@@ -58,7 +60,56 @@ int main()
 	Test t1, t2;
 
 	t2 = t1;
-	Test t3 = t1;
+	Test t3 = t1;*/
 
-	cin.get();
+
+	/*int a[5]{ 1,2,3,4,5 };
+
+	cout << *(a + 2) << " " << a[2] << "\n";
+	cout << (a + 1) << " " << &a[2] << "\n";
+
+	for (int i{}; i < (sizeof(a) / sizeof(a[0])); ++i)
+	{
+		int* p{ &a[i] };
+		cout << p << "\n";
+	}*/
+
+	/*int* p{ new int[5] {1,2,3,4,5} };
+
+	p[2] = 100;
+
+	for (int i{}; i < 5; ++i)
+	{
+		cout << p[i] << "\n";
+	}
+
+	delete[] p;*/
+
+	/*int x{ 10 };
+	int* p{ &x };
+	int*& refp{ p };
+
+	int** q{ &p };
+	int**& refq{ q };
+
+	int*** r{ &q };
+	int***& refr{ r };
+
+
+	cout << *p << " " << **q << " " << ***r << "\n" << *refp << " " << **refq << " " << ***refr;*/
+
+	/*const char* src{ "Joe" };
+	char* dest{ new char[strlen(src) + 1] };
+
+	strcpy(dest, src);
+
+	for (size_t i = 0; i < strlen(dest); i++)
+	{
+		cout << dest[i] << " ";
+	}
+
+	delete[] dest;*/
+
+
+	return 0;
 }

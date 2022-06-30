@@ -234,6 +234,18 @@ bool check_if_starts_with(string& str, string& check)
 	return false;
 }
 
+void compareOperation(string& str, string& check)
+{
+	// compare(offset, length, string obj)
+
+	int result{ str.compare(10, check.length(), check) };
+
+	if (result == 0)
+		cout << "\"" << str << "\" contains \"" << check << "\" starting at index 10\n";
+	else
+		cout << "Strings didn't match ";
+}
+
 int main()
 {
 	/*LinkedList list;
@@ -268,8 +280,10 @@ int main()
 
 	//bubbleSort_and_print(phrase);
 
-	/*string check{ "Hoobla" };
-	cout << check_if_starts_with(phrase, check);*/
+	string check{ "magical" };
+	//cout << check_if_starts_with(phrase, check);
+
+	compareOperation(phrase, check);
 
 
 
