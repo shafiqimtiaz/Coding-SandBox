@@ -19,9 +19,9 @@ void test_function_objects();
 
 int main()
 {
-	test_getter_setter();
+	//test_getter_setter();
 
-	//test_insersion_extraction_operator();
+	test_insersion_extraction_operator();
 	//test_constructors_and_equality();
 	//test_multiplication_and_inverse();
 	//test_unary_operators();

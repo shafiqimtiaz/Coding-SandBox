@@ -34,7 +34,7 @@ int main()
 	string separators;
 	cin.ignore();
 	getline(cin, separators);
-	
+
 	// add new line character to the end of the string,
 	// only if user does not input \n themselves
 	if (separators.find("\\n") == string::npos)

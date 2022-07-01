@@ -37,9 +37,10 @@ istream& operator>>(istream& sin, Quad& q)
 {
 	for (size_t i{}; i < 4; ++i)
 	{
-		double value{};
+		/*double value{};
 		sin >> value;
-		q.quad[i] = value;
+		q.quad[i] = value;*/
+		sin >> q.quad[i];
 	}
 
 	return sin;
