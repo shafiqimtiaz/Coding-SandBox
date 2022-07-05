@@ -3,28 +3,24 @@
 #include <iostream>
 #include <array>
 #include <cassert>
-#include <algorithm>
 
 using std::cin;
 using std::cout;
-using std::endl;
 using std::array;
 using std::ostream;
 using std::istream;
-using std::max;
-using std::out_of_range;
 
-class Quad
-{
+class Quad {
 private:
 	array <double, 4> quad{};
+
 public:
 	static inline const double tolerance{ 1.0E-6 };
 
 	Quad get() const;
 	void set(const Quad&);
-	Quad(double x1 = 0.0, double
-		x2 = 0.0, double x3 = 0.0, double x4 = 0.0);
+	double getTolerance() const;
+	Quad(double x1 = 0.0, double x2 = 0.0, double x3 = 0.0, double x4 = 0.0);
 
 	Quad(const Quad&) = default; // copy constructor
 	Quad(Quad&&) = default; // move constructor
@@ -44,27 +40,27 @@ public:
 	Quad operator*=(const Quad& rhs);
 	Quad operator/=(const Quad& rhs);
 
-	Quad operator+=(double value);
-	Quad operator-=(double value);
-	Quad operator*=(double value);
-	Quad operator/=(double value);
+	Quad operator+=(double val);
+	Quad operator-=(double val);
+	Quad operator*=(double val);
+	Quad operator/=(double val);
 
 	//Arithmetic binary operators - free func
 	friend Quad operator+(const Quad& lhs, const Quad& rhs);
-	friend Quad operator+(const Quad& lhs, double value);
-	friend Quad operator+(double value, const Quad& rhs);
+	friend Quad operator+(const Quad& lhs, double val);
+	friend Quad operator+(double val, const Quad& rhs);
 
 	friend Quad operator-(const Quad& lhs, const Quad& rhs);
-	friend Quad operator-(const Quad& lhs, double value);
-	friend Quad operator-(double value, const Quad& rhs);
+	friend Quad operator-(const Quad& lhs, double val);
+	friend Quad operator-(double val, const Quad& rhs);
 
 	friend Quad operator*(const Quad& lhs, const Quad& rhs);
-	friend Quad operator*(const Quad& lhs, double value);
-	friend Quad operator*(double value, const Quad& rhs);
+	friend Quad operator*(const Quad& lhs, double val);
+	friend Quad operator*(double val, const Quad& rhs);
 
 	friend Quad operator/(const Quad& lhs, const Quad& rhs);
-	friend Quad operator/(const Quad& lhs, double value);
-	friend Quad operator/(double value, const Quad& rhs);
+	friend Quad operator/(const Quad& lhs, double val);
+	friend Quad operator/(double val, const Quad& rhs);
 
 
 	//binary - free func
@@ -83,14 +79,15 @@ public:
 	Quad operator--(); //prefix
 	Quad operator--(int); //postfux
 
-	//subscript operators
+	//[], const and non-const ver...wip
 	double& operator[](int index);
 	const double& operator[](int index) const;
-
-	//function objects
+	//        double operator[](int index, int val);
+	//
 	double operator()();
 	double operator()(size_t i);
 	double operator()(size_t i, size_t j);
 	double operator()(size_t i, size_t j, size_t k);
 	double operator()(size_t i, size_t j, size_t k, size_t l);
+
 };

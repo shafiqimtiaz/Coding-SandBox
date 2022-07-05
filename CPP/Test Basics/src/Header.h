@@ -106,6 +106,16 @@ public:
 		cout << "Construct Child1" << endl;
 	}
 
+	Child1(const Parent& other)
+	{
+		cout << "PtoC1 - Copy constructor called" << endl;
+	}
+
+	Child1(Parent&& other) noexcept
+	{
+		cout << "PtoC1 - Move constructor called" << endl;
+	}
+
 	virtual ~Child1()
 	{
 		cout << "Destruct Child1" << endl;
@@ -118,6 +128,16 @@ public:
 	Child2()
 	{
 		cout << "Construct Child2" << endl;
+	}
+
+	Child2(const Child1 other)
+	{
+		cout << "C1toC2 - Copy constructor called" << endl;
+	}
+
+	Child2(Child1&& other) noexcept
+	{
+		cout << "C1toC2 - Move constructor called" << endl;
 	}
 
 	virtual ~Child2()

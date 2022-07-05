@@ -1,6 +1,12 @@
+#include <iostream>
 #include "Quad.h"
 
-void test_accessor_mutator();
+using std::cout;
+using std::cin;
+using std::endl;
+
+void test_getter_setter();
+
 void test_insersion_extraction_operator();
 void test_constructors_and_equality();
 void test_multiplication_and_inverse();
@@ -11,23 +17,26 @@ void test_subscript_operator();
 void test_relational_operators();
 void test_function_objects();
 
-int main()
-{
-	test_accessor_mutator();
+int main() {
+	//test_getter_setter();
+
 	//test_insersion_extraction_operator();
-	test_constructors_and_equality();
-	test_multiplication_and_inverse();
-	test_unary_operators();
-	test_basic_arithmetic_operators();
-	test_compound_assignment_operators();
+	//test_constructors_and_equality();
+	//test_multiplication_and_inverse();
+	//test_unary_operators();
+	//test_basic_arithmetic_operators();
+	//test_compound_assignment_operators();
+
+	//----done---doCheck----
 	test_subscript_operator();
 	test_relational_operators();
 	test_function_objects();
 
+	cout << "Test completed successfully!" << endl;
 	return 0;
 }
 
-void test_accessor_mutator()
+void test_getter_setter()
 {
 	Quad q1{ 1.1,2.2,3.3,4.4 };
 	cout << "get : " << q1.get() << "\n";
@@ -38,23 +47,22 @@ void test_accessor_mutator()
 	cout << "set : " << q2 << "\n";
 }
 
-void test_insersion_extraction_operator()
-{
+void test_insersion_extraction_operator() {
 	Quad q;
-	cout << "Please enter the numbers 4.5, 2.5, 7, 5 in that order\n\n";
+	cout << "Please enter the numbers 4.5, 2.5, 7, 5, in that order\n\n";
 	cin >> q;
 	cout << "input = " << q << endl;
 	assert(q == Quad(4.5, 2.5, 7, 5));
 }
 
-void test_constructors_and_equality()
-{
+void test_constructors_and_equality() {
 	const Quad ZERO;
 	// must not compile, because zero is const
 	//ZERO[1] = 0;
 	//ZERO[2] = 0;
 	//ZERO[3] = 0;
 	//ZERO[4] = 0;
+
 	Quad q1a; // default ctor
 	cout << "q1a = " << q1a << endl; // cout << Quad
 	assert(q1a == ZERO); // Quad == Quad
@@ -71,30 +79,24 @@ void test_constructors_and_equality()
 	cout << "q1d = " << q1d << endl;
 	assert(q1d == Quad(2, 3, 8, 0));
 
-	Quad q1e(5, 6, 8, 9); // normal ctor with 4 args
-	cout << "q1e = " << q1e << endl;
-	assert(q1e == Quad(5, 6, 8, 9));
+	Quad q1(2.5, 3.6, 8.7, 5.8); // normal ctor with 4 args
 }
 
-void test_multiplication_and_inverse()
-{
+void test_multiplication_and_inverse() {
 	const Quad IDENTITY(1, 0, 1, 0);
 	Quad q1(2.5, 3.6, 8.7, 5.8); // normal ctor with 4 args
 	Quad q1_inverse = q1.inverse(); // inverse, copy ctor
-
 	Quad q1_inverse_times_q1 = q1_inverse * q1; // Quad * Quad
-	assert(q1_inverse_times_q1 == IDENTITY); // invariant, musthold
+	assert(q1_inverse_times_q1 == IDENTITY); // invariant, must hold
 
 	Quad q1_times_q1_inverse = q1 * q1_inverse;
 	assert(q1_times_q1_inverse == IDENTITY); // invariant, must hold
 }
 
+void test_unary_operators() {
+	Quad q(2.5, 3.6, 8.7, 5.8); // normal ctor with 4 args
 
-void test_unary_operators()
-{
-	Quad q(2.5, -3.6, 8.7, -5.8); // normal ctor with 4 args
 	assert(+q == -(-q)); // +Quad, -Quad
-
 	Quad t = q;
 	++q; // ++Quad
 	assert(q == t + 1);
@@ -113,18 +115,15 @@ void test_unary_operators()
 	cout << "q = " << q << endl;
 	cout << "q2 = " << q2 << endl;
 	assert(q2 == q - Quad(1, 1, 1, 1)); // Quad - Quad
-
 	Quad q3 = --q; // --Quad4D
 	cout << "q = " << q << endl;
 	cout << "q3 = " << q3 << endl;
 	assert(q3 == q);
 }
 
-void test_basic_arithmetic_operators()
-{
+void test_basic_arithmetic_operators() {
 	Quad q1(2.5, 3.6, 8.7, 5.8); // normal ctor with 4 args
 	Quad q2(2, 3, 8); // normal ctor with 3 args
-
 	cout << "\n";
 	q2 += Quad(0, 0, 0, 5); // Quad += Quad
 	Quad q3 = q2 + 1.0; // Quad = Quad4D + int
@@ -142,6 +141,7 @@ void test_basic_arithmetic_operators()
 	cout << "q5 = " << q5 << endl;
 	assert(q5 == Quad(-1, -2, -7, -4));
 
+
 	Quad q6 = q5 * 2.0; // Quad = Quad4D * double
 	cout << "q6 = " << q6 << endl;
 	assert(q6 == Quad(-2, -4, -14, -8));
@@ -150,7 +150,8 @@ void test_basic_arithmetic_operators()
 	cout << "q7 = " << q7 << endl;
 	assert(q7 == Quad(2, 4, 14, 8));
 	assert(q7 / -1.0 == q6); // Quad = Quad4D / double
-	//assert(1 / q7 == 1 * q7.inverse()); // double / Quad4D,inverse
+
+	assert(1 / q7 == 1 * q7.inverse()); // double / Quad4D, inverse
 	assert(-1.0 * q5 * 2.0 == q7); // double * Quad4D * double
 
 	Quad q8 = q1++; //Quad++
@@ -164,13 +165,11 @@ void test_basic_arithmetic_operators()
 	assert(q1 * q1 == q1 * (1 + q9));
 }
 
-void test_compound_assignment_operators()
-{
+void test_compound_assignment_operators() {
 	Quad q1{ 3, 1, 7, 4 };
 	q1 += q1;
 	cout << "q1 = " << q1 << endl;
 	assert(q1 == 2 * Quad(3, 1, 7, 4));
-
 	Quad q2;
 	q2 += (q1 / 2);
 	cout << "q2 = " << q2 << endl;
@@ -193,8 +192,7 @@ void test_compound_assignment_operators()
 	assert(q2 == 0.5 * q1);
 }
 
-void test_subscript_operator()
-{
+void test_subscript_operator() {
 	Quad q(123, 6, 6, 4567.89);
 	cout << "q = " << q << endl;
 
@@ -212,17 +210,25 @@ void test_subscript_operator()
 	assert(q == Quad(cq[1], cq[2], cq[3], cq[4]));
 }
 
-void test_relational_operators()
-{
+void test_relational_operators() {
 	Quad q{ 3, 1, 7, 4 };
+
 	// relational operators
+
+	// instead of Quad::getTolerance(), Quad::tolerance can also be used
+	// since its a static variable
 	double smallTol = Quad::tolerance / 10.0;
 	Quad qNeighbor(3 - smallTol, 1 + smallTol, 7 - smallTol, 4 + smallTol);
 	assert(q == qNeighbor);
 
 	double tol = Quad::tolerance;
 	assert(q != (q + tol));
+
+	// bug in ass3 sample driver
+
+	// assert(q != (q + 0.25 * tol));
 	assert(q == (q + 0.25 * tol));
+
 	assert(q == (q + 0.15 * tol));
 	assert(q == q);
 
@@ -235,8 +241,7 @@ void test_relational_operators()
 	assert((q + 0.001) >= (q + 0.001));
 }
 
-void test_function_objects()
-{
+void test_function_objects() {
 	Quad q = Quad{ 4.5, 2.5, 7, 5 };
 
 	// function objects
