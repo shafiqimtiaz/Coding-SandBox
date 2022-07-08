@@ -1,7 +1,4 @@
-#pragma warning(disable : 4996) // to use strcpy
-
 #include <iostream>
-#include <iomanip>
 #include <string>
 #include "TokenList.h"
 
@@ -12,8 +9,10 @@ using std::endl;
 using std::move;
 using std::string;
 
-
-// std elements needed for ostrean formatting
+// extra modules needed for ostrean formatting
+#include <iomanip>
+using std::fixed;
+using std::right;
 using std::setw;
 
 /**
@@ -37,10 +36,10 @@ TokenList::TokenList(const TokenList& other)
 TokenList::TokenList(TokenList&& other) noexcept
 	: head{}, tail{}, theSize{}
 {
-	head = move(other.head); // move head pointer (hence the entire other TokenList)
+	head = move(other.head); // move head pointer (hence the entire other SList)
 	tail = move(other.tail);
 	theSize = move(other.theSize); // move size
-	other.release(); // release resources owned by other TokenList
+	other.release(); // release resources owned by other SList
 }
 
 /**
@@ -138,7 +137,7 @@ void TokenList::copy(const TokenList& other)
 	// copy the remaining available nodes
 	TNode* lastNode = head; // last node copied into this Tokenlist
 	current = current->next; // next node to copy into this Tokenlist
-	while (current) // while 'other' TokenList has nodes to copy into this TokenList
+	while (current) // while 'other' TokenList has nodes to copy into this SList
 	{
 		TNode* newNode = new TNode(current->theToken, nullptr);
 		lastNode->next = newNode; // append the new node
@@ -276,7 +275,8 @@ bool TokenList::remove(TNode* nodePtr)
 			{
 				TNode* temp = curr->next; // take the curr->next pointer to temp
 				curr->next = curr->next->next; // assign the curr->next->next value to curr->next
-				// by this, the curr->next will skip a node in the middle effectively disconnecting the nodePtr node
+				// by this, the curr->next will skip a node in the middle effectively disconnecting
+				// the nodePtr node
 				delete temp; // delete the curr->next
 
 				--theSize; // decrement the TokenList size
@@ -427,16 +427,23 @@ void TokenList::addSorted(const string& str, int lineNumber)
 		addFront(aToken); // if yes, add aToken to the front
 		return;
 	}
-	// check if nodePtr token is equal to aToken, if match, dont add aToken, add aToken number list
-	if ((nodePtr->theToken).compare(aToken) == 0)
+	if ((nodePtr->theToken).compare(aToken) == 0) // check if nodePtr token is equal to aToken, if match, dont add aToken, add aToken number list
 	{
 		ArrayList arr = nodePtr->theToken.getNumberList(); // get nodePtr number list
+		int len = arr.size(); // get the length of the number list
 
-		// check for repeatations - if no repeat then only then add line number
-		if (!arr.contains(lineNumber))
+		// traverse the number list
+		for (int i = 0; i < len; ++i)
 		{
-			(nodePtr->theToken).addLineNumber(lineNumber);
-			return;
+			int temp{};
+			arr.get(i, temp);
+
+			// check for repeatations - if no repeat then only then add line number
+			if (!arr.contains(lineNumber))
+			{
+				(nodePtr->theToken).addLineNumber(lineNumber);
+				return;
+			}
 		}
 	}
 	else
@@ -458,7 +465,7 @@ void TokenList::print(ostream& sout) const
 
 	// traverse the TokenList
 	while (curr != nullptr) {
-		cout << setw(20); // for ostream formatting
+		cout << right << setw(20) << fixed; // for ostream formatting
 		curr->theToken.print(cout); // print theToken
 		cout << "\n";
 		curr = curr->next; // move to next node

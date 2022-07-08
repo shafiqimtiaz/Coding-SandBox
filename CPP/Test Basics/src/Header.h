@@ -22,32 +22,29 @@ private:
 	int y;
 
 public:
-	Test() : Test(420, 619) {};
+	Test() : Test(100, 1000) { cout << "Default constructor" << endl; };
 
 	Test(int a) : Test(a, 0) {}
 
 	Test(int a, int b) : x(a), y(b) {}
 
 	Test(const Test& t)
+		:x{ t.x }, y{ t.y }
 	{
-		cout << "Copy constructor called" << endl;
-		x = t.x;
-		y = t.y;
+		cout << "Copy constructor" << endl;
 	}
 
 	Test(Test&& t) noexcept
+		:x{ t.x }, y{ t.y }
 	{
-		cout << "Move constructor called" << endl;
-		x = t.x;
-		y = t.y;
-
+		cout << "Move constructor" << endl;
 		t.x = 0;
 		t.y = 0;
 	}
 
 	Test& operator=(const Test& t)
 	{
-		cout << "Copy Assignment operator called" << endl;
+		cout << "Copy Assignment operator" << endl;
 		x = t.x;
 		y = t.y;
 
@@ -56,7 +53,7 @@ public:
 
 	Test& operator=(Test&& t) noexcept
 	{
-		cout << "Move Assignment operator called" << endl;
+		cout << "Move Assignment operator" << endl;
 		x = t.x;
 		y = t.y;
 
@@ -82,6 +79,27 @@ public:
 		y = b;
 	}
 
+};
+
+class Foo
+{
+private:
+	int x;
+public:
+	Foo() :x{ 1 } { cout << "Default Ctor\n"; }
+	Foo(const Foo&) { cout << "copy ctor\n"; }
+	Foo(Foo&&) { cout << "move ctor\n"; }
+	Foo& operator=(const Foo&)
+	{
+		cout << "copy operator\n";
+		return *this;
+	}
+	Foo& operator=(const Foo&&) noexcept
+	{
+		cout << "move operator\n";
+		return *this;
+	}
+	~Foo() { cout << "Dtor\n"; }
 };
 
 class Parent
@@ -130,7 +148,7 @@ public:
 		cout << "Construct Child2" << endl;
 	}
 
-	Child2(const Child1 other)
+	Child2(const Child1& other)
 	{
 		cout << "C1toC2 - Copy constructor called" << endl;
 	}
@@ -205,9 +223,6 @@ double average(const initializer_list<int>& list)
 	}
 	return static_cast<double> (sum) / list.size();
 }
-
-
-int valSquare(int a) { return a * a; }
 
 void doSomethingFun(int a, int fun(int)) { fun(a); }
 

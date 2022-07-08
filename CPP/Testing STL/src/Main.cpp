@@ -37,13 +37,6 @@ public:
 			head = tail = newNode;
 		}
 		else {
-			/*Node* temp = head;
-			while (temp->next != nullptr)
-			{
-				temp = temp->next;
-			}
-			temp->next = newNode;*/
-
 			tail->next = newNode;
 			tail = newNode;
 		}
@@ -60,7 +53,7 @@ public:
 			head = tail = newNode;
 		}
 		else {
-			head->next = newNode;
+			newNode->next = head;
 			head = newNode;
 		}
 	}
@@ -165,24 +158,18 @@ public:
 	{
 		if (head != nullptr)
 		{
-			Node* prevNode = head;
-			Node* currNode = head->next;
-			head = head->next;
+			Node* prev = nullptr, * curr = nullptr, * nxt = nullptr;
 
-			prevNode->next = nullptr;
+			curr = head;
 
-			cout << "Reverse\n";
-
-			while (head != nullptr)
+			while (curr != nullptr)
 			{
-				head = head->next;
-				currNode->next = prevNode;
-
-				prevNode = currNode;
-				currNode = head;
+				nxt = curr->next;
+				curr->next = prev;
+				prev = curr;
+				curr = nxt;
 			}
-
-			head = prevNode;
+			head = prev;
 		}
 	}
 
@@ -202,20 +189,17 @@ public:
 };
 
 
-
-
-
 int main()
 {
-	LinkedList list;
+	//LinkedList list;
 
-	// list.pushBack(1);
-	// list.pushBack(3);
-	// list.pushBack(2);
-	// list.pushBack(4);
-	// list.pushBack(5);
-	// list.pushBack(6);
-	// list.print();
+	//list.pushBack(1);
+	//list.pushBack(2);
+	//list.pushBack(3);
+	//list.pushBack(4);
+	//list.pushBack(5);
+	//list.pushBack(6);
+	//list.print();
 
 	// list.swapLink(3, 6);
 	// list.print();
@@ -223,21 +207,58 @@ int main()
 	// list.swapData(4, 1);
 	// list.print();
 
-	// list.reverse();
-	// list.print();
+	//list.reverse();
+	//list.print();
 
-	list.pushFront(1);
-	list.pushFront(3);
-	list.pushFront(2);
-	list.pushFront(4);
-	list.pushFront(5);
-	list.pushFront(6);
-	list.print();
-	
-
+	//list.pushFront(10);
+	//list.pushFront(30);
+	//list.pushFront(20);
+	//list.pushFront(40);
+	//list.pushFront(50);
+	//list.pushFront(60);
+	//list.print();
 
 
+	// raw pointer LinkedList
 
+	Node* head = nullptr;
+	Node* tail = nullptr;
+
+	Node* node1 = new Node();
+	node1->data = 1;
+
+	Node* node2 = new Node();
+	node2->data = 2;
+
+	Node* node3 = new Node();
+	node3->data = 3;
+
+	Node* node4 = new Node();
+	node4->data = 4;
+
+	Node* node5 = new Node();
+	node5->data = 5;
+
+	node1->next = node2;
+	node2->next = node3;
+	node3->next = node4;
+	node4->next = node5;
+	node5->next = nullptr;
+
+	head = node1;
+	tail = node5;
+
+	// manual swap
+	node2->next = node4;
+	node4->next = node3;
+	node3->next = node5;
+
+	Node* curr = head;
+	while (curr != nullptr)
+	{
+		cout << curr->data << " ";
+		curr = curr->next;
+	}
 
 	return 0;
 }

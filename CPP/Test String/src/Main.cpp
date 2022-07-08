@@ -80,10 +80,39 @@ void removeWhiteSpaces(const string& str)
 	delete[] chStr;
 }
 
+string lcs(string& a, string& b)
+{
+	if (a.empty() || b.empty()) return {};
+
+	string current_lcs = "";
+
+	for (int i = 0; i < a.length(); i++) {
+		size_t fpos = b.find(a[i], 0);
+		while (fpos != string::npos) {
+			string tmp_lcs = "";
+			tmp_lcs += a[i];
+			for (int x = fpos + 1; x < b.length(); x++) {
+				tmp_lcs += b[x];
+				size_t spos = a.find(tmp_lcs, 0);
+				if (spos == string::npos) {
+					break;
+				}
+				else {
+					if (tmp_lcs.length() > current_lcs.length()) {
+						current_lcs = tmp_lcs;
+					}
+				}
+			}
+			fpos = b.find(a[i], fpos + 1);
+		}
+	}
+	return current_lcs;
+}
+
 int main()
 {
-	string str = "hello hoobla nigga";
-	removeWhiteSpaces(str);
+	/*string str = "hello hoobla nigga";
+	removeWhiteSpaces(str);*/
 
 	/*string phrase;
 	cin >> phrase;
@@ -100,4 +129,8 @@ int main()
 	cout << check_if_starts_with(phrase, check);
 
 	compareOperation(phrase, check);*/
+
+	/*string str1{ "kemon kapor lage" };
+	string str2{ "monami kapor agepi" };
+	cout << lcs(str1, str2) << "\n";*/
 }

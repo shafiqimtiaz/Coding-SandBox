@@ -87,10 +87,9 @@ int main()
 
 	/**********************************************************/
 
-	/*Parent p;
+	Parent p;
 	Child1 c1 = p;
-
-	Child2 c2 = c1;*/
+	Child2 c2 = move(c1);
 
 	/**********************************************************/
 
@@ -142,9 +141,9 @@ int main()
 	cout << line << " - " << word;*/
 
 	/**********************************************************/
-
-	/*Test t1(100);
-	Test t2(900, 200);
+	/*
+	Test t1;
+	Test t2(9, 8);
 
 	t1.print();
 	t2.print();
@@ -159,7 +158,8 @@ int main()
 	t1.print();
 	t4.print();
 
-	Test t5;
+	Test t5(25);
+	t5.print();
 	t5 = move(t2);
 	t2.print();
 	t5.print();
@@ -172,14 +172,8 @@ int main()
 	t6.setValues(35, 59);
 	t6.print();
 	t6.getObj().print();
-	t6.getObj().setValues(5, 9);*/
-
-	/**********************************************************/
-
-	/*int (*funPtr)(int);
-	funPtr = valSquare;
-	cout << funPtr(90) << "\n";*/
-
+	//t6.getObj().setValues(5, 9);
+	*/
 	/**********************************************************/
 
 	/*int x{ 100 };
@@ -190,6 +184,18 @@ int main()
 	cout << *largest << "\n";*/
 
 	/**********************************************************/
+
+	/*Foo f1;
+	Foo f2{ f1 };
+	Foo f3{ move(f2) };
+	{
+		Foo f4 = f2;
+	}
+	Foo* pf = new Foo;
+	*pf = f1;
+	*pf = move(f3);
+
+	delete pf;*/
 
 	return 0;
 }

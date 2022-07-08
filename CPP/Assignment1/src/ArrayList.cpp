@@ -161,8 +161,6 @@ void ArrayList::resize()
 
 	pArray = temp;
 	capacity = cap;
-
-	delete temp;
 }
 
 /**

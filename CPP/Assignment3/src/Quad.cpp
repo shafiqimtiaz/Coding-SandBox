@@ -1,56 +1,78 @@
 #include "Quad.h"
 
+/*
+* Normal constructor
+*/
+Quad::Quad(double x1, double x2, double x3, double x4)
+	: quad{ x1, x2, x3, x4 } {}
 
+/*
+* Accessors
+*/
+Quad Quad::get() const {
 
-Quad::Quad(double x1, double x2, double x3, double x4) {
-	quad[0] = x1;
-	quad[1] = x2;
-	quad[2] = x3;
-	quad[3] = x4;
+	//return *this;
+	return Quad{ this->quad[0], this->quad[1], this->quad[2], this->quad[3] };
 }
 
-Quad Quad::get() const
-{
-	return *this;
-}
-
-void Quad::set(const Quad& q)
-{
+/*
+* Mutators
+*/
+void Quad::set(const Quad& q) {
 	this->quad[0] = q.quad[0];
 	this->quad[1] = q.quad[1];
 	this->quad[2] = q.quad[2];
 	this->quad[3] = q.quad[3];
 }
 
+/*
+* Returns the inverse of Quad
+*/
+Quad Quad::inverse() const {
+	double beta = (quad[0] * quad[2]) - (quad[1] * quad[3]);
+	return (1 / beta) * Quad { quad[2], -quad[1], quad[0], -quad[3] };
+}
+
+/*
+* Returns the absolute value of Quad
+*/
+double Quad::absoluteValue() const {
+	return { abs(quad[0]) + abs(quad[1]) + abs(quad[2]) + abs(quad[3]) };
+}
+
+/*
+*  extraction from Quad q
+*/
 ostream& operator<<(ostream& sout, const Quad& q) {
-	sout << "[ ";
-	for (size_t i{}; i < 4; ++i) sout << q.quad[i] << " ";
+
+	sout << "[  ";
+	for (size_t i{}; i < 4; ++i) {
+		sout << fixed << setprecision(2) << q.quad[i] << "  ";
+	}
 	sout << "]";
+
 	return sout;
 }
 
+/*
+*  insertion to Quad q
+*/
 istream& operator>>(istream& sin, Quad& q) {
-	for (size_t i{}; i < 4; ++i) sin >> q.quad[i];
+
+	for (size_t i{}; i < 4; ++i) {
+		sin >> q.quad[i];
+	}
+
 	return sin;
 }
 
-Quad Quad::inverse() const {
-	double beta = (this->quad[0] * this->quad[2]) - (this->quad[1] * this->quad[3]);
-	return Quad(this->quad[2] / beta, -1 * this->quad[1] / beta, this->quad[0] / beta, -1 * this->quad[3] / beta);
-}
+/***************** Member Operator Overloading functions *****************/
 
+/*
+* Quad = Quad + Quad rhs
+*/
+Quad& Quad::operator+=(const Quad& rhs) {
 
-
-double Quad::absoluteValue() const {
-	double abs1 = this->quad[0] >= 0 ? this->quad[0] : 0 - this->quad[0];
-	double abs2 = this->quad[1] >= 0 ? this->quad[1] : 0 - this->quad[1];
-	double abs3 = this->quad[2] >= 0 ? this->quad[2] : 0 - this->quad[2];
-	double abs4 = this->quad[3] >= 0 ? this->quad[3] : 0 - this->quad[3];
-	return { abs1 + abs2 + abs3 + abs4 };
-}
-
-
-Quad Quad::operator+=(const Quad& rhs) {
 	this->quad[0] += rhs.quad[0];
 	this->quad[1] += rhs.quad[1];
 	this->quad[2] += rhs.quad[2];
@@ -59,16 +81,11 @@ Quad Quad::operator+=(const Quad& rhs) {
 	return *this;
 }
 
-Quad Quad::operator+=(double value) {
-	this->quad[0] += value;
-	this->quad[1] += value;
-	this->quad[2] += value;
-	this->quad[3] += value;
+/*
+* Quad = Quad - Quad rhs
+*/
+Quad& Quad::operator-=(const Quad& rhs) {
 
-	return *this;
-}
-
-Quad Quad:: operator-=(const Quad& rhs) {
 	this->quad[0] -= rhs.quad[0];
 	this->quad[1] -= rhs.quad[1];
 	this->quad[2] -= rhs.quad[2];
@@ -77,309 +94,391 @@ Quad Quad:: operator-=(const Quad& rhs) {
 	return *this;
 }
 
-Quad Quad::operator-=(double value) {
-	this->quad[0] -= value;
-	this->quad[1] -= value;
-	this->quad[2] -= value;
-	this->quad[3] -= value;
+/*
+* Quad = Quad * Quad rhs
+*/
+Quad& Quad::operator*=(const Quad& rhs) {
+
+	double x1 = quad[0] * rhs.quad[0] + quad[1] * rhs.quad[3];
+	double x2 = quad[0] * rhs.quad[1] + quad[1] * rhs.quad[2];
+	double x3 = quad[3] * rhs.quad[1] + quad[2] * rhs.quad[2];
+	double x4 = quad[3] * rhs.quad[0] + quad[2] * rhs.quad[3];
+
+	this->quad[0] = x1;
+	this->quad[1] = x2;
+	this->quad[2] = x3;
+	this->quad[3] = x4;
 
 	return *this;
 }
 
-Quad Quad:: operator*=(const Quad& rhs) {
-	this->quad[0] = (this->quad[0] * rhs.quad[0]) + (this->quad[1] * rhs.quad[3]);
-	this->quad[1] = (this->quad[0] * rhs.quad[1]) + (this->quad[1] * rhs.quad[2]);
-	this->quad[2] = (this->quad[3] * rhs.quad[1]) + (this->quad[2] * rhs.quad[2]);
-	this->quad[3] = (this->quad[3] * rhs.quad[0]) + (this->quad[2] * rhs.quad[3]);
+/*
+* Quad = Quad / Quad rhs
+*/
+Quad& Quad::operator/=(const Quad& rhs) {
+
+	*this *= rhs.inverse();
 
 	return *this;
 }
 
-Quad Quad::operator*=(double value) {
-	this->quad[0] *= value;
-	this->quad[1] *= value;
-	this->quad[2] *= value;
-	this->quad[3] *= value;
+/*
+* Quad = Quad + double val
+*/
+Quad& Quad::operator+=(const double& val) {
+
+	this->quad[0] += val;
+	this->quad[1] += val;
+	this->quad[2] += val;
+	this->quad[3] += val;
 
 	return *this;
 }
 
-Quad Quad::operator/=(double value) {
-	this->quad[0] *= (1 / value);
-	this->quad[1] *= (1 / value);
-	this->quad[2] *= (1 / value);
-	this->quad[3] *= (1 / value);
+/*
+* Quad = Quad - double val
+*/
+Quad& Quad::operator-=(const double& val) {
+
+	this->quad[0] -= val;
+	this->quad[1] -= val;
+	this->quad[2] -= val;
+	this->quad[3] -= val;
 
 	return *this;
 }
 
-Quad Quad:: operator/=(const Quad& rhs) {
-	Quad rhsInv = rhs.inverse();
+/*
+* Quad = Quad * double val
+*/
+Quad& Quad::operator*=(const double& val) {
 
-	this->quad[0] = (this->quad[0] * rhsInv.quad[0]) + (this->quad[1] * rhsInv.quad[3]);
-	this->quad[1] = (this->quad[0] * rhsInv.quad[1]) + (this->quad[1] * rhsInv.quad[2]);
-	this->quad[2] = (this->quad[3] * rhsInv.quad[1]) + (this->quad[2] * rhsInv.quad[2]);
-	this->quad[3] = (this->quad[3] * rhsInv.quad[0]) + (this->quad[2] * rhsInv.quad[3]);
+	this->quad[0] *= val;
+	this->quad[1] *= val;
+	this->quad[2] *= val;
+	this->quad[3] *= val;
 
 	return *this;
 }
 
-Quad operator+(const Quad& lhs, const Quad& rhs) {
-	double x1 = (lhs.quad[0] + rhs.quad[0]);
-	double x2 = (lhs.quad[1] + rhs.quad[1]);
-	double x3 = (lhs.quad[2] + rhs.quad[2]);
-	double x4 = (lhs.quad[3] + rhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
+/*
+* Quad = Quad / double val
+*/
+Quad& Quad::operator/=(const double& val) {
+
+	if (val == 0) throw std::runtime_error("Cannot divide by Zero\n");
+
+	this->quad[0] *= (1.0 / val);
+	this->quad[1] *= (1.0 / val);
+	this->quad[2] *= (1.0 / val);
+	this->quad[3] *= (1.0 / val);
+
+	return *this;
+
 }
 
-Quad operator+(const Quad& lhs, double value) {
-	double x1 = (lhs.quad[0] + value);
-	double x2 = (lhs.quad[1] + value);
-	double x3 = (lhs.quad[2] + value);
-	double x4 = (lhs.quad[3] + value);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator+(double value, const Quad& rhs) {
-	double x1 = (value + rhs.quad[0]);
-	double x2 = (value + rhs.quad[1]);
-	double x3 = (value + rhs.quad[2]);
-	double x4 = (value + rhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator-(const Quad& lhs, const Quad& rhs) {
-	double x1 = (lhs.quad[0] - rhs.quad[0]);
-	double x2 = (lhs.quad[1] - rhs.quad[1]);
-	double x3 = (lhs.quad[2] - rhs.quad[2]);
-	double x4 = (lhs.quad[3] - rhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator-(const Quad& lhs, double value) {
-	double x1 = (lhs.quad[0] - value);
-	double x2 = (lhs.quad[1] - value);
-	double x3 = (lhs.quad[2] - value);
-	double x4 = (lhs.quad[3] - value);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator-(double value, const Quad& rhs) {
-	double x1 = (value - rhs.quad[0]);
-	double x2 = (value - rhs.quad[1]);
-	double x3 = (value - rhs.quad[2]);
-	double x4 = (value - rhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-
-Quad operator*(const Quad& lhs, const Quad& rhs) {
-	double x1 = (lhs.quad[0] * rhs.quad[0]) + (lhs.quad[1] * rhs.quad[3]);
-	double x2 = (lhs.quad[0] * rhs.quad[1]) + (lhs.quad[1] * rhs.quad[2]);
-	double x3 = (lhs.quad[3] * rhs.quad[1]) + (lhs.quad[2] * rhs.quad[2]);
-	double x4 = (lhs.quad[3] * rhs.quad[0]) + (lhs.quad[2] * rhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator*(const Quad& lhs, double value) {
-	double x1 = (lhs.quad[0] * value);
-	double x2 = (lhs.quad[1] * value);
-	double x3 = (lhs.quad[2] * value);
-	double x4 = (lhs.quad[3] * value);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator*(double value, const Quad& lhs) {
-	double x1 = (value * lhs.quad[0]);
-	double x2 = (value * lhs.quad[1]);
-	double x3 = (value * lhs.quad[2]);
-	double x4 = (value * lhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator/(const Quad& lhs, const Quad& rhs) {
-	Quad invRhs = rhs.inverse();
-	double x1 = (lhs.quad[0] * invRhs.quad[0]) + (lhs.quad[1] * invRhs.quad[3]);
-	double x2 = (lhs.quad[0] * invRhs.quad[1]) + (lhs.quad[1] * invRhs.quad[2]);
-	double x3 = (lhs.quad[3] * invRhs.quad[1]) + (lhs.quad[2] * invRhs.quad[2]);
-	double x4 = (lhs.quad[3] * invRhs.quad[0]) + (lhs.quad[2] * invRhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator/(const Quad& lhs, double value) {
-	double x1 = lhs.quad[0] * (1 / value);
-	double x2 = lhs.quad[1] * (1 / value);
-	double x3 = lhs.quad[2] * (1 / value);
-	double x4 = lhs.quad[3] * (1 / value);
-	return Quad(x1, x2, x3, x4);
-}
-
-Quad operator/(double value, const Quad& rhs) {
-	Quad invRhs = rhs.inverse();
-	double x1 = value * (invRhs.quad[0]);
-	double x2 = value * (invRhs.quad[1]);
-	double x3 = value * (invRhs.quad[2]);
-	double x4 = value * (invRhs.quad[3]);
-	return Quad(x1, x2, x3, x4);
-}
-
-
-//binary isEqual
-bool operator==(const Quad& lhs, const Quad& rhs) {
-	//get the difference btwn lhs and rhs quad valueues
-	double d1 = lhs.quad[0] - rhs.quad[0];
-	double d2 = lhs.quad[0] - rhs.quad[0];
-	double d3 = lhs.quad[0] - rhs.quad[0];
-	double d4 = lhs.quad[0] - rhs.quad[0];
-
-	//getting absolute valueue
-	d1 = d1 < 0 ? d1 *= -1 : d1;
-	d2 = d2 < 0 ? d2 *= -1 : d2;
-	d3 = d3 < 0 ? d3 *= -1 : d3;
-	d4 = d4 < 0 ? d4 *= -1 : d4;
-
-	//the epsilon of the comparison is set in Quad as 'tolerance'
-	double tol = Quad::tolerance;
-
-	return (d1 <= tol && d1 <= tol && d3 <= tol && d4 <= tol);
-}
-
-bool operator!=(const Quad& lhs, const Quad& rhs) {
-	return (lhs == rhs) ? false : true;
-}
-
-
-bool operator<(const Quad& lhs, const Quad& rhs) {
-	double lhsAbsSum = lhs.absoluteValue();
-	double rhsAbsSum = rhs.absoluteValue();
-
-	return (!(lhs == rhs) && lhsAbsSum < rhsAbsSum);
-}
-
-
-bool operator<=(const Quad& lhs, const Quad& rhs) {
-	return (lhs < rhs || lhs == rhs);
-}
-
-bool operator>(const Quad& lhs, const Quad& rhs) {
-	return (rhs < lhs);
-}
-
-bool operator>=(const Quad& lhs, const Quad& rhs) {
-	return (lhs < rhs) ? false : true;
-}
-
-//unary positive
+/*
+* Unary Plus
+*/
 Quad Quad::operator+() {
-	double x1 = this->quad[0] *= 1.0;
-	double x2 = this->quad[1] *= 1.0;
-	double x3 = this->quad[2] *= 1.0;
-	double x4 = this->quad[3] *= 1.0;
-
-	return Quad(x1, x2, x3, x4);
+	return Quad{ abs(quad[0]), abs(quad[1]), abs(quad[2]),abs(quad[3]) };
 }
 
-//unary negative
+/*
+* Unary Minus
+*/
 Quad Quad::operator-() {
-	double x1 = this->quad[0];
-	double x2 = this->quad[1];
-	double x3 = this->quad[2];
-	double x4 = this->quad[3];
 
-	return Quad(x1 * -1.0, x2 * -1.0, x3 * -1.0, x4 * -1.0);;
+	Quad temp{ *this };
+	temp *= -1.0;
+
+	return temp;
 }
 
-//prefix increment
-Quad Quad::operator++() {
-	this->quad[0] += 1.0;
-	this->quad[1] += 1.0;
-	this->quad[2] += 1.0;
-	this->quad[3] += 1.0;
+/*
+* Prefix increment
+*/
+Quad& Quad::operator++() {
+
+	*this += 1.0;
+
 	return *this;
 }
 
-//postfix increment
-Quad Quad::operator++(int) {
-	double x1 = this->quad[0];
-	double x2 = this->quad[1];
-	double x3 = this->quad[2];
-	double x4 = this->quad[3];
+/*
+* Prefix decrement
+*/
+Quad& Quad::operator--() {
 
-	this->quad[0] += 1.0;
-	this->quad[1] += 1.0;
-	this->quad[2] += 1.0;
-	this->quad[3] += 1.0;
+	*this -= 1.0;
 
-	return Quad(x1++, x2++, x3++, x4++);
-}
-
-//prefix decrement
-Quad Quad::operator--() {
-	this->quad[0] -= 1.0;
-	this->quad[1] -= 1.0;
-	this->quad[2] -= 1.0;
-	this->quad[3] -= 1.0;
 	return *this;
 }
 
-//postfix decrement
-Quad Quad::operator--(int) {
-	double x1 = this->quad[0];
-	double x2 = this->quad[1];
-	double x3 = this->quad[2];
-	double x4 = this->quad[3];
+/*
+* Postfix increment
+*/
+const Quad Quad::operator++(int) {
 
-	this->quad[0] -= 1.0;
-	this->quad[1] -= 1.0;
-	this->quad[2] -= 1.0;
-	this->quad[3] -= 1.0;
+	Quad temp{ *this };
+	++(*this);
 
-	return Quad(x1--, x2--, x3--, x4--);
+	return temp;
 }
 
-double& Quad::operator[](int index) {
-	if (index > 4 || index < 1) {
+/*
+* Postfix decrement
+*/
+const Quad Quad::operator--(int) {
+
+	Quad temp{ *this };
+	--(*this);
+
+	return temp;
+}
+
+/*
+* Quad[i] subscript
+*/
+double& Quad::operator[](size_t index) {
+	if (index > 4 || index < 1)
 		throw out_of_range("index out of bounds");
-	}
+
 	return this->quad[index - 1];
 }
 
-const double& Quad::operator[](int index) const {
-
-	if (index > 4 || index < 1) {
+/*
+* const Quad[i] subscript
+*/
+const double& Quad::operator[](size_t index) const {
+	if (index > 4 || index < 1)
 		throw out_of_range("index out of bounds");
-	}
+
 	return this->quad[index - 1];
 }
 
+// Function Objects
+
+/*
+* Returns the largest coordinate value of the invoking Quad object
+*/
 double Quad::operator()() {
 	return max({ (*this)[1], (*this)[2], (*this)[3], (*this)[4] });
 }
 
+
+/*
+* Returns the i’th coordinate values of the invoking Quad object
+*/
 double Quad::operator()(size_t i) {
-	if (i > 4 || i < 1) {
+	if (i > 4 || i < 1)
 		throw out_of_range("index out of bounds");
-	}
+
 	return (*this)[i];
 }
 
+
+/*
+* Returns the larger of the i’th and j’th coordinate values of the invoking Quad object
+*/
 double Quad::operator()(size_t i, size_t j) {
-	if (i > 4 || i < 1 || j > 4 || j < 1) {
+	if (i > 4 || i < 1 || j > 4 || j < 1)
 		throw out_of_range("index out of bounds");
-	}
+
 	return max({ (*this)[i], (*this)[j] });
 }
 
+/*
+* Returns the largest of the i’th, j’th, and k’th coordinate values of the invoking Quad object
+*/
 double Quad::operator()(size_t i, size_t j, size_t k) {
-	if (i > 4 || i < 1 || j > 4 || j < 1 || k > 4 || k < 1) {
+	if (i > 4 || i < 1 || j > 4 || j < 1 || k > 4 || k < 1)
 		throw out_of_range("index out of bounds");
-	}
+
 	return max({ (*this)[i], (*this)[j], (*this)[k] });
 }
 
+/*
+* Returns the largest of the i’th, j’th, k’th, and l’th coordinate values of the invoking Quad object
+*/
 double Quad::operator()(size_t i, size_t j, size_t k, size_t l) {
-	if (i > 4 || i < 1 || j > 4 || j < 1 || k > 4 || k < 1 || l > 4 || l < 1) {
+	if (i > 4 || i < 1 || j > 4 || j < 1 || k > 4 || k < 1 || l > 4 || l < 1)
 		throw out_of_range("index out of bounds");
-	}
+
 	return max({ (*this)[i], (*this)[j], (*this)[k], (*this)[l] });
+}
+
+/***************** Non-Member Operator Overloading functions *****************/
+
+/*
+*  Quad lhs + Quad rhs
+*/
+Quad operator+(const Quad& lhs, const Quad& rhs) {
+
+	Quad temp{ lhs };
+	temp += rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs - Quad rhs
+*/
+Quad operator-(const Quad& lhs, const Quad& rhs) {
+
+	Quad temp{ lhs };
+	temp -= rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs * Quad rhs
+*/
+Quad operator*(const Quad& lhs, const Quad& rhs) {
+
+	Quad temp{ lhs };
+	temp *= rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs / Quad rhs
+*/
+Quad operator/(const Quad& lhs, const Quad& rhs) {
+
+	Quad temp{ lhs };
+	temp /= rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs + double rhs
+*/
+Quad operator+(const Quad& lhs, const double& rhs) {
+
+	Quad temp{ lhs };
+	temp += rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs - double rhs
+*/
+Quad operator-(const Quad& lhs, const double& rhs) {
+
+	Quad temp{ lhs };
+	temp -= rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs * double rhs
+*/
+Quad operator*(const Quad& lhs, const double& rhs) {
+
+	Quad temp{ lhs };
+	temp *= rhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs / double rhs
+*/
+Quad operator/(const Quad& lhs, const double& rhs) {
+
+	Quad temp{ lhs };
+	temp /= rhs;
+
+	return temp;
+}
+
+/*
+*  double lhs + Quad rhs
+*/
+Quad operator+(const double& lhs, const Quad& rhs) {
+
+	Quad temp{ rhs };
+	temp += lhs;
+
+	return temp;
+}
+
+/*
+*  double lhs - Quad rhs
+*/
+Quad operator-(const double& lhs, const Quad& rhs) {
+
+	Quad temp{ lhs - rhs[1], lhs - rhs[2],	lhs - rhs[3],	lhs - rhs[4] };
+
+	return temp;
+}
+
+/*
+*  double rhs * Quad rhs
+*/
+Quad operator*(const double& lhs, const Quad& rhs) {
+
+	Quad temp{ rhs };
+	temp *= lhs;
+
+	return temp;
+}
+
+/*
+*  double lhs / Quad rhs
+*/
+Quad operator/(const double& lhs, const Quad& rhs) {
+
+	Quad temp{ rhs.inverse() };
+	temp *= lhs;
+
+	return temp;
+}
+
+/*
+*  Quad lhs < Quad rhs
+*/
+bool operator<(const Quad& lhs, const Quad& rhs) {
+	return ((lhs != rhs) && (lhs.absoluteValue() < rhs.absoluteValue()));
+}
+
+
+/*
+*  Quad lhs <= Quad rhs
+*/
+bool operator<=(const Quad& lhs, const Quad& rhs) {
+	return ((lhs < rhs) || (lhs == rhs));
+}
+
+/*
+*  Quad lhs > Quad rhs
+*/
+bool operator>(const Quad& lhs, const Quad& rhs) {
+	return (lhs.absoluteValue() > rhs.absoluteValue());
+}
+
+/*
+*  Quad lhs >= Quad rhs
+*/
+bool operator>=(const Quad& lhs, const Quad& rhs) {
+	return ((lhs > rhs) || (lhs == rhs));
+}
+/*
+*  Quad lhs == Quad rhs
+*/
+bool operator==(const Quad& lhs, const Quad& rhs) {
+	return (Quad{ lhs - rhs }.absoluteValue() <= Quad::tolerance);
+}
+
+/*
+*  Quad lhs != Quad rhs
+*/
+bool operator!=(const Quad& lhs, const Quad& rhs) {
+	return !(lhs == rhs);
 }

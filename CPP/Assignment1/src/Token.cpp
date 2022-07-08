@@ -1,7 +1,6 @@
 #pragma warning(disable : 4996) // to use strcpy
 
 #include <iostream>
-#include <cctype>
 #include <cstring>
 #include "Token.h"
 

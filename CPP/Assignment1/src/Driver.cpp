@@ -121,8 +121,6 @@ void Driver::Test_Token()
 */
 void Driver::Test_TokenList()
 {
-	cout << "\nTesting TokenList\n";
-
 	TokenList bucket;
 	Token t1("Hello", 1);
 	bucket.addSorted(t1);
@@ -152,17 +150,12 @@ void Driver::Test_TokenList()
 
 	cout << bucket << "\n";
 
-	cout << "Check Front: " << bucket.front() << "\n";
-	cout << "Check Back: " << bucket.back() << "\n";
-	cout << "Check Size: " << bucket.size() << "\n";
+	cout << "Front: " << bucket.front() << "\n";
+	cout << "Back: " << bucket.back() << "\n";
+	cout << "Size: " << bucket.size() << "\n";
 
 	Token tA("today?", 10);
 	bucket.addSorted(tA);
-
-	if (bucket.search(tA))
-	{
-		cout << "\n" << "Found : " << tA << "\n\n";
-	}
 
 	/*Token tB("Shafiq", 300);
 	bucket.addAfter(bucket.lookup(tA), tB);
@@ -174,15 +167,7 @@ void Driver::Test_TokenList()
 	bucket.remove(bucket.lookup(tA));
 	cout << "\n" << tA << " remove: " << bucket.size() << "\n\n" << bucket << "\n";*/
 
-	bucket.removeFront();
-	bucket.removeBack();
-	cout << "Post removal bucket size: " << bucket.size() << "\n";
-	cout << bucket << "\n";
-
-	bucket.addFront(Token{ "C++", 81 });
-	bucket.addBack(Token{ "Grind", 8 });
-	cout << "Post addition bucket size: " << bucket.size() << "\n";
-	cout << bucket << "\n";
+	cout << "\n" << tA << " search: " << bucket.search(tA) << "\n\n" << bucket << "\n";
 }
 
 /**
