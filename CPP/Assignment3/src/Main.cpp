@@ -1,18 +1,9 @@
 #include "Quad.h"
+
 #include <cassert>
 using std::cout;
 using std::cin;
 using std::endl;
-
-/*
-Tests class Quad. Specifically, tests:
-overloaded constructors, overloaded compound assignment operator,
-overloadedbasic arithmetic operator, overloaded unaryoperators,
-overloaded pre/post-increment/decrement, overloaded subscripts,
-overloaded function objects, overloaded input/output operators,
-and overloaded relational operators.
-@return 0 to indicate success.
-*/
 
 // function prototypes
 void test_insersion_extraction_operator();
@@ -29,6 +20,7 @@ void test_accessor_mutator();
 int main()
 {
 	//test_insersion_extraction_operator();
+	test_accessor_mutator();
 	test_constructors_and_equality();
 	test_multiplication_and_inverse();
 	test_unary_operators();
@@ -37,7 +29,6 @@ int main()
 	test_subscript_operator();
 	test_relational_operators();
 	test_function_objects();
-	test_accessor_mutator();
 
 	cout << "Test completed successfully!" << endl;
 	return 0;
@@ -47,7 +38,7 @@ void test_insersion_extraction_operator()
 {
 	Quad q;
 
-	cout << "Please enter the numbers 4.5, 2.5, 7, 5, in that order\n\n";
+	cout << "Please enter the numbers 4.5, 2.5, 7, 5 in that order\n\n";
 	cin >> q;
 	cout << "input = " << q << endl;
 	assert(q == Quad(4.5, 2.5, 7, 5));
@@ -89,14 +80,10 @@ void test_multiplication_and_inverse()
 	Quad q1_inverse = q1.inverse();              // inverse, copy ctor
 
 	cout << q1_inverse << endl;
-
 	cout << q1 << endl;
 
-
 	Quad q1_inverse_times_q1 = q1_inverse * q1;   // Quad * Quad
-
 	cout << q1_inverse_times_q1 << endl;
-
 	assert(q1_inverse_times_q1 == IDENTITY);      // invariant, must hold     
 
 	Quad q1_times_q1_inverse = q1 * q1_inverse;
@@ -154,7 +141,6 @@ void test_basic_arithmetic_operators()
 	Quad q5 = 1.0 - q4;                   // Quad = double - Quad4D 
 	cout << "q5 = " << q5 << endl;
 	assert(q5 == Quad(-1, -2, -7, -4));
-
 
 	Quad q6 = q5 * 2.0;                   // Quad = Quad4D * double
 	cout << "q6 = " << q6 << endl;
@@ -267,9 +253,8 @@ void test_function_objects()
 void test_accessor_mutator()
 {
 	Quad q{ 4.5, 2.5, 7, 5 };
-	Quad p{ q * 4 };
-
-	assert(p.get() == q + q + q + q);
+	Quad p{ q * 2 };
+	assert(p.get() == q + q);
 	p.set(q *= 2);
 	assert(-q / 4 + p == +q * 3 / 4);
 }

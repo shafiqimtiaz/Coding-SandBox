@@ -11,7 +11,6 @@ Quad::Quad(double x1, double x2, double x3, double x4)
 */
 Quad Quad::get() const {
 
-	//return *this;
 	return Quad{ this->quad[0], this->quad[1], this->quad[2], this->quad[3] };
 }
 
@@ -26,7 +25,7 @@ void Quad::set(const Quad& q) {
 }
 
 /*
-* Returns the inverse of Quad
+* @return the inverse of Quad
 */
 Quad Quad::inverse() const {
 	double beta = (quad[0] * quad[2]) - (quad[1] * quad[3]);
@@ -34,19 +33,19 @@ Quad Quad::inverse() const {
 }
 
 /*
-* Returns the absolute value of Quad
+* @return the absolute value of Quad
 */
 double Quad::absoluteValue() const {
 	return { abs(quad[0]) + abs(quad[1]) + abs(quad[2]) + abs(quad[3]) };
 }
 
 /*
-*  extraction from Quad q
+* @return Stream Extraction from Quad q
 */
 ostream& operator<<(ostream& sout, const Quad& q) {
 
 	sout << "[  ";
-	for (size_t i{}; i < 4; ++i) {
+	for (size_t i{}; i < q.quad.size(); ++i) {
 		sout << fixed << setprecision(2) << q.quad[i] << "  ";
 	}
 	sout << "]";
@@ -55,11 +54,11 @@ ostream& operator<<(ostream& sout, const Quad& q) {
 }
 
 /*
-*  insertion to Quad q
+* @return Stream Insertion to Quad q
 */
 istream& operator>>(istream& sin, Quad& q) {
 
-	for (size_t i{}; i < 4; ++i) {
+	for (size_t i{}; i < q.quad.size(); ++i) {
 		sin >> q.quad[i];
 	}
 
@@ -69,7 +68,7 @@ istream& operator>>(istream& sin, Quad& q) {
 /***************** Member Operator Overloading functions *****************/
 
 /*
-* Quad = Quad + Quad rhs
+* @return Quad = Quad + Quad rhs
 */
 Quad& Quad::operator+=(const Quad& rhs) {
 
@@ -82,7 +81,7 @@ Quad& Quad::operator+=(const Quad& rhs) {
 }
 
 /*
-* Quad = Quad - Quad rhs
+* @return Quad = Quad - Quad rhs
 */
 Quad& Quad::operator-=(const Quad& rhs) {
 
@@ -95,7 +94,7 @@ Quad& Quad::operator-=(const Quad& rhs) {
 }
 
 /*
-* Quad = Quad * Quad rhs
+* @return Quad = Quad * Quad rhs
 */
 Quad& Quad::operator*=(const Quad& rhs) {
 
@@ -113,7 +112,7 @@ Quad& Quad::operator*=(const Quad& rhs) {
 }
 
 /*
-* Quad = Quad / Quad rhs
+* @return Quad = Quad / Quad rhs
 */
 Quad& Quad::operator/=(const Quad& rhs) {
 
@@ -123,7 +122,7 @@ Quad& Quad::operator/=(const Quad& rhs) {
 }
 
 /*
-* Quad = Quad + double val
+* @return Quad = Quad + double val
 */
 Quad& Quad::operator+=(const double& val) {
 
@@ -136,7 +135,7 @@ Quad& Quad::operator+=(const double& val) {
 }
 
 /*
-* Quad = Quad - double val
+* @return Quad = Quad - double val
 */
 Quad& Quad::operator-=(const double& val) {
 
@@ -149,7 +148,7 @@ Quad& Quad::operator-=(const double& val) {
 }
 
 /*
-* Quad = Quad * double val
+* @return Quad = Quad * double val
 */
 Quad& Quad::operator*=(const double& val) {
 
@@ -162,7 +161,7 @@ Quad& Quad::operator*=(const double& val) {
 }
 
 /*
-* Quad = Quad / double val
+* @return Quad = Quad / double val
 */
 Quad& Quad::operator/=(const double& val) {
 
@@ -178,14 +177,14 @@ Quad& Quad::operator/=(const double& val) {
 }
 
 /*
-* Unary Plus
+* @return Unary Plus
 */
 Quad Quad::operator+() {
 	return Quad{ abs(quad[0]), abs(quad[1]), abs(quad[2]),abs(quad[3]) };
 }
 
 /*
-* Unary Minus
+* @return Unary Minus
 */
 Quad Quad::operator-() {
 
@@ -196,7 +195,7 @@ Quad Quad::operator-() {
 }
 
 /*
-* Prefix increment
+* @return Prefix increment
 */
 Quad& Quad::operator++() {
 
@@ -206,7 +205,7 @@ Quad& Quad::operator++() {
 }
 
 /*
-* Prefix decrement
+* @return Prefix decrement
 */
 Quad& Quad::operator--() {
 
@@ -216,7 +215,7 @@ Quad& Quad::operator--() {
 }
 
 /*
-* Postfix increment
+* @return Postfix increment
 */
 const Quad Quad::operator++(int) {
 
@@ -227,7 +226,7 @@ const Quad Quad::operator++(int) {
 }
 
 /*
-* Postfix decrement
+* @return Postfix decrement
 */
 const Quad Quad::operator--(int) {
 
@@ -238,7 +237,7 @@ const Quad Quad::operator--(int) {
 }
 
 /*
-* Quad[i] subscript
+* @return Quad[i] subscript - the value at index 1
 */
 double& Quad::operator[](size_t index) {
 	if (index > 4 || index < 1)
@@ -248,7 +247,7 @@ double& Quad::operator[](size_t index) {
 }
 
 /*
-* const Quad[i] subscript
+* @return const Quad[i] subscript - the value at index 1
 */
 const double& Quad::operator[](size_t index) const {
 	if (index > 4 || index < 1)
@@ -260,15 +259,14 @@ const double& Quad::operator[](size_t index) const {
 // Function Objects
 
 /*
-* Returns the largest coordinate value of the invoking Quad object
+* @return the largest coordinate value of the invoking Quad object
 */
 double Quad::operator()() {
 	return max({ (*this)[1], (*this)[2], (*this)[3], (*this)[4] });
 }
 
-
 /*
-* Returns the i’th coordinate values of the invoking Quad object
+* @return the i’th coordinate values of the invoking Quad object
 */
 double Quad::operator()(size_t i) {
 	if (i > 4 || i < 1)
@@ -277,9 +275,8 @@ double Quad::operator()(size_t i) {
 	return (*this)[i];
 }
 
-
 /*
-* Returns the larger of the i’th and j’th coordinate values of the invoking Quad object
+* @return the larger of the i’th and j’th coordinate values of the invoking Quad object
 */
 double Quad::operator()(size_t i, size_t j) {
 	if (i > 4 || i < 1 || j > 4 || j < 1)
@@ -289,7 +286,7 @@ double Quad::operator()(size_t i, size_t j) {
 }
 
 /*
-* Returns the largest of the i’th, j’th, and k’th coordinate values of the invoking Quad object
+* @return the largest of the i’th, j’th, and k’th coordinate values of the invoking Quad object
 */
 double Quad::operator()(size_t i, size_t j, size_t k) {
 	if (i > 4 || i < 1 || j > 4 || j < 1 || k > 4 || k < 1)
@@ -299,7 +296,7 @@ double Quad::operator()(size_t i, size_t j, size_t k) {
 }
 
 /*
-* Returns the largest of the i’th, j’th, k’th, and l’th coordinate values of the invoking Quad object
+* @return the largest of the i’th, j’th, k’th, and l’th coordinate values of the invoking Quad object
 */
 double Quad::operator()(size_t i, size_t j, size_t k, size_t l) {
 	if (i > 4 || i < 1 || j > 4 || j < 1 || k > 4 || k < 1 || l > 4 || l < 1)
@@ -311,7 +308,7 @@ double Quad::operator()(size_t i, size_t j, size_t k, size_t l) {
 /***************** Non-Member Operator Overloading functions *****************/
 
 /*
-*  Quad lhs + Quad rhs
+* @return Quad lhs + Quad rhs
 */
 Quad operator+(const Quad& lhs, const Quad& rhs) {
 
@@ -322,7 +319,7 @@ Quad operator+(const Quad& lhs, const Quad& rhs) {
 }
 
 /*
-*  Quad lhs - Quad rhs
+* @return Quad lhs - Quad rhs
 */
 Quad operator-(const Quad& lhs, const Quad& rhs) {
 
@@ -333,7 +330,7 @@ Quad operator-(const Quad& lhs, const Quad& rhs) {
 }
 
 /*
-*  Quad lhs * Quad rhs
+* @return Quad lhs * Quad rhs
 */
 Quad operator*(const Quad& lhs, const Quad& rhs) {
 
@@ -344,7 +341,7 @@ Quad operator*(const Quad& lhs, const Quad& rhs) {
 }
 
 /*
-*  Quad lhs / Quad rhs
+* @return Quad lhs / Quad rhs
 */
 Quad operator/(const Quad& lhs, const Quad& rhs) {
 
@@ -355,7 +352,7 @@ Quad operator/(const Quad& lhs, const Quad& rhs) {
 }
 
 /*
-*  Quad lhs + double rhs
+* @return Quad lhs + double rhs
 */
 Quad operator+(const Quad& lhs, const double& rhs) {
 
@@ -366,7 +363,7 @@ Quad operator+(const Quad& lhs, const double& rhs) {
 }
 
 /*
-*  Quad lhs - double rhs
+* @return Quad lhs - double rhs
 */
 Quad operator-(const Quad& lhs, const double& rhs) {
 
@@ -377,7 +374,7 @@ Quad operator-(const Quad& lhs, const double& rhs) {
 }
 
 /*
-*  Quad lhs * double rhs
+* @return Quad lhs * double rhs
 */
 Quad operator*(const Quad& lhs, const double& rhs) {
 
@@ -388,7 +385,7 @@ Quad operator*(const Quad& lhs, const double& rhs) {
 }
 
 /*
-*  Quad lhs / double rhs
+* @return Quad lhs / double rhs
 */
 Quad operator/(const Quad& lhs, const double& rhs) {
 
@@ -399,7 +396,7 @@ Quad operator/(const Quad& lhs, const double& rhs) {
 }
 
 /*
-*  double lhs + Quad rhs
+* @return double lhs + Quad rhs
 */
 Quad operator+(const double& lhs, const Quad& rhs) {
 
@@ -410,7 +407,7 @@ Quad operator+(const double& lhs, const Quad& rhs) {
 }
 
 /*
-*  double lhs - Quad rhs
+* @return double lhs - Quad rhs
 */
 Quad operator-(const double& lhs, const Quad& rhs) {
 
@@ -420,7 +417,7 @@ Quad operator-(const double& lhs, const Quad& rhs) {
 }
 
 /*
-*  double rhs * Quad rhs
+* @return double rhs * Quad rhs
 */
 Quad operator*(const double& lhs, const Quad& rhs) {
 
@@ -431,7 +428,7 @@ Quad operator*(const double& lhs, const Quad& rhs) {
 }
 
 /*
-*  double lhs / Quad rhs
+* @return double lhs / Quad rhs
 */
 Quad operator/(const double& lhs, const Quad& rhs) {
 
@@ -442,7 +439,7 @@ Quad operator/(const double& lhs, const Quad& rhs) {
 }
 
 /*
-*  Quad lhs < Quad rhs
+* @return Quad lhs < Quad rhs
 */
 bool operator<(const Quad& lhs, const Quad& rhs) {
 	return ((lhs != rhs) && (lhs.absoluteValue() < rhs.absoluteValue()));
@@ -450,34 +447,34 @@ bool operator<(const Quad& lhs, const Quad& rhs) {
 
 
 /*
-*  Quad lhs <= Quad rhs
+* @return Quad lhs <= Quad rhs
 */
 bool operator<=(const Quad& lhs, const Quad& rhs) {
 	return ((lhs < rhs) || (lhs == rhs));
 }
 
 /*
-*  Quad lhs > Quad rhs
+* @return Quad lhs > Quad rhs
 */
 bool operator>(const Quad& lhs, const Quad& rhs) {
 	return (lhs.absoluteValue() > rhs.absoluteValue());
 }
 
 /*
-*  Quad lhs >= Quad rhs
+* @return Quad lhs >= Quad rhs
 */
 bool operator>=(const Quad& lhs, const Quad& rhs) {
 	return ((lhs > rhs) || (lhs == rhs));
 }
 /*
-*  Quad lhs == Quad rhs
+* @return Quad lhs == Quad rhs
 */
 bool operator==(const Quad& lhs, const Quad& rhs) {
 	return (Quad{ lhs - rhs }.absoluteValue() <= Quad::tolerance);
 }
 
 /*
-*  Quad lhs != Quad rhs
+* @return Quad lhs != Quad rhs
 */
 bool operator!=(const Quad& lhs, const Quad& rhs) {
 	return !(lhs == rhs);
