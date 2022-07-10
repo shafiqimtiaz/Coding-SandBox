@@ -7,7 +7,6 @@
 #include <algorithm>
 
 using std::array;
-using std::abs;
 using std::max;
 using std::ostream;
 using std::istream;
