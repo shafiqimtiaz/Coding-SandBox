@@ -59,25 +59,33 @@ void Canvas::put(int row, int col, char ch) {
 }
 
 void Canvas::drawString(int r, int c, const std::string text) {
-	string str{ text };
+	/*string str{ text };
 	string::iterator itr;
 	itr = str.begin();
 	while (itr != str.end()) {
 		put(r, c, *itr);
 		c++;
 		itr++;
+	}*/
+
+	string str{ text };
+	for (char& ch : str) {
+		put(r, c, ch);
+		c++;
 	}
 }
 
 Canvas Canvas::flip_horizontal() const {
 	Canvas newCan{ *this };
 	for (auto& vec : newCan.grid) {
-		vector<char>::iterator first = vec.begin();
-		vector<char>::iterator last = vec.end();
-		while ((first != last) && (first != --last)) {
-			std::iter_swap(first, last);
-			++first;
-		}
+		//vector<char>::iterator first = vec.begin();
+		//vector<char>::iterator last = vec.end();
+
+		std::reverse(vec.begin(), vec.end());
+		//while ((first != last) && (first != --last)) {
+		//	std::iter_swap(first, last);
+		//	++first;
+		//}
 	}
 	return newCan;
 }
@@ -85,18 +93,21 @@ Canvas Canvas::flip_horizontal() const {
 Canvas Canvas::flip_vertical() const {
 	Canvas newCan{ *this };
 
-	vector<vector<char>>::iterator first = newCan.grid.begin();
+	/*vector<vector<char>>::iterator first = newCan.grid.begin();
 	vector<vector<char>>::iterator last = newCan.grid.end();
 	while ((first != last) && (first != --last)) {
 		std::iter_swap(first, last);
 		++first;
-	}
+	}*/
+
+	std::reverse(newCan.grid.begin(), newCan.grid.end());
+
 	return newCan;
 }
 
 void Canvas::overlap(const Canvas& can, size_t r, size_t c) {
 
-	resize(getRows() + can.getRows(), getColumns() + can.getColumns());
+	this->resize(getRows() + can.getRows(), getColumns() + can.getColumns());
 
 	size_t n = 0;  // starting row
 	size_t m = 0;  // starting col
