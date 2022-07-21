@@ -2,7 +2,7 @@ public class LongestCommonSubtring {
 
     public static void main(String[] args) {
 
-        String str[] = { "house", "mouse", "trouser" };
+        String[] str = {"house", "mouse", "trouser"};
 
         // Function call
         String subStr = lcs(str);
@@ -12,7 +12,7 @@ public class LongestCommonSubtring {
 
     // function to find the stem (longest common
     // substring) from the string array
-    public static String lcs(String arr[]) {
+    public static String lcs(String[] arr) {
         // Determine size of the array
         int n = arr.length;
 
