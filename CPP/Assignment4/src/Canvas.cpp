@@ -1,147 +1,157 @@
 #include "Canvas.h"
-#include <iterator>
 
-Canvas::Canvas(int rows, int columns, char fillChar)
-{
-	for (int i = 0; i < rows; ++i)
-	{
+/**
+Creates this canvas's (rows x columns) grid filled with blank characters
+*/
+Canvas::Canvas(int rows, int columns, char fillChar) {
+	for (int i = 0; i < rows; ++i) {
 		vector<char> gridCol;
-		for (int j = 0; j < columns; j++)
-		{
+		for (int j = 0; j < columns; j++) {
 			gridCol.push_back(fillChar);
 		}
 		grid.push_back(gridCol);
 	}
 }
 
-bool Canvas::check(int r, int c) const
-{
+/**
+Validates row r and column c, 0-based
+* @return true or false absed on r and c
+*/
+bool Canvas::check(int r, int c) const {
 	return (0 <= r && r < getRows() && 0 <= c && c < getColumns());
 }
 
-void Canvas::resize(size_t rows, size_t cols)
-{
+/**
+Resizes this Canvas's dimensions
+*/
+void Canvas::resize(size_t rows, size_t cols) {
 	grid.resize(rows);
 	for (auto& vec : grid) {
 		vec.resize(cols);
 	}
 }
 
-int Canvas::getRows() const
-{
+/**
+* @return height of Canvas object
+*/
+int Canvas::getRows() const {
 	return grid.size();
 }
 
-int Canvas::getColumns() const
-{
+/**
+* @return width of Canvas object
+*/
+int Canvas::getColumns() const {
 	int col = 0;
-	for (auto& vec : grid)
-	{
+	for (auto& vec : grid) {
 		col = vec.size() > col ? vec.size() : col;
 	}
 	return col;
 }
 
+/**
+* @return char at row r and column c, 0-based index
+*/
 char Canvas::get(int r, int c) const {
-	if (!check(r, c))
-	{
+	if (!check(r, c)) {
 		throw std::out_of_range{ "Canvas index out of range" };
 	}
 	else return grid[r][c];
 }
 
+/**
+Puts ch at row r and column c, , 0-based index
+*/
 void Canvas::put(int row, int col, char ch) {
-	if (!check(row, col))
-	{
+	if (!check(row, col)) {
 		throw std::out_of_range{ "Canvas index out of range" };
 	}
 	else grid[row][col] = ch;
 }
 
+/**
+Draws text starting at row rand col c on this canvas
+*/
 void Canvas::drawString(int r, int c, const std::string text) {
-	/*string str{ text };
-	string::iterator itr;
-	itr = str.begin();
-	while (itr != str.end()) {
-		put(r, c, *itr);
-		c++;
-		itr++;
-	}*/
-
 	string str{ text };
 	for (char& ch : str) {
 		put(r, c, ch);
-		c++;
+		++c; // move to next char in string
 	}
 }
 
+/**
+* @return horizontally flipped canvas
+*/
 Canvas Canvas::flip_horizontal() const {
-	Canvas newCan{ *this };
-	for (auto& vec : newCan.grid) {
-		//vector<char>::iterator first = vec.begin();
-		//vector<char>::iterator last = vec.end();
+	Canvas newCan{ getRows(), getColumns() };
 
-		std::reverse(vec.begin(), vec.end());
-		//while ((first != last) && (first != --last)) {
-		//	std::iter_swap(first, last);
-		//	++first;
-		//}
+	for (int row = 0; row < getRows(); ++row) {
+		int last = getColumns() - 1; // fetch last column
+		for (int col = 0; col < getColumns(); ++col) {
+			newCan.put(row, last, grid[row][col]);
+			--last; // decrement last column element
+		}
 	}
 	return newCan;
 }
 
+/**
+* @return vertically flipped canvas
+*/
 Canvas Canvas::flip_vertical() const {
-	Canvas newCan{ *this };
+	Canvas newCan{ getRows(), getColumns() };
 
-	/*vector<vector<char>>::iterator first = newCan.grid.begin();
-	vector<vector<char>>::iterator last = newCan.grid.end();
-	while ((first != last) && (first != --last)) {
-		std::iter_swap(first, last);
-		++first;
-	}*/
-
-	std::reverse(newCan.grid.begin(), newCan.grid.end());
-
+	int last = getRows() - 1; // fetch last row
+	for (int row = 0; row < getRows(); ++row) {
+		for (int col = 0; col < getColumns(); ++col) {
+			newCan.put(last, col, grid[row][col]);
+		}
+		--last; // decrement last row element
+	}
 	return newCan;
 }
 
+/**
+Copies the non-blank characters of "can" onto the invoking Canvas object;
+maps can's origin to row r and column c on the invoking Canvas object
+*/
 void Canvas::overlap(const Canvas& can, size_t r, size_t c) {
 
-	this->resize(getRows() + can.getRows(), getColumns() + can.getColumns());
+	// checks if the total size of canvas after overlap exceeds current canvas size
+	if (can.getRows() + r > getRows() || can.getColumns() + c > getColumns()) {
+		// if true, resize the current canvas to new size
+		this->resize(getRows() + can.getRows(), getColumns() + can.getColumns());
+	}
 
-	size_t n = 0;  // starting row
-	size_t m = 0;  // starting col
-
-	for (size_t i = r; i < getRows(); i++) {
-		if (n < can.getRows())
-		{
-			for (size_t j = c; j < getColumns(); j++) {
-				if (m < can.getColumns())
-				{
-					put(i, j, can.get(n, m));
-				}
-				m++;
+	// overlapping loop
+	for (int row = 0; row < can.getRows(); ++row) {
+		for (int col = 0; col < can.getColumns(); ++col) {
+			if (can.get(row, col) != ' ') {
+				put(r + row, c + col, can.get(row, col));
 			}
 		}
-		n++;
-		m = 0;
 	}
 }
 
-void Canvas::print(ostream& sout) const
-{
-	for (auto& row : grid)
-	{
-		for (char ch : row)
-		{
+/**
+Prints this Canvas to ostream
+*/
+void Canvas::print(ostream& sout) const {
+	for (auto& row : grid) {
+		for (char ch : row) {
 			sout << ch;
 		}
 		sout << endl;
 	}
 }
 
-ostream& operator<< (ostream& sout, const Canvas& can)
-{
+/**
+Overloaded output operator << to print canvas obhject
+* @param canvas object to print
+* @return output stream with canvas object info
+*/
+ostream& operator<< (ostream& sout, const Canvas& can) {
 	can.print(sout);
 	return sout;
 }

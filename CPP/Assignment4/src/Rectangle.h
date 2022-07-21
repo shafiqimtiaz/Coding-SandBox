@@ -3,28 +3,56 @@
 
 #include "Shape.h"
 
-class Rectangle : public Shape
-{
+class Rectangle : public Shape {
 protected:
 	int height;
 	int width;
 
 public:
+	/**
+	* Default Constructor
+	*/
 	Rectangle(int height, int width, char pen = '*', string name = "Rectangle");
 
-	int getHeight() const override;
+	/**
+	* Default Destructor
+	*/
+	virtual ~Rectangle();
 
-	int getWidth() const override;
+	/**
+	* @return height of Rectangle
+	*/
+	virtual int getHeight() const override;
 
-	double areaGeo() const override;
+	/**
+	* @return width of Rectangle
+	*/
+	virtual int getWidth() const override;
 
-	double perimeterGeo() const override;
+	/**
+	* @return Rectangle geometric area
+	*/
+	virtual double areaGeo() const override;
 
-	double areaScr() const override;
+	/**
+	* @return Rectangle geometric perimeter
+	*/
+	virtual double perimeterGeo() const override;
 
-	double perimeterScr() const override;
+	/**
+	* @return Rectangle screen area
+	*/
+	virtual double areaScr() const override;
 
-	Canvas draw() const override;
+	/**
+	* @return Rectangle screen perimeter
+	*/
+	virtual double perimeterScr() const override;
+
+	/**
+	* @return Canvas object with textual image of Rectangle
+	*/
+	virtual Canvas draw() const override;
 };
 
 #endif

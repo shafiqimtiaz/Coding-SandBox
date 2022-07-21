@@ -3,14 +3,24 @@
 
 #include "Shape.h"
 
-class Triangle : public Shape
-{
+class Triangle : public Shape {
 protected:
 	int base;
 public:
+	/**
+	* Default Constructor
+	*/
 	Triangle(int base, char pen = '*', string name = "Triangle");
 
-	double areaGeo() const;
+	/**
+	* Default Destructor
+	*/
+	virtual ~Triangle();
+
+	/**
+	* @return Triangle object geometric area
+	*/
+	virtual double areaGeo() const;
 };
 
 #endif

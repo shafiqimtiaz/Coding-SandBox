@@ -3,23 +3,47 @@
 
 #include "Triangle.h"
 
-class RightTriangle : public Triangle
-{
+class RightTriangle : public Triangle {
 public:
-
+	/**
+	* Default Constructor
+	*/
 	RightTriangle(int base, char pen = '*', string name = "Ladder");
 
-	int getHeight() const override;
+	/**
+	* Default Destructor
+	*/
+	virtual ~RightTriangle();
 
-	int getWidth() const override;
+	/**
+	* @return height of RightTriangle
+	*/
+	virtual int getHeight() const override;
 
-	double perimeterGeo() const override;
+	/**
+	* @return base width of RightTriangle
+	*/
+	virtual int getWidth() const override;
 
-	double areaScr() const override;
+	/**
+	* @return RightTriangle geometric perimeter
+	*/
+	virtual double perimeterGeo() const override;
 
-	double perimeterScr() const override;
+	/**
+	* @return RightTriangle screen area
+	*/
+	virtual double areaScr() const override;
 
-	Canvas draw() const override;
+	/**
+	* @return RightTriangle screen perimeter
+	*/
+	virtual double perimeterScr() const override;
+
+	/**
+	* @return Canvas object with textual image of RightTriangle
+	*/
+	virtual Canvas draw() const override;
 };
 
 #endif

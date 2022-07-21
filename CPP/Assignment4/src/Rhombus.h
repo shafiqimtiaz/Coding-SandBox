@@ -3,26 +3,54 @@
 
 #include "Shape.h"
 
-class Rhombus : public Shape
-{
+class Rhombus : public Shape {
 protected:
-	int d;
+	int diagonal;
 public:
-	Rhombus(int d, char p = '*', string n = "Rhombus");
+	/**
+	* Default Constructor
+	*/
+	Rhombus(int diagonal, char pen = '*', string name = "Rhombus");
 
-	int getHeight() const override;
+	/**
+	* Default Destructor
+	*/
+	virtual ~Rhombus();
 
-	int getWidth() const override;
+	/**
+	* @return height of Rhombus
+	*/
+	virtual int getHeight() const override;
 
-	double areaGeo() const override;
+	/**
+	* @return width of Rhombus
+	*/
+	virtual int getWidth() const override;
 
-	double perimeterGeo() const override;
+	/**
+	* @return Rhombus geometric area
+	*/
+	virtual double areaGeo() const override;
 
-	double areaScr() const override;
+	/**
+	* @return Rhombus geometric perimeter
+	*/
+	virtual double perimeterGeo() const override;
 
-	double perimeterScr() const override;
+	/**
+	* @return Rhombus screen area
+	*/
+	virtual double areaScr() const override;
 
-	Canvas draw() const override;
+	/**
+	* @return Rhombus screen perimeter
+	*/
+	virtual double perimeterScr() const override;
+
+	/**
+	* @return Canvas object with textual image of Rhombus
+	*/
+	virtual Canvas draw() const override;
 };
 
 #endif

@@ -12,10 +12,9 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-class Canvas
-{
+class Canvas {
 public:
-	// all special members are defaulted because 'grid',
+	// All special members are defaulted because 'grid',
 	// the only data member, is self-sufficient and efficient; that is,
 	// it is equipped to handle the corresponding operations efficiently
 	Canvas() = default;
@@ -26,41 +25,47 @@ public:
 	Canvas& operator=(Canvas&&) = default;
 
 protected:
-	vector<vector<char> > grid{}; // the only data member
-	bool check(int r, int c)const; // validates row r and column c, 0-based
-	void resize(size_t rows, size_t cols); // resizes this Canvas's dimensions
+	vector<vector<char> > grid{};			// the only data member
+	bool check(int r, int c)const;			// validates row r and column c, 0-based
+	void resize(size_t rows, size_t cols);	// resizes this Canvas's dimensions
 
 public:
 	// creates this canvas's (rows x columns) grid filled with blank characters
 	Canvas(int rows, int columns, char fillChar = ' ');
 
-	int getRows() const; // returns height of this Canvas object
+	int getRows() const;				// returns height of this Canvas object
 
-	int getColumns() const; // returns width of this Canvas object
+	int getColumns() const;				// returns width of this Canvas object
 
-	Canvas flip_horizontal()const; // flips this canvas horizontally
+	Canvas flip_horizontal()const;		// flips this canvas horizontally
 
-	Canvas flip_vertical()const; // flips this canvas vertically
+	Canvas flip_vertical()const;		// flips this canvas vertically
 
-	void print(ostream&) const; // prints this Canvas to ostream
+	void print(ostream&) const;			// prints this Canvas to ostream
 
-	char get(int r, int c) const; // returns char at row r and column c, 0-based;
-	// throws std::out_of_range{ "Canvas index out of range" }
-	// if r or c is invalid.
+	char get(int r, int c) const;		// returns char at row r and column c, 0-based;
+										// throws std::out_of_range{ "Canvas index out of range" }
+										// if r or c is invalid.
 
-	void put(int r, int c, char ch); // puts ch at row r and column c, 0-based;
-	// the only function used by a shape's draw functon;
-	// throws std::out_of_range{ "Canvas index out of range" }
-	// if r or c is invalid.
+	void put(int r, int c, char ch);	// puts ch at row r and column c, 0-based;
+										// the only function used by a shape's draw functon;
+										// throws std::out_of_range{ "Canvas index out of range" }
+										// if r or c is invalid.
 
-	// draws text starting at row r and col c on this canvas
+	// Draws text starting at row r and col c on this canvas
 	void drawString(int r, int c, const string text);
 
-	// copies the non-blank characters of "can" onto the invoking Canvas object;
+	// Copies the non-blank characters of "can" onto the invoking Canvas object;
 	// maps can's origin to row r and column c on the invoking Canvas object
 	void overlap(const Canvas& can, size_t r, size_t c);
 
 };
+
+/**
+Overloaded output operator << to print canvas obhject
+* @param canvas object to print
+* @return output stream with canvas object info
+*/
 ostream& operator<< (ostream& sout, const Canvas& can);
 
 #endif

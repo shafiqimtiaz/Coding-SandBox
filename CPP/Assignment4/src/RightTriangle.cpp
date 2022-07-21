@@ -1,29 +1,63 @@
 #include "RightTriangle.h"
 
-RightTriangle::RightTriangle(int base, char pen, string name) : Triangle{ base, pen, name } {}
+/**
+* Default Constructor
+*/
+RightTriangle::RightTriangle(int base, char pen, string name)
+	: Triangle{ base, pen, name } {}
 
-int RightTriangle::getHeight() const { return base; }
+/**
+* Default Destructor
+*/
+RightTriangle::~RightTriangle() {};
 
-int RightTriangle::getWidth() const { return base; }
+/**
+* @return height of RightTriangle
+*/
+int RightTriangle::getHeight() const {
+	return base;
+}
 
-double RightTriangle::perimeterGeo() const { return (2 + std::sqrt(2)) * getHeight(); }
+/**
+* @return base width of RightTriangle
+*/
+int RightTriangle::getWidth() const {
+	return base;
+}
 
-double RightTriangle::areaScr() const { return getHeight() * (getHeight() + 1) / 2; }
+/**
+* @return RightTriangle geometric perimeter
+*/
+double RightTriangle::perimeterGeo() const {
+	return (2 + std::sqrt(2)) * getHeight();
+}
 
-double RightTriangle::perimeterScr() const { return 3 * (getHeight() - 1); }
+/**
+* @return RightTriangle screen area
+*/
+double RightTriangle::areaScr() const {
+	return getHeight() * (getHeight() + 1) / 2;
+}
 
-Canvas RightTriangle::draw() const
-{
-	Canvas drawGrid{ getHeight(), getWidth(),' ' };
+/**
+* @return RightTriangle screen perimeter
+*/
+double RightTriangle::perimeterScr() const {
+	return 3 * (getHeight() - 1);
+}
+
+/**
+* @return Canvas object with textual image of RightTriangle
+*/
+Canvas RightTriangle::draw() const {
+	Canvas drawGrid{ getHeight(), getWidth() };
 
 	int height = getHeight();
 
-	for (int x = 0; x < height; x++)
-	{
-		for (int y = 0; y <= x; y++)
-		{
-			drawGrid.put(x, y, pen);
-		}
+	for (int row = 0; row < height; ++row) {
+		for (int col = 0; col <= row; ++col) {
+			drawGrid.put(row, col, pen);
+		};
 	}
 
 	return drawGrid;
