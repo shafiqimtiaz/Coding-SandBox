@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Triangle.cpp" />
+    <ClCompile Include="src\ShapeTestDriver.cpp" />
+    <ClCompile Include="src\Shape.cpp" />
+    <ClCompile Include="src\RightTriangle.cpp" />
+    <ClCompile Include="src\Rhombus.cpp" />
+    <ClCompile Include="src\Rectangle.cpp" />
+    <ClCompile Include="src\Canvas.cpp" />
+    <ClCompile Include="src\AcuteTriangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Triangle.h" />
+    <ClInclude Include="src\Shape.h" />
+    <ClInclude Include="src\RightTriangle.h" />
+    <ClInclude Include="src\Rhombus.h" />
+    <ClInclude Include="src\Rectangle.h" />
+    <ClInclude Include="src\Canvas.h" />
+    <ClInclude Include="src\AcuteTriangle.h" />
+  </ItemGroup>
+</Project>
