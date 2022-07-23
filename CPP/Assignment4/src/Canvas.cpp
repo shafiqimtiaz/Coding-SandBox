@@ -73,8 +73,7 @@ void Canvas::put(int row, int col, char ch) {
 Draws text starting at row rand col c on this canvas
 */
 void Canvas::drawString(int r, int c, const std::string text) {
-	string str{ text };
-	for (char& ch : str) {
+	for (char ch : text) {
 		put(r, c, ch);
 		++c; // move to next char in string
 	}

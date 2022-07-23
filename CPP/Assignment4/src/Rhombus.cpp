@@ -65,11 +65,10 @@ Canvas Rhombus::draw() const {
 	int LSpace, RSpace; // initiallize left blank space and right blank space - col coordinate
 	LSpace = RSpace = h / 2; //  LSpace and RSpace - both will have col number 1/2 of height
 
-
-	for (int row = 0; row < h; row++) {
+	for (int row = 0; row < h; ++row) {
 
 		// Draw Triangle
-		for (int col = 0; col < h; col++) {
+		for (int col = 0; col < h; ++col) {
 			if (col >= LSpace && col <= RSpace) { // check if col number pass condition - 'LSpace < col < RSpace'
 				drawGrid.put(row, col, pen);
 			}
@@ -77,13 +76,13 @@ Canvas Rhombus::draw() const {
 
 		// upper upright triangle
 		if (row < h / 2) {
-			LSpace--; // left space col number will decrement with increasing row count
-			RSpace++; // right space col number will increment with increasing row count
+			--LSpace; // left space col number will decrement with increasing row count
+			++RSpace; // right space col number will increment with increasing row count
 		}
 		// lower inverted triangle
 		else {
-			LSpace++; // left space col number will increment with increasing row count
-			RSpace--; // right space col number will decrement with increasing row count
+			++LSpace; // left space col number will increment with increasing row count
+			--RSpace; // right space col number will decrement with increasing row count
 		}
 	}
 

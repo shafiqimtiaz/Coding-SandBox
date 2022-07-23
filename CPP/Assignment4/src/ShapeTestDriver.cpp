@@ -16,12 +16,10 @@ void drawHouseElement(Canvas& house_canvas, const Shape& shp, int row, int col);
 
 int main()
 {
-	//shape_examples();
+	// shape_examples();
 	drawHouse();
 	return 0;
 }
-
-
 
 void drawHouseElement(Canvas& house_canvas, const Shape& shp, int row, int col)
 {
@@ -39,6 +37,7 @@ void drawHouse()
 	houseCanvas.drawString(1, 10, "a geometric house: front view");
 
 	RightTriangle roof(20, '\\', "Right half of roof");
+	cout << roof << "\n=======================================\n";
 	Canvas roof_right_can = roof.draw();
 	houseCanvas.overlap(roof_right_can, 4, 27);
 

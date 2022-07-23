@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <typeinfo>
+
 #include "Canvas.h"
 
 using std::endl;

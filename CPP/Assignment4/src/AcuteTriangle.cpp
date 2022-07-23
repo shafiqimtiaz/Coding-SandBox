@@ -64,8 +64,8 @@ Canvas AcuteTriangle::draw() const {
 				drawGrid.put(row, col, pen);
 			}
 		}
-		LSpace--; // left space col number will decrement with increasing row count
-		RSpace++; // right space col number will increment with increasing row count
+		--LSpace; // left space col number will decrement with increasing row count
+		++RSpace; // right space col number will increment with increasing row count
 	}
 	return drawGrid;
 }

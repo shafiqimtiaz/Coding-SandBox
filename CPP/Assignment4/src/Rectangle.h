@@ -7,7 +7,6 @@ class Rectangle : public Shape {
 protected:
 	int height;
 	int width;
-
 public:
 	/**
 	* Default Constructor
