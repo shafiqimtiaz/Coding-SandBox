@@ -3,7 +3,7 @@
 /**
 * Default Constructor
 */
-AcuteTriangle::AcuteTriangle(int base, char pen, string name)
+AcuteTriangle::AcuteTriangle(size_t base, char pen, string name)
 	: Triangle{ (base + 1) / 2, base % 2 == 1 ? base : base + 1, pen, name } {}
 
 /**

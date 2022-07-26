@@ -8,7 +8,7 @@ public:
 	/**
 	* Default Constructor
 	*/
-	AcuteTriangle(int base, char pen = '*', string name = "Wedge");
+	AcuteTriangle(size_t base, char pen = '*', string name = "Wedge");
 
 	/**
 	* Default Destructor

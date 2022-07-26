@@ -3,7 +3,7 @@
 /**
 * Default Constructor
 */
-RightTriangle::RightTriangle(int base, char pen, string name)
+RightTriangle::RightTriangle(size_t base, char pen, string name)
 	: Triangle{ base, base, pen, name } {}
 
 /**

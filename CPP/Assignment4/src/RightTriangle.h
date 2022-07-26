@@ -8,7 +8,7 @@ public:
 	/**
 	* Default Constructor
 	*/
-	RightTriangle(int base, char pen = '*', string name = "Ladder");
+	RightTriangle(size_t base, char pen = '*', string name = "Ladder");
 
 	/**
 	* Default Destructor
