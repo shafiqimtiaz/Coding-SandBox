@@ -38,11 +38,21 @@ protected:
 	*/
 	static int id;
 
+	/**
+	Shape height (a non-negative integer)
+	*/
+	size_t height;
+
+	/**
+	Shape width, (a non-negative integer)
+	*/
+	size_t width;
+
 public:
 	/**
 	* Default Constructor
 	*/
-	Shape(char pen, string name);
+	Shape(size_t height, size_t width, char pen, string name);
 
 	/**
 	* Default Destructor
@@ -66,6 +76,17 @@ public:
 	*/
 	int getId() const;
 
+
+	/**
+	* @return height of shape object
+	*/
+	size_t getHeight() const;
+
+	/**
+	* @return width of shape object
+	*/
+	size_t getWidth() const;
+
 	/****************** Shape Mutators ******************/
 
 	/**
@@ -84,16 +105,6 @@ public:
 	string toString() const;
 
 	/****************** Pure Virtual Functions ******************/
-
-	/**
-	* @return height of Shape
-	*/
-	virtual int getHeight() const = 0;
-
-	/**
-	* @return width of Shape
-	*/
-	virtual int getWidth() const = 0;
 
 	/**
 	* @return Shape geometric area

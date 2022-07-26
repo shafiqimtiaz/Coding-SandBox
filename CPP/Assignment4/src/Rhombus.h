@@ -4,28 +4,16 @@
 #include "Shape.h"
 
 class Rhombus : public Shape {
-protected:
-	int diagonal;
 public:
 	/**
 	* Default Constructor
 	*/
-	Rhombus(int diagonal, char pen = '*', string name = "Rhombus");
+	Rhombus(size_t diagonal, char pen = '*', string name = "Rhombus");
 
 	/**
 	* Default Destructor
 	*/
 	virtual ~Rhombus();
-
-	/**
-	* @return height of Rhombus
-	*/
-	virtual int getHeight() const override;
-
-	/**
-	* @return width of Rhombus
-	*/
-	virtual int getWidth() const override;
 
 	/**
 	* @return Rhombus geometric area

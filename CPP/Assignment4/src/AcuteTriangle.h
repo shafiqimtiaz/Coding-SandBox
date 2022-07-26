@@ -16,16 +16,6 @@ public:
 	virtual ~AcuteTriangle();
 
 	/**
-	* @return height of AcuteTriangle
-	*/
-	virtual int getHeight() const override;
-
-	/**
-	* @return base width of AcuteTriangle
-	*/
-	virtual int getWidth() const override;
-
-	/**
 	* @return AcuteTriangle geometric perimeter
 	*/
 	virtual double perimeterGeo() const override;

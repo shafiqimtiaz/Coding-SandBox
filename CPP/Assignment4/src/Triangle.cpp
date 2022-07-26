@@ -3,8 +3,8 @@
 /**
 * Default Constructor
 */
-Triangle::Triangle(int b, char p, string n)
-	: Shape{ p,n }, base{ b } {}
+Triangle::Triangle(size_t h, size_t w, char p, string n)
+	: Shape{ h, w, p, n } {}
 
 /**
 * Default Destructor
@@ -15,5 +15,5 @@ Triangle::~Triangle() {};
 * @return Triangle object geometric area
 */
 double Triangle::areaGeo() const {
-	return getHeight() * base / 2;
+	return (getHeight() * getWidth()) / 2;
 }

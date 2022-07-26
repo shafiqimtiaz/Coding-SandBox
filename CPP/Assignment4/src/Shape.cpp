@@ -8,8 +8,8 @@ int Shape::id{ 0 };
 /**
 * Default Constructor
 */
-Shape::Shape(char p, string n)
-	:pen{ p }, name{ n } { Shape::id++; }
+Shape::Shape(size_t h, size_t w, char p, string n)
+	:height{ h }, width{ w }, pen{ p }, name{ n } { Shape::id++; }
 
 /**
 * Default Destructor
@@ -35,6 +35,20 @@ char Shape::getPen() const {
 */
 int Shape::getId() const {
 	return this->id;
+}
+
+/**
+* @return height of shape object
+*/
+size_t Shape::getHeight() const {
+	return this->height;
+}
+
+/**
+* @return width of shape object
+*/
+size_t Shape::getWidth() const {
+	return this->width;
 }
 
 /**

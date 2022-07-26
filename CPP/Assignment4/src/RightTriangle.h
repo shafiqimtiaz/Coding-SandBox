@@ -16,16 +16,6 @@ public:
 	virtual ~RightTriangle();
 
 	/**
-	* @return height of RightTriangle
-	*/
-	virtual int getHeight() const override;
-
-	/**
-	* @return base width of RightTriangle
-	*/
-	virtual int getWidth() const override;
-
-	/**
 	* @return RightTriangle geometric perimeter
 	*/
 	virtual double perimeterGeo() const override;

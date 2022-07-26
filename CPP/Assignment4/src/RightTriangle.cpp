@@ -4,26 +4,12 @@
 * Default Constructor
 */
 RightTriangle::RightTriangle(int base, char pen, string name)
-	: Triangle{ base, pen, name } {}
+	: Triangle{ base, base, pen, name } {}
 
 /**
 * Default Destructor
 */
 RightTriangle::~RightTriangle() {};
-
-/**
-* @return height of RightTriangle
-*/
-int RightTriangle::getHeight() const {
-	return base;
-}
-
-/**
-* @return base width of RightTriangle
-*/
-int RightTriangle::getWidth() const {
-	return base;
-}
 
 /**
 * @return RightTriangle geometric perimeter
@@ -50,11 +36,9 @@ double RightTriangle::perimeterScr() const {
 * @return Canvas object with textual image of RightTriangle
 */
 Canvas RightTriangle::draw() const {
-	Canvas drawGrid{ getHeight(), getWidth() };
+	Canvas drawGrid{ static_cast<int>(getHeight()), static_cast<int>(getWidth()) };
 
-	int height = getHeight();
-
-	for (int row = 0; row < height; ++row) {
+	for (int row = 0; row < getHeight(); ++row) {
 		for (int col = 0; col <= row; ++col) {
 			drawGrid.put(row, col, pen);
 		};

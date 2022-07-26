@@ -10,7 +10,7 @@ public:
 	/**
 	* Default Constructor
 	*/
-	Triangle(int base, char pen = '*', string name = "Triangle");
+	Triangle(size_t height, size_t width, char pen = '*', string name = "Triangle");
 
 	/**
 	* Default Destructor

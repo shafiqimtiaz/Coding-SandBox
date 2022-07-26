@@ -4,29 +4,16 @@
 #include "Shape.h"
 
 class Rectangle : public Shape {
-protected:
-	int height;
-	int width;
 public:
 	/**
 	* Default Constructor
 	*/
-	Rectangle(int height, int width, char pen = '*', string name = "Rectangle");
+	Rectangle(size_t height, size_t width, char pen = '*', string name = "Rectangle");
 
 	/**
 	* Default Destructor
 	*/
 	virtual ~Rectangle();
-
-	/**
-	* @return height of Rectangle
-	*/
-	virtual int getHeight() const override;
-
-	/**
-	* @return width of Rectangle
-	*/
-	virtual int getWidth() const override;
 
 	/**
 	* @return Rectangle geometric area
