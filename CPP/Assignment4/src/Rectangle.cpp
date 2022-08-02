@@ -36,7 +36,8 @@ double Rectangle::areaScr() const {
 * @return Rectangle screen perimeter
 */
 double Rectangle::perimeterScr() const {
-	return perimeterGeo() - 4;
+	if (getHeight() == 1 || getWidth() == 1) return areaGeo();
+	else return perimeterGeo() - 4;
 }
 
 /**

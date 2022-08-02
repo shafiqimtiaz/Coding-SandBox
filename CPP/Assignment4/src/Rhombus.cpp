@@ -37,7 +37,8 @@ double Rhombus::areaScr() const {
 * @return Rhombus screen perimeter
 */
 double Rhombus::perimeterScr() const {
-	return 2 * (getHeight() - 1);
+	if (getHeight() == 1 || getWidth() == 1) return 1;
+	else return 2 * (getHeight() - 1);
 }
 
 /**

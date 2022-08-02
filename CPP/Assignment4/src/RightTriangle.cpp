@@ -29,7 +29,8 @@ double RightTriangle::areaScr() const {
 * @return RightTriangle screen perimeter
 */
 double RightTriangle::perimeterScr() const {
-	return 3 * (getHeight() - 1);
+	if (getHeight() == 1 || getWidth() == 1) return 1;
+	else return 3 * (getHeight() - 1);
 }
 
 /**

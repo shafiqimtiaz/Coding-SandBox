@@ -1,9 +1,10 @@
-#ifndef ASSIGNMENT5_H_
-#define ASSIGNMENT5_H_
+#ifndef ASSIGNMENT5_H
+#define ASSIGNMENT5_H
 
 #include <map>
 #include <string>
 #include <vector>
+
 // Type aliases
 using WordsVector = std::vector<std::string>;
 using WordsMap = std::map<std::string, size_t>;

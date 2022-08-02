@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{597dfb20-f162-4c27-85fe-74fa3a0aac78}</ProjectGuid>
-    <RootNamespace>Assignment5</RootNamespace>
+    <ProjectGuid>{d7521603-bf79-40c3-bc41-e090a53077d8}</ProjectGuid>
+    <RootNamespace>Tutorial_Iterators</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,15 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\assignment5.cpp" />
-    <ClCompile Include="src\assignment_5_test_driver.cpp" />
+    <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\words.txt" />
-    <Text Include="words.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\assignment5.h" />
+    <ClInclude Include="src\my_Array_iterator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

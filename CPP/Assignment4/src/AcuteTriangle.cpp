@@ -29,7 +29,8 @@ double AcuteTriangle::areaScr() const {
 * @return AcuteTriangle screen perimeter
 */
 double AcuteTriangle::perimeterScr() const {
-	return 4 * (getHeight() - 1);
+	if (getHeight() == 1 || getWidth() == 1) return 1;
+	else return 4 * (getHeight() - 1);
 }
 
 /**

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{597dfb20-f162-4c27-85fe-74fa3a0aac78}</ProjectGuid>
-    <RootNamespace>Assignment5</RootNamespace>
+    <ProjectGuid>{dae7f606-776b-4a07-b337-fb973f470815}</ProjectGuid>
+    <RootNamespace>Tutorial_Templates</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,15 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\assignment5.cpp" />
-    <ClCompile Include="src\assignment_5_test_driver.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\words.txt" />
-    <Text Include="words.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\assignment5.h" />
+    <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
