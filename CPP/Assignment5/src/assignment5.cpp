@@ -16,36 +16,9 @@ using std::runtime_error;
 
 /*********************************************************************/
 
-class WordCountFunctor {
-public:
-	void operator()(const std::string& word) { wmap[word]++; }
-	bool operator()(const std::string& word, int n) { return (n == word.length()); }
-	WordsMap getmap() { return wmap; }
-private:
-	WordsMap wmap;
-};
-
-bool is_alphabetic(char input) {
-	bool checkSpace = !std::isalpha(input);
-	return checkSpace;
-}
-
-bool freeFunc(std::string word, int n) {
-	return (word.length() == n);
-}
-
-class compareBylength {
-public:
-	bool operator()(const std::string& lhs, const std::string& rhs) const {
-		if (lhs.length() == rhs.length()) {
-			return lhs < rhs;
-		}
-		return lhs.length() < rhs.length();
-	}
-};
-
-/*********************************************************************/
-
+/**
+* @return vector of words read from text file using input file stream
+*/
 WordsVector read_words_into_vector(const std::string& inFileName) {
 	std::ifstream ifs(inFileName); // Create an input file stream
 	if (!ifs.is_open()) { // Check that the file is open
@@ -53,24 +26,15 @@ WordsVector read_words_into_vector(const std::string& inFileName) {
 		throw runtime_error("Could not open file " + inFileName);
 	}
 	WordsVector words_vector; // an empty vector
-	std::istream_iterator<std::string> ibegin(ifs), iend;
-	std::copy(ibegin, iend, std::back_inserter(words_vector));
+	std::istream_iterator<std::string> it_start(ifs), it_end; // initialize input stream - start, end
+	std::copy(it_start, it_end, std::back_inserter(words_vector)); // copy words from to words_vector
 
 	return words_vector;
 }
 
-WordsMap map_and_count_words_using_lambda(const WordsVector& wvec) {
-	WordsMap wmap;
-	std::for_each(wvec.begin(), wvec.end(), [&wmap](const std::string& word) { wmap[word]++; });
-	return wmap;
-}
-
-WordsMap map_and_count_words_using_functor(const WordsVector& wvec) {
-	WordCountFunctor wcf{};
-	wcf = std::for_each(wvec.begin(), wvec.end(), wcf);
-	return wcf.getmap();
-}
-
+/**
+* @return vector of words with duplicate words removed
+*/
 WordsVector remove_duplicates(const WordsVector& words_vector) {
 	WordsVector words_vec{ words_vector }; // make a copy of the supplied words_vector
 
@@ -81,6 +45,7 @@ WordsVector remove_duplicates(const WordsVector& words_vector) {
 	// 2- use std::unique to rearrange the words in the sorted words_vec
 	// so that each word appears once in the front portion of words_vec.
 	auto returnedIterator = std::unique(words_vec.begin(), words_vec.end());
+
 	// store the returned iterator, which points to the element
 	// immediately after all the unique elements in the front of words_vec.
 
@@ -91,11 +56,24 @@ WordsVector remove_duplicates(const WordsVector& words_vector) {
 	return words_vec;
 }
 
+/*********************************************************************/
+
+/**
+* @return bool to take char input and return if it has space and if it isalpha
+*/
+bool is_alpha(char input) {
+	bool notSpace = !std::isalpha(input);
+	return notSpace;
+}
+
+/**
+* @return bool to check whether phrase is palindrome or not
+*/
 bool is_palindrome(const std::string& phrase) {
 	std::string buffer;
 
 	// Copy alphabets and exclude spaces
-	std::remove_copy_if(phrase.begin(), phrase.end(), back_inserter(buffer), is_alphabetic);
+	std::remove_copy_if(phrase.begin(), phrase.end(), back_inserter(buffer), is_alpha);
 
 	// Convert everything to lowercase
 	std::transform(buffer.begin(), buffer.end(), buffer.begin(), [](unsigned char c) { return std::tolower(c); });
@@ -106,24 +84,82 @@ bool is_palindrome(const std::string& phrase) {
 	return isPalindrome;
 }
 
+/*********************************************************************/
+
+/**
+* class of function overloads to map words, count words of length n and return the word map
+*/
+class WordCountFunctor {
+public:
+	void operator()(const std::string& word) { wmap[word]++; }
+	bool operator()(const std::string& word, int n) { return (n == word.length()); }
+	WordsMap getmap() { return wmap; }
+private:
+	WordsMap wmap;
+};
+
+/**
+* @return map of words using labmda expression
+*/
+WordsMap map_and_count_words_using_lambda(const WordsVector& wvec) {
+	WordsMap wmap;
+	std::for_each(wvec.begin(), wvec.end(),
+		[&wmap](const std::string& word) { wmap[word]++; }); // labmda expression with map key value and increment
+	return wmap;
+}
+
+/**
+* @return map of words using WordCountFunctor function object
+*/
+WordsMap map_and_count_words_using_functor(const WordsVector& wvec) {
+	WordCountFunctor wcf{};
+	wcf = std::for_each(wvec.begin(), wvec.end(), wcf); // wcf functor to map words
+	return wcf.getmap();
+}
+
+/*********************************************************************/
+
+/**
+* @return word count of words with length n using labmda expression
+*/
 size_t count_using_lambda(const std::vector<std::string>& vec, int n)
 {
-	size_t count = std::count_if(vec.begin(), vec.end(), [n](const std::string& word) { return (n == word.length()); });
+	size_t count = std::count_if(vec.begin(), vec.end(),
+		[n](const std::string& word) { return (n == word.length()); }); // labmda expression to count words of n specified word length
 	return count;
 }
 
+/**
+* @return word count of words with length n using WordCountFunctor function object
+*/
 size_t count_using_Functor(const std::vector<std::string>& vec, int n) {
 	WordCountFunctor wcf{};
-	size_t count = std::count_if(vec.begin(), vec.end(), std::bind(wcf, std::placeholders::_1, n));
+	size_t count = std::count_if(vec.begin(), vec.end(),
+		std::bind(wcf, std::placeholders::_1, n)); // using std::bind wcf to count words of n specified word length
 	return count;
 }
 
+/**
+* @return bool word is of n specified length
+*/
+bool freeFunc(std::string word, int n) {
+	return (word.length() == n);
+}
+
+/**
+* @return word count of words with length n using freeFunc
+*/
 size_t count_using_Free_Func(const std::vector<std::string>& vec, int n) {
-	size_t count = std::count_if(vec.begin(), vec.end(), std::bind(freeFunc, std::placeholders::_1, n));
+	size_t count = std::count_if(vec.begin(), vec.end(),
+		std::bind(freeFunc, std::placeholders::_1, n)); // using std::bind freeFunc to count words of n specified word length
 	return count;
 }
 
+/*********************************************************************/
 
+/**
+* creating a multiset using default comparator
+*/
 void multisetUsingDefaultComparator(const std::vector<std::string>& vec) {
 	// an empty set
 	std::multiset<std::string> strSet;
@@ -145,10 +181,24 @@ void multisetUsingDefaultComparator(const std::vector<std::string>& vec) {
 	std::copy(strSet.begin(), strSet.end(), out);
 }
 
+/**
+* comparator class to compare word by length
+*/
+class customComparator {
+public:
+	bool operator()(const std::string& lhs, const std::string& rhs) const {
+		if (lhs.length() == rhs.length()) { return lhs < rhs; }
+		return lhs.length() < rhs.length();
+	}
+};
+
+/**
+* creating a multiset using customComparator
+*/
 void multisetUsingMyComparator(const std::vector<std::string>& vec) {
 
 	// an empty set
-	std::multiset<std::string, compareBylength> strSet;
+	std::multiset<std::string, customComparator> strSet;
 
 	// to print a sorted verstion of the supplied vector vec,
 	// we first copy vec to our strSet and then print the strSet.
@@ -166,22 +216,30 @@ void multisetUsingMyComparator(const std::vector<std::string>& vec) {
 	std::copy(strSet.begin(), strSet.end(), out);
 }
 
+/*********************************************************************/
 
-
-int recursiveFibo(int n) {
+/**
+* @return generate n'th fibonacci number using recursion
+*/
+int recursiveFunc(int n) {
 	if (n <= 1) return n;
-	return recursiveFibo(n - 1) + recursiveFibo(n - 2);
+	return recursiveFunc(n - 1) + recursiveFunc(n - 2);
 }
 
-
+/**
+* class to create a Fibonacci function object and call recursiveFunc
+*/
 class Fibonacci {
+public:
+	int operator()() { return recursiveFunc(num++); } // calling recursiveFunc
 private:
 	int num{ 0 };
-public:
-	int operator()() { return recursiveFibo(num++); }
 };
 
-std::vector<int> getnerate_Fibonacci(int n) {
+/**
+* @return vector of n Fibonacci numbers using generate_n and Fibonacci funtion object
+*/
+std::vector<int> generate_Fibonacci(int n) {
 	std::vector<int>fiboVec(n);
 	Fibonacci fibo{};
 	std::generate_n(fiboVec.begin(), n, fibo);
