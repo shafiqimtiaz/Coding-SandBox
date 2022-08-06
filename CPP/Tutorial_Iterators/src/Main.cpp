@@ -242,10 +242,26 @@ int main()
 	);
 	cout << "product: " << product << '\n';
 
+	cout << "------------9-----------\n";
 
+	auto sum{ [](int a, int b) {return a + b; } };
+	auto resultSeq = std::ostream_iterator<int>(cout, ", ");
+	std::vector<int> v9{ 1, 2, 3, 4, 5 };
+	std::list<int> lst{ 11, 22, 33, 44, 55, 48, 89 };
 
+	std::transform(
+		v9.begin(), // source 1 start
+		v9.end(), // source 1 end
+		lst.begin(), // source 2 start
+		resultSeq, // destiniation start
+		sum // action performed on each pair
+	);
 
-
+	cout << '\n';
+	std::copy(v9.begin(), v9.end(), std::ostream_iterator<int>(cout, ", "));
+	cout << '\n';
+	std::copy(lst.begin(), lst.end(), std::ostream_iterator<int>(cout, ", "));
+	cout << '\n';
 
 
 
