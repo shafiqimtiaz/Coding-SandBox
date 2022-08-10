@@ -4,6 +4,7 @@
 using std::cout;
 using std::cin;
 using std::endl;
+using std::string;
 
 struct Foo
 {
@@ -92,7 +93,7 @@ public:
 class MyException : public std::exception
 {
 public:
-	MyException(string_view message) : mMessage(message) {}
+	MyException(string message) : mMessage(message) {}
 	virtual const char* what() const noexcept override {
 		return mMessage.c_str();
 	}
@@ -177,9 +178,26 @@ int main()
 	cout << "bye" << endl;
 	*/
 
+	/*
 	Moo moo_main{ "moo_main in main" };
 	cout << "g1 is called inside main" << endl;
 	g1();
 	cout << "back to main from g1" << endl;
 	cout << "bye" << endl;
+	*/
+
+	try {
+		MyException myex("MyException");
+		throw myex;
+	}
+	// polymorphically catch any exception derived from the base class exception
+	catch (exception& e)
+	{
+		cout << "Caught an exception polymorphically "
+			<< e.what() << '\n';
+	}
+	catch (...) // catch a thrown value of any type
+	{
+		cout << "Caught an unknown exception\n";
+	}
 }
