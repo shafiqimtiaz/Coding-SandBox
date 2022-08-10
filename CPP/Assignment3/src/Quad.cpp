@@ -29,6 +29,7 @@ void Quad::set(const Quad& q) {
 */
 Quad Quad::inverse() const {
 	double beta = (quad[0] * quad[2]) - (quad[1] * quad[3]);
+	if (beta == 0) throw std::runtime_error("Cannot divide by Zero\n");
 	return (1 / beta) * Quad { quad[2], -quad[1], quad[0], -quad[3] };
 }
 
