@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <iterator>
 #include <numeric>
 #include <time.h>
 
@@ -187,6 +188,7 @@ int main()
 
 	/*
 	cout << "------------5-----------\n";
+
 	cout << "Enter integers: ";
 	std::istream_iterator<int> is_start(cin); // start of input stream
 	std::istream_iterator<int> is_end; // end of input stream
@@ -198,6 +200,11 @@ int main()
 		is_end, // end of input range,
 		os_start, // start of output range
 		0); // objects to remove
+
+
+	std::istream_iterator<int> iss(cin), eos;
+	int m{ 10 };
+	std::for_each(iss, eos, [m](int value) { cout << value * m << endl; });
 	*/
 
 	cout << "------------6-----------\n";

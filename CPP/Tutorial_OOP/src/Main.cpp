@@ -359,10 +359,17 @@ int main()
 	//cout << pet_ref.name << " " << pet_ref.age << '\n';
 	//cout << pet_ptr->name << " " << pet_ptr->age << '\n';
 
-	////dog = pet_obj; // No operator= matches these operands: Dog = Pet
+	//Dog& dog_ref = (Dog&)pet_ref;
+	//Dog* dog_ptr = (Dog*)pet_ptr;
 
-	Poodle oreo{ "Oreo",2 };
-	cout << oreo << "\n";
+	//cout << dog.name << " " << dog.age << " " << dog.breed << '\n';
+	//cout << dog_ptr->name << " " << dog_ptr->age << " " << dog_ptr->breed << '\n';
+	//cout << dog_ref.name << " " << dog_ref.age << " " << dog_ref.breed << '\n';
+
+	//dog = pet_obj; // No operator= matches these operands: Dog = Pet
+
+	//Poodle oreo{ "Oreo",2 };
+	//cout << oreo << "\n";
 
 	/**************************/
 
@@ -374,23 +381,24 @@ int main()
 
 	// WHAT IS OUTPUT ?
 
-	//B b;
-	//D d;
-
-	//// polymorphic calls
-	//B* basePtr = &b;
-	//make_call_by_ptr(basePtr); // B::f, B::vf
-
-	//basePtr = &d;
-	//make_call_by_ptr(basePtr); // B::f, D::vf
-
-	//// polymorphic calls
-	//make_call_by_ref(b); // B::f, B::vf
-	//make_call_by_ref(d); // B::f, D::vf
-
-	//// regular calls
-	//make_call_by_val(b); // B::f, B::vf
-	//make_call_by_val(d); // B::f, B::vf // d loses the derived class data and gets upcasted to b
+	B b;
+	D d;
+	//polymorphic calls
+	B* basePtr = &b;
+	make_call_by_ptr(basePtr); // B::f, B::vf
+	cout << "**************\n";
+	basePtr = &d;
+	make_call_by_ptr(basePtr); // B::f, D::vf
+	cout << "**************\n";
+	//polymorphic calls
+	make_call_by_ref(b); // B::f, B::vf
+	cout << "**************\n";
+	make_call_by_ref(d); // B::f, D::vf
+	cout << "**************\n";
+	//regular calls
+	make_call_by_val(b); // B::f, B::vf
+	cout << "**************\n";
+	make_call_by_val(d); // B::f, B::vf // d loses the derived class data and gets upcasted to b
 
 	/**************************/
 
