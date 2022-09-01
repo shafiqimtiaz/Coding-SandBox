@@ -13,7 +13,7 @@ function App() {
 function Person(props) {
   return (
     <div className="Person">
-      <h1>{props.name}</h1>
+      <h2>{props.name}</h2>
       <p>{props.age}</p>
     </div>
   );
