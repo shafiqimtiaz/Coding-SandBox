@@ -1,13 +1,23 @@
+import java.util.*;
 public class containsDuplicate {
-
-    public static void containsDuplicate(int[] nums) {
-        for (int i : nums) {
-            System.out.print(i + " ");
+    public static boolean containsDuplicate(int[] nums) {
+        Set<Integer> al = new HashSet<>();
+        for (int num : nums) {
+            if (al.contains(num)) {
+                return true;
+            } else {
+                al.add(num);
+            }
         }
-
+        return false;
     }
     public static void main(String[] args) {
-        int[] arr = new int[]{1,2,3,4,5,6};
-        containsDuplicate(arr);
+        int[] arr1 = new int[]{1,2,3,1};
+        int[] arr2 = new int[]{1,2,3,4};
+        int[] arr3 = new int[]{1,1,1,3,3,4,3,2,4,2};
+
+        System.out.println(containsDuplicate(arr1));
+        System.out.println(containsDuplicate(arr2));
+        System.out.println(containsDuplicate(arr3));
     }
 }
