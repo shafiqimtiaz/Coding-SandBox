@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <array>
 #include <list>
 #include <forward_list>
 #include <string>
@@ -55,7 +56,7 @@ void removeOddNumbers(std::list<int>& lst)
 	printList(lst.begin(), new_logical_end, "removed using logical end");
 	// Erase the range of numbers [new_logical_end, vec.end())
 	lst.erase(new_logical_end, lst.end());
-	printList(lst.begin(), lst.end(), "removed and erased ");
+	printList(lst.begin(), lst.end(), "removed and erased");
 }
 
 class Point3D
@@ -178,14 +179,12 @@ int main()
 	cout << "------------------------\n";
 
 
-	for (auto& [name, score] : test_score) {
-		//name = "Jane"; // error: cannot modify the key
-		test_score["Jane"] = test_score["Bob"]; // Jane's score = Bob's score
-		test_score.erase("Bob");
-		// score = 95.0; // OK
-	}
+	//name = "Jane"; // error: cannot modify the key
+	test_score["Jane"] = test_score["Bob"]; // Jane's score = Bob's score
+	test_score.erase("Bob");
+	// score = 95.0; // OK
 
-	// C++20
+// C++20
 	for (const auto& [name, score] : test_score) {
 		std::cout << "name: " << name << "\t"
 			<< "score: " << score << std::endl;
@@ -304,4 +303,9 @@ int main()
 	std::forward_list<int> flist2{ 1,4,4,5,8,9,11 }; //alreay sorted
 	std::vector<int> result{ merge(flist1, flist2) };
 	std::copy(result.begin(), result.end(), std::ostream_iterator<int>(cout, " "));
+
+	cout << "\n------------------------\n";
+
+	std::array arr{ 1,2,3,4,5,6 };
+	print(arr, "trying array: ");
 }

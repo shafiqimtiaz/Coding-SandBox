@@ -7,6 +7,11 @@ using std::cout;
 using std::ostream;
 using std::string;
 
+template <typename Container> // print any standard container
+void print(Container con) {
+	for (auto x : con) cout << x << ' '; cout << "\n";
+}
+
 template <typename T>
 T sum(const T& x, const T& y)
 {
@@ -22,13 +27,13 @@ T good_max(const T& a, const T& b)
 }
 
 template <typename T, size_t N>
-T get_min(T const (&array)[N])
+T get_min(T const (&arr)[N])
 {
-	T min{ array[0] };
+	T min{ arr[0] };
 	for (size_t k = 1; k < N; k++)
-		if (array[k] < min)
+		if (arr[k] < min)
 		{
-			min = array[k];
+			min = arr[k];
 		}
 	return min;
 }
@@ -198,11 +203,13 @@ int main()
 
 	Point<int> p1{ 1, 2 };
 	Point<double> p2{ 1.5, 6.7 };
-	std::array<int, 15> numz = { {1, 2, 3, 4, 5} };
+	std::array<int, 10> numz = { 1, 2, 3, 4, 5 };
 	std::vector<int> vec = { 1, 2, 3, 4, 5 };
 
 	p1.print();
 	p2.print();
+	print(numz);
+	print(vec);
 
 	cout << "******************\n";
 

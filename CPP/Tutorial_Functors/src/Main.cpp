@@ -155,8 +155,8 @@ int main()
 		push_mutiples_of_m(x);
 	}
 	for (auto it = vec.begin(); it != vec.end(); ++it)
-		std::cout << *it << ' ';
-	std::cout << '\n';
+		cout << *it << ' ';
+	cout << '\n';
 
 	/****************************************************/
 
@@ -173,7 +173,7 @@ int main()
 	doSomething = add; // Initialize our function variable "doSomething";
 	// set it to an actual callable with exact same
 	// signature (here a free function);
-	std::cout << doSomething(12, 34) << std::endl;
+	cout << doSomething(12, 34) << endl;
 
 	/****************************************************/
 
@@ -187,7 +187,7 @@ int main()
 
 	// reset doSomething to another callable with exact same signature;
 	// use a lambda here
-	doSomethingAgain = [](const string& str) {return stod(str); };
+	doSomethingAgain = [](const string& str) { return stod(str); };
 	cout << doSomethingAgain("-12.345") << endl;
 
 	// reset doSomething to another callable with exact same signature;

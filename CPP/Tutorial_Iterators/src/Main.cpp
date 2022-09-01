@@ -13,20 +13,16 @@ using std::string;
 
 #include "my_Array_iterator.h"
 
-template<typename T>
-void print(const std::vector<T>& vec)
+template<typename Container>
+void print(const Container con)
 {
-	for (const T& val : vec)
-	{
-		cout << val << " ";
-	}
+	for (auto& val : con) cout << val << " ";
 	cout << "\n";
 }
 
-template<typename T>
-void printlist(const std::list<T>& lst)
-{
-	for (const T& val : lst) cout << val << " ";
+template<typename iterator>
+void printContainer(iterator start, iterator finish) {
+	for (iterator it = start; it != finish; ++it) cout << *it << " ";
 	cout << "\n";
 }
 
@@ -47,12 +43,6 @@ public:
 	int getSum() const { return total; }
 	void operator()(int x) { total += x; }
 };
-
-template<typename iterator>
-void printContainer(iterator start, iterator finish) {
-	for (iterator it = start; it != finish; ++it) cout << *it << " ";
-	cout << "\n";
-}
 
 template<class T>
 class LargerThan {
@@ -133,7 +123,7 @@ int main()
 	*mylist_front_inserter = 99;
 	*mylist_back_inserter = 555;
 
-	printlist(mylist); // 99 77 66 888 555
+	print(mylist); // 99 77 66 888 555
 
 	std::vector<int> v4{ 11, 22, 33 };
 
@@ -142,30 +132,33 @@ int main()
 
 	// insert v4 into mylist before 66
 	std::copy(v4.begin(), v4.end(), std::inserter(mylist, mylist_it));
-	printlist(mylist); // 99 77 11 22 33 66 888 555
+	print(mylist); // 99 77 11 22 33 66 888 555
 
 	// insert v4 at the back of mylist
 	std::copy(v4.begin(), v4.end(), std::back_inserter(mylist));
-	printlist(mylist); // 99 77 11 22 33 66 888 555 11 22 33
+	print(mylist); // 99 77 11 22 33 66 888 555 11 22 33
 
 	// insert v4 at the front of mylist
 	std::copy(v4.begin(), v4.end(), std::front_inserter(mylist));
-	printlist(mylist); // 33 22 11 99 77 11 22 33 66 888 555 11 22 33
+	print(mylist); // 33 22 11 99 77 11 22 33 66 888 555 11 22 33
 
 	cout << "------------1-----------\n";
 
 	std::vector<int> vec(10);
+	//std::vector<int> vec{ 10 };
+
 	//std::generate(vec.begin(), vec.end(), Squared_Number());
 
 	Squared_Number sn{};
 	std::generate(vec.begin(), vec.end(), sn);
-
 	print(vec);
 
 	cout << "------------2-----------\n";
 
 	std::vector<int> v5{ 1, 2, 3, 4, 5 };
 	Sum result = for_each(v5.begin(), v5.end(), Sum());
+	//Sum s;
+	//Sum result = for_each(v5.begin(), v5.end(), s);
 	cout << "Sum is " << result.getSum() << endl;
 
 	cout << "------------3-----------\n";
@@ -184,7 +177,8 @@ int main()
 	printContainer(intVec.begin() + 1, intVec.end() - 1); // 2 3 4
 
 	std::list<double> intList(5, 1.1);
-	printContainer(intList.begin(), intList.end()); // 1.1 1.1 1.1 1.1 1.1
+	printContainer(std::next(intList.begin(), 2), std::prev(intList.end(), 2)); // 1.1 1.1 1.1 1.1 1.1
+	//printContainer(std::advance(intList.begin(), 2), std::prev(intList.end(), 2)); // 1.1 1.1 1.1 1.1 1.1
 
 	/*
 	cout << "------------5-----------\n";

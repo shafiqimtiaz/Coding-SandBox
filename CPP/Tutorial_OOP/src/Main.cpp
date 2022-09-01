@@ -25,6 +25,7 @@ public:
 
 class Base
 {
+public:
 	Foo f;
 	int x;
 public:
@@ -43,14 +44,21 @@ public:
 
 class Sub : public Base
 {
-	int y;
+
 public:
+	int y;
 	// initialization order does not matter
-	Sub(int xx, int yy) : y{ yy }, Base(xx)	{
+	Sub(int xx, int yy) : y{ yy }, Base(xx) {
 		cout << "Sub ctor y: " << y << '\n';
 	}
 	~Sub() { cout << "Sub dtor\n"; }
 };
+
+
+void doSomeThing(Base& base) {
+	Sub s1 = (Sub&)base;
+	cout << base.x << " " << s1.y << '\n';
+}
 
 /*****************************************************/
 
@@ -110,18 +118,14 @@ public:
 	Employee() { cout << "Employee Ctor\n"; }
 	virtual ~Employee() { cout << "Employee Dtor\n"; }
 
-	virtual void print() const;
-	void print(char ch) const;
+	virtual void print() const {
+		cout << "\tname: " << name << endl;
+	}
 
+	void print(char ch) const {
+		cout << "\tch: " << ch << '\n';
+	}
 };
-
-void Employee::print() const {
-	cout << "\tname: " << name << endl;
-}
-
-void Employee::print(char ch) const {
-	cout << "\tch: " << ch << '\n';
-}
 
 class Manager : public Employee {
 	int rank{ 10 };
@@ -129,14 +133,13 @@ public:
 	Manager() { cout << "Manager Ctor\n"; }
 	virtual ~Manager() { cout << "Manager Dtor\n"; }
 
-	virtual void print() const override; // redefinition of an Employee's member name:
+	// redefinition of an Employee's member name:
+	void print() const {
+		//Employee::print(); // the only way to access Employee::print()
+		cout << "\tManager rank: " << rank << endl;
+	}
 
 }; // hides all Employee::print member functions
-
-void Manager::print() const {
-	Employee::print(); // the only way to access Employee::print()
-	cout << "\tManager rank: " << rank << endl;
-}
 
 class Boss : public Employee {
 	int salary{ 100000 };
@@ -144,13 +147,11 @@ public:
 	Boss() { cout << "Boss Ctor\n"; }
 	virtual ~Boss() { cout << "Boss Dtor\n"; }
 
-	virtual void print() const override;
+	void print() const {
+		//Employee::print(); // the only way to access Employee::print()
+		cout << "\tBoss salary: " << salary << endl;
+	}
 };
-
-void Boss::print() const {
-	Employee::print();
-	cout << "\tBoss salary: " << salary << endl;
-}
 
 void show(Employee* pEmp) {
 	cout << "show - Employee* pEmp\n";
@@ -202,8 +203,8 @@ struct Poodle : public Dog {
 
 ostream& operator<<(ostream& out, const Pet& pet) {
 	pet.print(out);	// this call is polymorphic because:
-					// (1) print() in Pet, the base class, is virtual
-					// (2) pet is a refrence to Pet
+	// (1) print() in Pet, the base class, is virtual
+	// (2) pet is a refrence to Pet
 	return out;
 }
 
@@ -228,9 +229,9 @@ int genRandom(int min, int max)
 int genRandomInt(int min, int max)
 {
 	static bool is_seeded{ false }; // is_seeded is a static local variable
-		// initialized only on the very first call;
-			// It is used here to ensure the random
-			// number generator is seeded only once
+	// initialized only on the very first call;
+		// It is used here to ensure the random
+		// number generator is seeded only once
 	if (!is_seeded)
 	{
 		std::srand(std::time(0)); //use current time as seed for random generator
@@ -272,17 +273,17 @@ void make_call_by_val(B x) {
 
 /*****************************************************/
 
-
-
-/*****************************************************/
-
 int main()
 {
 	//Der d;
 
 	/**************************/
 
-	//Sub s{ 10, 5 };
+	//Derived d{ 10, 20 };
+	Sub s{ 10, 5 };
+	//Base b{ d };
+	Base& b{ s };
+	doSomeThing(b);
 
 	/**************************/
 
@@ -332,13 +333,15 @@ int main()
 
 	//Manager m;
 	//m.print();
-	////m.print('a'); // error: print(char ch) of Employee hidden in Manager
+	//m.print('a'); // error: print(char ch) of Employee hidden in Manager
 	//m.Employee::print('a'); // the only way an object of Manager can acess a member of the
-							// base class Employee whose name it has redefined
+	//base class Employee whose name it has redefined
 
 	//show(&m);
 	//show(m);
-	//Boss b; show(&b);
+
+	//Boss b;
+	//show(&b);
 	//show(b);
 
 	/**************************/
@@ -381,30 +384,24 @@ int main()
 
 	// WHAT IS OUTPUT ?
 
-	B b;
-	D d;
-	//polymorphic calls
-	B* basePtr = &b;
-	make_call_by_ptr(basePtr); // B::f, B::vf
-	cout << "**************\n";
-	basePtr = &d;
-	make_call_by_ptr(basePtr); // B::f, D::vf
-	cout << "**************\n";
-	//polymorphic calls
-	make_call_by_ref(b); // B::f, B::vf
-	cout << "**************\n";
-	make_call_by_ref(d); // B::f, D::vf
-	cout << "**************\n";
-	//regular calls
-	make_call_by_val(b); // B::f, B::vf
-	cout << "**************\n";
-	make_call_by_val(d); // B::f, B::vf // d loses the derived class data and gets upcasted to b
-
-	/**************************/
-
-
-
-	/**************************/
+	//B b;
+	//D d;
+	////polymorphic calls
+	//B* basePtr = &b;
+	//make_call_by_ptr(basePtr); // B::f, B::vf
+	//cout << "**************\n";
+	//basePtr = &d;
+	//make_call_by_ptr(basePtr); // B::f, D::vf
+	//cout << "**************\n";
+	////polymorphic calls
+	//make_call_by_ref(b); // B::f, B::vf
+	//cout << "**************\n";
+	//make_call_by_ref(d); // B::f, D::vf
+	//cout << "**************\n";
+	////regular calls
+	//make_call_by_val(b); // B::f, B::vf
+	//cout << "**************\n";
+	//make_call_by_val(d); // B::f, B::vf // d loses the derived class data and gets upcasted to b
 
 	return 0;
 }
