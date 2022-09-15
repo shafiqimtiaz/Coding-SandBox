@@ -10,6 +10,8 @@ public class isPalindrome {
         for (String s : arr2) {
             System.out.println(s + " - " + isPalindromeStr(s));
         }
+        String str = "A man, a plan, a canal: Panama";
+        System.out.println(str + " - " + isPalindromeStr(str));
     }
 
     public static boolean isPalindromeNum(int x) {
@@ -24,14 +26,16 @@ public class isPalindrome {
     }
 
     public static boolean isPalindromeStr(String s) {
+        if (s.isEmpty()) return true;
+        s = s.toLowerCase();
 
-        int i = 0, j = s.length() - 1;
-        String str = s.toLowerCase();
+        int left = 0, right = s.length() - 1;
 
-        while (i < j) {
-            if (str.charAt(i) != str.charAt(j)) return false;
-            i++;
-            j--;
+        while (left < right) {
+            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) right--;
+            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) left++;
+
+            if (s.charAt(left++) != s.charAt(right--)) return false;
         }
         return true;
     }
