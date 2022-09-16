@@ -3,14 +3,81 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Practice Collections\n-------------");
-        testList();
+//        testList();
         testMap();
     }
 
-
-    public static void testMap(){
+    public static void testMap() {
         System.out.println("Map\n-------------");
-        Map<Integer, String> map = new HashMap<>();
+
+        // character frequency counter
+        String str = "Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?".toLowerCase();
+        String noSpaceStr = str.replaceAll("[^a-zA-Z]", "");
+        Map<Character, Integer> charMap = new HashMap<>();
+        for (Character c : noSpaceStr.toCharArray()) {
+            if (charMap.containsKey(c)) charMap.put(c, charMap.get(c) + 1);
+            else charMap.put(c, 1);
+        }
+        System.out.println(charMap);
+
+//        charMap.clear();
+        System.out.println("is charMap empty? " + charMap.isEmpty());
+
+        System.out.println("-------------");
+
+        // REGEX for capturing everything which are not alphanumeric and whitespace - [^a-zA-Z\s]
+        String[] words = str.replaceAll("[^a-zA-Z\s]+", "").split(" ");
+//        System.out.println(Arrays.asList(words));
+        Map<String, Integer> wordMap = new HashMap<>();
+        for (String elem : words) {
+            if (wordMap.containsKey(elem)) wordMap.put(elem, wordMap.get(elem) + 1);
+            else wordMap.put(elem, 1);
+        }
+        System.out.println("Size of wordMap = " + wordMap.size());
+        System.out.println(wordMap);
+
+        System.out.println("-------------");
+
+        String str2 = "jon snow knows nothing".toLowerCase();
+        Map<Character, Integer> charCount = new HashMap<>();
+        for (String elem : str2.replaceAll("[^a-zA-Z ]", "").split(" ")) {
+            for (Character c : elem.toCharArray()) {
+                if (charCount.containsKey(c)) charCount.put(c, charCount.get(c) + 1);
+                else charCount.put(c, 1);
+            }
+        }
+        System.out.println("Before ("+charMap.size()+ ") : " + charMap);
+        charMap.putAll(charCount); // merging an old map with new one
+        System.out.println("After ("+charMap.size()+ ") : " + charMap);
+
+        System.out.println("-------------");
+
+        // using iterator and keyset
+        Iterator<String> it1 = wordMap.keySet().iterator();
+
+        while (it1.hasNext()) {
+            String key = it1.next();
+            System.out.println(key + " -> " + wordMap.get(key));
+        }
+
+        System.out.println("-------------");
+
+        // using Collection values
+        Collection<Integer> wordCount = wordMap.values();
+        Iterator<String> it2 = wordMap.keySet().iterator();
+        for (Integer val : wordCount) {
+            System.out.println(it2.next() + " x" + val);
+        }
+
+        System.out.println("-------------");
+
+        // using iterator and entryset
+        Set<Map.Entry<String, Integer>> entries = wordMap.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+            System.out.println(entry.getKey() + " repeats " + entry.getValue() + " times");
+        }
+
+
     }
 
     public static void testList(){
