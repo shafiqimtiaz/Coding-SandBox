@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Practice Collections\n-------------");
-//        testList();
+        testList();
         testMap();
     }
 
@@ -77,7 +77,10 @@ public class Main {
             System.out.println(entry.getKey() + " repeats " + entry.getValue() + " times");
         }
 
+        System.out.println("-------------");
 
+        wordMap.remove("fuzzy");
+        System.out.println("After removal of fuzzy: " + wordMap);
     }
 
     public static void testList(){
