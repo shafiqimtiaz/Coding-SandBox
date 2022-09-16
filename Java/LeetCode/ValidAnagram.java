@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class validAnagram {
+public class ValidAnagram {
     /**
      * isAnagram using Hashmap
      */

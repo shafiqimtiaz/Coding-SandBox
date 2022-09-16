@@ -1,4 +1,4 @@
-public class isPalindrome {
+public class IsPalindrome {
 
     public static void main(String[] args) {
         int[] arr1 = new int[]{121, 234, 67676, 987789};

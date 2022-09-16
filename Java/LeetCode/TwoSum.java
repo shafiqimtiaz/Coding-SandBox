@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class twoSum {
+public class TwoSum {
     public static int[] twoSumArray(int[] nums, int target) {
         int[] res = new int[2];
 

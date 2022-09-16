@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class groupAnagram {
+public class GroupAnagram {
     public static void main(String[] args) {
         String[] strArr = new String[]{"eat", "tea", "tan", "ate", "nat", "bat"};
         List<List<String>> res = groupAnagrams(strArr);
