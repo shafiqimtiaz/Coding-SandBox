@@ -13,7 +13,6 @@ public class RotateImage {
             }
             System.out.println();
         }
-        ;
     }
 
     public static void rotateMatrix(int[][] arr) {
