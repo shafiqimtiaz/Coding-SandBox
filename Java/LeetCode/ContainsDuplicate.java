@@ -2,13 +2,10 @@ import java.util.*;
 
 public class ContainsDuplicate {
     public static boolean containsDuplicate(int[] nums) {
-        Set<Integer> al = new HashSet<>();
+        Set<Integer> set = new HashSet<>();
         for (int num : nums) {
-            if (al.contains(num)) {
-                return true;
-            } else {
-                al.add(num);
-            }
+            if (set.contains(num)) return true;
+            else set.add(num);
         }
         return false;
     }

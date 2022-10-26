@@ -7,9 +7,9 @@ public class RotateImage {
 
         rotateMatrix(arr);
 
-        for (int i = 0; i < arr.length; i++) {
+        for (int[] ints : arr) {
             for (int j = 0; j < arr.length; j++) {
-                System.out.print(arr[i][j] + " ");
+                System.out.print(ints[j] + " ");
             }
             System.out.println();
         }

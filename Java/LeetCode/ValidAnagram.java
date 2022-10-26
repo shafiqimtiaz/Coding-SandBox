@@ -1,17 +1,6 @@
 import java.util.*;
 
 public class ValidAnagram {
-    public static void main(String[] args) {
-        String s1 = "anagram", t1 = "nagaram";
-        String s2 = "rat", t2 = "car";
-
-        System.out.println(isAnagramMap(s1, t1));
-        System.out.println(isAnagramMap(s2, t2));
-
-        System.out.println(isAnagramArray(s1, t1));
-        System.out.println(isAnagramArray(s2, t2));
-    }
-
     /**
      * isAnagram using Hashmap
      */
@@ -57,5 +46,16 @@ public class ValidAnagram {
             if (sAraay[i] != tAraay[i]) return false;
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+        String s1 = "anagram", t1 = "nagaram";
+        String s2 = "rat", t2 = "car";
+
+        System.out.println(isAnagramMap(s1, t1));
+        System.out.println(isAnagramMap(s2, t2));
+
+        System.out.println(isAnagramArray(s1, t1));
+        System.out.println(isAnagramArray(s2, t2));
     }
 }
