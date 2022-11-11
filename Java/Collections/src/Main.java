@@ -5,6 +5,7 @@ public class Main {
         System.out.println("Practice Collections\n-------------");
         testList();
         testMap();
+        testQueue();
     }
 
     public static void testMap() {
@@ -26,7 +27,7 @@ public class Main {
         System.out.println("-------------");
 
         // REGEX for capturing everything which are not alphanumeric and whitespace - [^a-zA-Z\s]
-        String[] words = str.replaceAll("[^a-zA-Z\s]+", "").split(" ");
+        String[] words = str.replaceAll("[^a-zA-Z\\s]+", "").split(" ");
 //        System.out.println(Arrays.asList(words));
         Map<String, Integer> wordMap = new HashMap<>();
         for (String elem : words) {
@@ -150,4 +151,9 @@ public class Main {
 
         System.out.println("-------------");
     }
+
+    public static void testQueue() {
+
+    }
+
 }
