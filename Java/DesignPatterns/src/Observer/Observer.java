@@ -1,5 +1,5 @@
 package Observer;
 
-public interface Channel {
+public interface Observer {
     void update(Object o);
 }

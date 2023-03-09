@@ -1,6 +1,6 @@
 package Observer;
 
-public class NewsAgency extends Agency {
+public class NewsSubject extends Subject {
     public void setNews(String news) {
         super.setNews(news);
         notifyObservers();

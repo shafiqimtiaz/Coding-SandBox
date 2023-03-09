@@ -1,10 +1,10 @@
 package Observer;
 
-public class NewsChannel implements Channel {
+public class NewsObserver implements Observer {
     private String news;
     private final String name;
 
-    public NewsChannel(String name) {
+    public NewsObserver(String name) {
         this.name = name;
     }
 
