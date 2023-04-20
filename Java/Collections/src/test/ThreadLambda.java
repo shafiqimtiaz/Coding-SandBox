@@ -1,6 +1,6 @@
 package test;
 
-public class Main {
+public class ThreadLambda {
     public static void main(String[] args) {
         new Thread(() -> {
             for (int i = 0; i < 20; i++) {

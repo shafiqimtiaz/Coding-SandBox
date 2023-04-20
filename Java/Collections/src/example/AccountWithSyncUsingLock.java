@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class AccountWithSyncUsingLock {
     private static Account account = new Account();
 
-    public void test() {
+    public static void main(String[] args) {
         ExecutorService executor = Executors.newCachedThreadPool();
 
         // Create and launch 100 threads

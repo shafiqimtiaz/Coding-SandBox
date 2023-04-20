@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ThreadCooperation {
     private static Account account = new Account();
 
-    public void test() {
+    public static void main(String[] args) {
         // Create a thread pool with two threads
         ExecutorService executor = Executors.newFixedThreadPool(2);
         executor.execute(new DepositTask());

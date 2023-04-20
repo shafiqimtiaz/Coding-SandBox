@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 public class AccountWithoutSync {
     private static Account account = new Account();
 
-    public void test() {
+    public static void main(String[] args) {
         ExecutorService executor = Executors.newCachedThreadPool();
 
         // Create and launch 100 threads
@@ -22,6 +22,7 @@ public class AccountWithoutSync {
 
         System.out.println("What is balance? " + account.getBalance());
     }
+
 
     // A thread for adding a penny to the account
     private static class AddAPennyTask implements Runnable {
