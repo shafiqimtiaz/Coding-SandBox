@@ -1,11 +1,16 @@
+package example;
+
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Practice Collections\n-------------");
-        testList();
-        testMap();
-        testQueue();
+//        testList();
+//        testMap();
+//        testGenerics();
+//        testThreads();
+        testSynchronization();
     }
 
     public static void testMap() {
@@ -47,9 +52,9 @@ public class Main {
                 else charCount.put(c, 1);
             }
         }
-        System.out.println("Before ("+charMap.size()+ ") : " + charMap);
+        System.out.println("Before (" + charMap.size() + ") : " + charMap);
         charMap.putAll(charCount); // merging an old map with new one
-        System.out.println("After ("+charMap.size()+ ") : " + charMap);
+        System.out.println("After (" + charMap.size() + ") : " + charMap);
 
         System.out.println("-------------");
 
@@ -84,7 +89,7 @@ public class Main {
         System.out.println("After removal of fuzzy: " + wordMap);
     }
 
-    public static void testList(){
+    public static void testList() {
         System.out.println("ArrayList\n-------------");
 
         List<String> animals = new ArrayList<>(); // creates a new list
@@ -138,7 +143,7 @@ public class Main {
         System.out.println("-------------");
 
         String[] animalsArr = animals.toArray(new String[0]);
-        for(String elem: animalsArr) System.out.println(elem);
+        for (String elem : animalsArr) System.out.println(elem);
 
         animals.clear(); // clears the list
 
@@ -152,8 +157,68 @@ public class Main {
         System.out.println("-------------");
     }
 
-    public static void testQueue() {
+    public static void testGenerics() {
+        // Create Integer arrays m1, m2
+        Integer[][] m1 = new Integer[][]{{1, 2, 3}, {4, 5, 6}, {1, 1, 1}};
+        Integer[][] m2 = new Integer[][]{{1, 1, 1}, {2, 2, 2}, {0, 0, 0}};
 
+        // Create an instance of IntegerMatrix
+        IntegerMatrix integerMatrix = new IntegerMatrix();
+
+        System.out.println("\nm1 + m2 is ");
+        GenericMatrix.printResult(
+                m1, m2, integerMatrix.addMatrix(m1, m2), '+');
+
+        System.out.println("\nm1 * m2 is ");
+        GenericMatrix.printResult(
+                m1, m2, integerMatrix.multiplyMatrix(m1, m2), '*');
     }
 
+    public static void testThreads() {
+        // Create tasks
+        Runnable printA = new PrintChar('a', 100);
+        Runnable printB = new PrintChar('b', 100);
+        Runnable print100 = new PrintNum(100);
+
+        // Create threads
+//        Thread thread1 = new Thread(printA);
+//        Thread thread2 = new Thread(printB);
+//        Thread thread3 = new Thread(print100);
+
+//        thread2.setPriority(Thread.MAX_PRIORITY);
+//        thread3.setPriority(Thread.MIN_PRIORITY);
+
+        // Start threads
+//        thread1.start();
+//        thread2.start();
+//        thread3.start();
+
+        // Create a fixed thread pool with maximum three threads
+        ExecutorService executor1 = Executors.newFixedThreadPool(1);
+        ExecutorService executor2 = Executors.newCachedThreadPool();
+
+        // Submit runnable tasks to the executor
+        executor1.execute(printA);
+        executor1.execute(printB);
+        executor1.execute(print100);
+
+        //executor2.execute(print100);
+
+        // Shut down the executor
+        executor1.shutdown();
+        executor2.shutdown();
+    }
+
+    public static void testSynchronization() {
+        AccountWithoutSync account1 = new AccountWithoutSync();
+//        account1.test();
+
+        AccountWithSyncUsingLock account2 = new AccountWithSyncUsingLock();
+//        account2.test();
+
+        ThreadCooperation threadCooperation = new ThreadCooperation();
+        threadCooperation.test();
+    }
 }
+
+

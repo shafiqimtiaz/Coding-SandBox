@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class Subject {
 
-    private static String news;
+    private static String subject;
     private final List<Observer> observers = new ArrayList<>();
 
     public void addObserver(Observer observer) {
@@ -16,17 +16,17 @@ public abstract class Subject {
         this.observers.remove(observer);
     }
 
-    public void setNews(String news) {
-        Subject.news = news;
+    public void setSubject(String subject) {
+        Subject.subject = subject;
     }
 
-    public String getNews() {
-        return news;
+    public String getSubject() {
+        return subject;
     }
 
     public void notifyObservers() {
         for (Observer observer : this.observers) {
-            observer.update(news);
+            observer.update(subject);
         }
     }
 }
