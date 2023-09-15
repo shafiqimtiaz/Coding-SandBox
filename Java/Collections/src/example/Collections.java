@@ -5,7 +5,64 @@ import java.util.*;
 public class Collections {
     public static void main(String[] args) {
 //        testList();
-        testMap();
+//        testMap();
+//        testRegex();
+//        stringToList();
+        testSubstring();
+    }
+
+    public static void testSubstring() {
+        System.out.println("*** TEST SUBSTRING ***");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String str = sc.nextLine();
+        System.out.print("Enter the value of k: ");
+        int k = sc.nextInt();
+
+        if (k <= 0 || k > str.length()) {
+            System.out.println("Invalid value of k");
+            return;
+        }
+
+        String smallest = str.substring(0, k);
+        String largest = str.substring(str.length() - k);
+
+        String resSL = str.replace(smallest, largest);
+        String resLS = str.replace(largest, smallest);
+
+        System.out.println(resSL + "\n" + resSL);
+    }
+
+    public static void stringToList() {
+        System.out.println("*** STR to LIST ***");
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter string");
+        String[] strArr = sc.nextLine().split("\\s+");
+        List<Integer> strList = strArrToList(strArr);
+
+        System.out.println(strList);
+    }
+
+    public static List<Integer> strArrToList(String[] strArr) {
+        List<String> strList = Arrays.asList(strArr);
+        return strList.stream().map(Integer::parseInt).toList();
+    }
+
+    public static int[] strArrToInt(String[] strArr) {
+        return Arrays.stream(strArr).mapToInt(Integer::parseInt).toArray();
+    }
+
+    public static void testRegex() {
+        System.out.println("*** TEST REGEX ***");
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+
+        String[] strArr = str.split("\\s+");
+        int[] intArr = strArrToInt(strArr);
+
+        System.out.println(Arrays.toString(intArr));
+        sc.close();
     }
 
     public static void testMap() {
@@ -133,7 +190,7 @@ public class Collections {
 
         java.util.Collections.shuffle(animals);
 
-        animals.forEach(elem -> System.out.println(elem));
+        animals.forEach(System.out::println);
 
         System.out.println("-------------");
 
