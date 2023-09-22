@@ -1,8 +1,8 @@
-package example;
+package practice;
 
 import java.util.*;
 
-public class Collections {
+public class Practice {
     public static void main(String[] args) {
 //        testList();
 //        testMap();
