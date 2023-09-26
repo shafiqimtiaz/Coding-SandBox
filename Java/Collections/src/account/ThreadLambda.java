@@ -1,4 +1,4 @@
-package example;
+package account;
 
 public class ThreadLambda {
     public static void main(String[] args) {
