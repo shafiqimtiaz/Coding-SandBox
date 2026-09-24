@@ -1,4 +1,4 @@
-// Run: npm run code -- backtracking-combinations.ts
+// Run: npm run code -- 21-backtracking-combinations.ts
 export {};
 
 // Pattern: all combinations / permutations / valid configs.

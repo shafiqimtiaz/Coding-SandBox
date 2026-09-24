@@ -1,4 +1,4 @@
-// Run: npm run code -- sliding-window.ts
+// Run: npm run code -- 18-sliding-window.ts
 export {};
 
 // Pattern: substring / subarray / contiguous / longest / shortest / at most K.

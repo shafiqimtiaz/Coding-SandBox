@@ -1,4 +1,4 @@
-// Run: npm run code -- binary-search.ts
+// Run: npm run code -- 19-binary-search.ts
 export {};
 
 // Pattern: sorted data, exact position or boundary.

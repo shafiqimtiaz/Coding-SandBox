@@ -1,4 +1,4 @@
-// Run: npm run code -- queue-bfs.ts
+// Run: npm run code -- 20-queue-bfs.ts
 export {};
 
 // Avoid queue.shift() (O(n)) — push + head pointer instead.

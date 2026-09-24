@@ -1,4 +1,4 @@
-// Run: npm run code -- longest-palindromic-substring.ts
+// Run: npm run code -- 22-longest-palindromic-substring.ts
 export {};
 
 // Expand around center; check odd (aba) and even (abba) centers.
