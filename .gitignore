@@ -1,0 +1,21 @@
+# Binaries & build output
+*.class
+*.o
+*.exe
+a.out
+bin/
+build/
+dist/
+target/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+
+# IDEs
+.idea/
+.vscode/
